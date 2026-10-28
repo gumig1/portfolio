@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>갤러리 &amp; 후기 (Stories &amp; Reviews) | 구미 천연 향수 공방</title>
+  <meta name="description" content="구미 전원주택 천연 향수 공방의 수강생 작업 스케치 갤러리와 실제 클래스·온라인 숍 포토 후기 모음.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="top-banner">
+    📸 인스타그램 또는 네이버 영수증 포토 리뷰 작성 시 ‘천연 히노끼 사쉐(향주머니)’를 선물로 드립니다!
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-logo-main">🌿 구미 천연향수공방</span>
+        <span class="brand-logo-sub">Gumi Natural Perfume Atelier</span>
+      </a>
+
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html" class="nav-link">홈 (Home)</a>
+        <a href="about.html" class="nav-link">공방 소개</a>
+        <a href="class.html" class="nav-link">클래스 &amp; 예약</a>
+        <a href="shop.html" class="nav-link">온라인 숍</a>
+        <a href="reviews.html" class="nav-link active">갤러리 &amp; 후기</a>
+        <a href="contact.html" class="nav-link">문의 &amp; 오시는 길</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="admin.html" class="cart-btn" style="border-style:dashed; font-size:0.82rem;" title="공방 관리자 센터 바로가기">
+          🔐 관리자
+        </a>
+        <button class="cart-btn" onclick="openCartModal()">
+          🛍️ 장바구니 <span class="cart-badge">0</span>
+        </button>
+        <a href="class.html#booking-section" class="btn btn-primary btn-sm">클래스 예약</a>
+        <button class="mobile-menu-btn" id="mobile-menu-toggle">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-badge">Atelier Stories &amp; Reviews</span>
+      <h1>수강생 작업 스케치 &amp; 생생 후기</h1>
+      <p>구미, 대구, 김천에서 찾아주신 분들의 향기로운 순간과 솔직한 후기를 만나보세요.</p>
+    </div>
+  </section>
+
+  <!-- 1. 수강생 작업 스케치 갤러리 -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Class Sketch Gallery</span>
+        <h2 class="section-title">수강생 작업 스케치</h2>
+        <p class="section-desc">커플 데이트부터 나만의 조용한 휴식, 기업 힐링 연수까지 공방의 따뜻한 풍경을 담았습니다.</p>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:34px;">
+        <button class="filter-btn active" data-gallery-filter="all">전체 보기</button>
+        <button class="filter-btn" data-gallery-filter="couple">2030 커플 · 친구 데이트</button>
+        <button class="filter-btn" data-gallery-filter="wellness">클린뷰티 · 1인 힐링</button>
+        <button class="filter-btn" data-gallery-filter="group">기업 · 교직원 단체 워크숍</button>
+      </div>
+
+      <div class="usp-grid">
+        <article class="class-card" data-gallery-cat="couple">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1709666414115-47ecd5143293?auto=format&fit=crop&w=900&q=80" alt="커플 향수 클래스">
+            <span class="class-badge">커플 원데이 클래스</span>
+          </div>
+          <div class="class-card-body">
+            <div class="class-meta"><span>📍 구미 금오산 데이트 코스</span><span>2026.10</span></div>
+            <h3 class="class-card-title" style="font-size:1.2rem;">서로에게 어울리는 향기를 골라주는 시간</h3>
+            <p class="class-card-desc">시더우드와 베르가못을 베이스로 서로의 이니셜을 새긴 커플 시그니처 향수 50ml 완성 스케치입니다.</p>
+          </div>
+        </article>
+
+        <article class="class-card" data-gallery-cat="wellness">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=900&q=80" alt="1인 힐링 조향">
+            <span class="class-badge" style="background:var(--secondary-dark);">1:1 프라이빗 조향</span>
+          </div>
+          <div class="class-card-body">
+            <div class="class-meta"><span>📍 클린뷰티 &amp; 아로마테라피</span><span>2026.10</span></div>
+            <h3 class="class-card-title" style="font-size:1.2rem;">인공향 두통 없이 즐기는 나만의 숲</h3>
+            <p class="class-card-desc">프렌치 라벤더와 로만 카모마일, 편백 오일을 블렌딩하여 마음의 안정을 돕는 테라피 퍼퓸을 제작했습니다.</p>
+          </div>
+        </article>
+
+        <article class="class-card" data-gallery-cat="group">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=900&q=80" alt="기업 단체 워크숍">
+            <span class="class-badge">단체 대관 워크숍</span>
+          </div>
+          <div class="class-card-body">
+            <div class="class-meta"><span>📍 구미 00기업 팀빌딩 (14인)</span><span>2026.09</span></div>
+            <h3 class="class-card-title" style="font-size:1.2rem;">정원 테라스에서 진행된 아로마 힐링 연수</h3>
+            <p class="class-card-desc">스트레스 완화와 숙면을 돕는 룸스프레이를 각자 조향하고 정원 포토존에서 티타임을 함께했습니다.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 텍스트 & 포토 리뷰 모음 -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Verified Customer Reviews</span>
+        <h2 class="section-title">수강생 &amp; 구매 고객 베스트 리뷰</h2>
+        <p class="section-desc">평균 별점 ★ 4.98 / 5.0 · 재방문과 지인 추천이 이어지는 이유를 확인해 보세요.</p>
+      </div>
+
+      <div class="review-grid">
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.78rem; color:var(--primary); font-weight:700;">[원데이 클래스]</span></div>
+          <p class="review-text">
+            “대구에서 주말 나들이 겸 남자친구와 방문했어요! 전원주택 마당에 들어서는 순간부터 허브 향기가 솔솔 나고, 선생님께서 향료의 역사와 효능을 재미있게 풀어주셔서 90분이 순식간에 지나갔습니다.”
+          </p>
+          <div class="review-author">
+            <span><strong>최*아 님</strong> · 시그니처 향수 50ml</span>
+            <span>2026.10.15</span>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.78rem; color:var(--secondary-dark); font-weight:700;">[온라인 숍 구매]</span></div>
+          <p class="review-text">
+            “포레스트 던 50ml 구매했는데 정말 새벽 숲속을 걷는 기분이에요. 헴프 끈과 드라이 플라워 택 포장 옵션을 선택했더니 선물 받는 친구가 포장 뜯기가 아깝다고 할 정도로 감성적이었습니다.”
+          </p>
+          <div class="review-author">
+            <span><strong>정*우 님</strong> · 포레스트 던 오드퍼퓸</span>
+            <span>2026.10.11</span>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.78rem; color:var(--primary); font-weight:700;">[원데이 클래스]</span></div>
+          <p class="review-text">
+            “비염이 있고 합성향에 예민해서 향수를 포기하고 살았는데, 100% 천연 에센셜 오일은 맡을수록 코와 머리가 시원해져서 놀랐어요! 조향 차트를 보관해 주셔서 다 쓰면 리필하러 또 올게요.”
+          </p>
+          <div class="review-author">
+            <span><strong>한*희 님</strong> · 시그니처 향수 50ml</span>
+            <span>2026.10.04</span>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.78rem; color:var(--secondary-dark); font-weight:700;">[온라인 숍 구매]</span></div>
+          <p class="review-text">
+            “문라이트 필로우 미스트를 자기 전 베개에 두 번 뿌리고 자는데, 카모마일과 라벤더 향이 너무 포근해서 요즘 정말 깊게 잠들고 있어요. 인공적인 라벤더 향이랑은 차원이 다릅니다.”
+          </p>
+          <div class="review-author">
+            <span><strong>윤*서 님</strong> · 문라이트 필로우 미스트</span>
+            <span>2026.09.28</span>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.78rem; color:var(--primary); font-weight:700;">[단체 출강]</span></div>
+          <p class="review-text">
+            “구미 산단 사내 동호회 힐링 프로그램으로 출강을 요청드렸는데, 25명분 천연 오일 키트를 완벽하게 준비해 오셔서 직원들 만족도가 역대 최고였습니다. 연말에도 한 번 더 모실 예정입니다.”
+          </p>
+          <div class="review-author">
+            <span><strong>강*훈 매니저</strong> · 기업 워크숍 출강</span>
+            <span>2026.09.21</span>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★ <span style="font-size:0.78rem; color:var(--primary); font-weight:700;">[심화 4주 과정]</span></div>
+          <p class="review-text">
+            “원데이 클래스가 너무 좋아서 4주 심화 과정까지 수료했어요! 천연 에센셜 오일들의 휘발 속도와 노트 밸런스를 제대로 배울 수 있어서 이제 계절마다 제 향수를 직접 블렌딩합니다.”
+          </p>
+          <div class="review-author">
+            <span><strong>송*민 님</strong> · 보태니컬 심화 4주반</span>
+            <span>2026.09.14</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:40px;">
+        <button class="btn btn-primary" onclick="showToast('네이버 스마트플레이스 영수증 리뷰 및 포토 후기 작성 창과 연동됩니다.')">
+          ✍️ 나도 후기 남기고 히노끼 사쉐 받기
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 플로팅 상담 -->
+  <div class="floating-consult">
+    <a href="contact.html#consult-section" class="float-btn float-naver"><span>N</span> 네이버 톡톡 문의</a>
+    <a href="contact.html#consult-section" class="float-btn float-kakao"><span>💬</span> 카톡 채널 상담</a>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">🌿 구미 천연향수공방</div>
+          <p style="margin-bottom:14px;">도심을 벗어나 자연 속에서 나만의 숨결을 조향하는 힐링 아틀리에.</p>
+          <p style="font-size:0.82rem; color:rgba(253,251,247,0.6);">경북 구미시 금오산로 전원길 | 대표 조향사: 김아로마</p>
+        </div>
+        <div>
+          <div class="footer-title">메뉴 바로가기</div>
+          <ul class="footer-links">
+            <li><a href="about.html">공방 소개</a></li>
+            <li><a href="class.html">클래스 안내 &amp; 예약</a></li>
+            <li><a href="shop.html">온라인 숍</a></li>
+            <li><a href="reviews.html">갤러리 &amp; 후기</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">고객 지원</div>
+          <ul class="footer-links">
+            <li><a href="contact.html#entry-photo-guide">전원주택 진입로 안내</a></li>
+            <li><a href="contact.html#faq-section">자주 묻는 질문 (FAQ)</a></li>
+            <li><a href="class.html#policy-section">취소 및 환불 규정</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">예약 &amp; 상담 센터</div>
+          <p style="font-family:var(--font-serif); font-size:1.35rem; color:var(--secondary-light); font-weight:700;">054-456-7890</p>
+          <p style="font-size:0.84rem;">화~일 10:30 - 20:00 (월요일 휴무)</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Gumi Natural Perfume Atelier. All rights reserved.</span>
+        <span>이용약관 | 개인정보처리방침</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

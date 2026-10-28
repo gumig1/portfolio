@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>집밥 배달 견적서 양식</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap">
+<style>
+  :root {
+    /* 기존 발표 양식의 색상 테마 유지 */
+    --ink: #262523;
+    --grain: #DCD3BD;
+    --paper: #EFE9DA;
+    --chili: #D2491F;
+    --stone: #8A8372;
+    --bg: #F6F4EE;
+  }
+
+  /* 화면 표시용 배경 */
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* A4 용지 규격 설정 */
+  .a4 {
+    width: 210mm;
+    min-height: 297mm;
+    background: #FFFFFF; /* 인쇄용 흰색 배경 */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    padding: 20mm;
+    position: relative;
+    /* 포인트 컬러로 상단 띠 장식 (종이/고추 색상 활용) */
+    border-top: 8mm solid var(--paper);
+  }
+
+  .a4::before {
+    content: "";
+    position: absolute;
+    top: -8mm;
+    left: 0;
+    width: 30%;
+    height: 8mm;
+    background: var(--chili);
+  }
+
+  /* 인쇄 시 여백 및 그림자 제거 */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  @media print {
+    body { background: none; padding: 0; }
+    .a4 { box-shadow: none; border-top-width: 10mm; top: 0; }
+    .a4::before { top: -10mm; height: 10mm; }
+  }
+
+  /* 제목 영역 */
+  header {
+    text-align: center;
+    margin-bottom: 12mm;
+  }
+  h1 {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  /* 기본 정보 (견적번호, 날짜 등) */
+  .info-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8mm;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .info-left {
+    flex: 1;
+  }
+  .info-right {
+    flex: 1;
+    text-align: right;
+  }
+  .info-left h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    border-bottom: 2px solid var(--ink);
+    display: inline-block;
+    padding-bottom: 2px;
+  }
+
+  /* 합계 금액 */
+  .total-box {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    padding: 4mm 6mm;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10mm;
+  }
+  .total-box span {
+    font-size: 16px;
+    font-weight: 700;
+    margin-right: 12px;
+  }
+  .total-box strong {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--chili);
+    margin-right: 8px;
+  }
+  .total-box .text-amt {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* 테이블 공통 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8mm;
+    font-size: 13px;
+  }
+  th, td {
+    border: 1px solid var(--stone);
+    padding: 8px 6px;
+    text-align: center;
+  }
+  th {
+    background: var(--grain);
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  /* 품목표 */
+  .item-table th:nth-child(1) { width: 8%; }
+  .item-table th:nth-child(2) { width: 42%; }
+  .item-table th:nth-child(3) { width: 10%; }
+  .item-table th:nth-child(4) { width: 20%; }
+  .item-table th:nth-child(5) { width: 20%; }
+  
+  .item-table td:nth-child(2) { text-align: left; padding-left: 12px; }
+  .item-table td:nth-child(4),
+  .item-table td:nth-child(5) { text-align: right; padding-right: 12px; }
+
+  /* 금액 요약표 */
+  .summary-table {
+    width: 50%;
+    margin-left: auto;
+  }
+  .summary-table th {
+    background: #f9f9f9;
+    text-align: left;
+    padding-left: 12px;
+  }
+  .summary-table td {
+    text-align: right;
+    padding-right: 12px;
+    font-weight: 700;
+  }
+  .summary-table tr.total-row th,
+  .summary-table tr.total-row td {
+    background: var(--paper);
+    color: var(--chili);
+    font-size: 15px;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  /* 조건 및 안내사항 */
+  .conditions {
+    margin-top: 10mm;
+    border-top: 2px solid var(--stone);
+    padding-top: 6mm;
+  }
+  .conditions h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin: 0 0 12px 0;
+  }
+  .conditions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .conditions li {
+    font-size: 13px;
+    margin-bottom: 6px;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .conditions li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    font-weight: 900;
+    color: var(--chili);
+  }
+  .conditions li strong {
+    color: var(--ink);
+  }
+
+  /* 서명 영역 */
+  .signature {
+    margin-top: 15mm;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .signature span {
+    display: inline-block;
+    width: 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--ink);
+    margin-left: 10px;
+    color: var(--stone);
+    font-size: 12px;
+    font-weight: 400;
+  }
+</style>
+</head>
+<body>
+
+<div class="a4">
+  <header>
+    <h1>견적서</h1>
+  </header>
+
+  <div class="info-wrap">
+    <div class="info-left">
+      <h2>○○경로당 귀하</h2>
+      <div style="margin-top:8px;">
+        견적 번호 : Q20261007-01<br>
+        견적 일자 : 2026. 10. 07.
+      </div>
+      <p style="margin-top:8px; color:var(--stone);">아래와 같이 견적합니다.</p>
+    </div>
+    
+    <div class="info-right">
+      <strong>보내는 곳 : 집밥 배달</strong><br>
+      대표자 : 최홍숙<br>
+      주소 : ○○시 ○○동 ○○로 12<br>
+      연락처 : 010-0000-0000<br>
+      이메일 : zipcode12@example.com
+    </div>
+  </div>
+
+  <div class="total-box">
+    <span>합계 금액</span>
+    <strong>367,500 원</strong>
+    <span class="text-amt">(금 삼십육만칠천오백 원정)</span>
+    <span style="margin-left:auto; font-size:12px; color:var(--stone); font-weight:400;">※ 부가세 포함</span>
+  </div>
+
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>번호</th>
+        <th>품목</th>
+        <th>수량</th>
+        <th>단가</th>
+        <th>금액</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 반찬: 50인분 * 7000원 = 350,000원 -->
+      <tr>
+        <td>1</td>
+        <td>제철 반찬 3가지 세트 (50인분)</td>
+        <td>50</td>
+        <td>7,000</td>
+        <td>350,000</td>
+      </tr>
+      <!-- 용기: 50개 * 500원 = 25,000원 -->
+      <tr>
+        <td>2</td>
+        <td>개별 포장 일회용 용기</td>
+        <td>50</td>
+        <td>500</td>
+        <td>25,000</td>
+      </tr>
+      <!-- 배달: 1건 * 10000원 = 10,000원 -->
+      <tr>
+        <td>3</td>
+        <td>단체 배달비</td>
+        <td>1</td>
+        <td>10,000</td>
+        <td>10,000</td>
+      </tr>
+      <tr>
+        <td>-</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>-</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 금액 요약: 단체 할인 5%는 반찬(350,000원)에만 적용되어 17,500원 할인 -->
+  <table class="summary-table">
+    <tbody>
+      <tr>
+        <th>소계</th>
+        <td>385,000</td>
+      </tr>
+      <tr>
+        <th>단체 할인 (반찬 5%)</th>
+        <td style="color: var(--chili);">- 17,500</td>
+      </tr>
+      <tr class="total-row">
+        <th>최종 합계</th>
+        <td>367,500</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="conditions">
+    <h3>안내 및 조건</h3>
+    <ul>
+      <li><strong>납품:</strong> 2026년 OO월 OO일 11:30까지 지정하신 장소로 안전하게 배달해 드립니다.</li>
+      <li><strong>결제:</strong> 납품 완료 후 3일 이내 지정 계좌로 이체 바랍니다. (○○은행 123-456-7890 집밥배달)</li>
+      <li><strong>확정:</strong> 본 견적서는 발행일로부터 7일간 유효하며, 발주 의사를 남겨주시면 최종 확정됩니다.</li>
+      <li><strong>알레르기:</strong> 특정 식재료에 알레르기가 있으신 어르신이 계실 경우, 미리 말씀해 주시면 대체 반찬으로 준비해 드립니다.</li>
+    </ul>
+  </div>
+
+  <div class="signature">
+    집밥 배달 대표 최홍숙 <span>(서명/인)</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공방 관리자 센터 | 구미 천연향수공방</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="stylesheet" href="https://hangeul.pstatic.net/hangeul_static/css/maru-buri.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background-color: #F8F6F0;
+    }
+    .serif-title {
+      font-family: 'MaruBuri', serif;
+    }
+    .admin-tab-pane {
+      display: none;
+    }
+    .admin-tab-pane.active {
+      display: block;
+    }
+  </style>
+</head>
+<body class="text-[#2B2B2B] antialiased">
+
+  <!-- 1. 보안 로그인 모달 (기본 비번: 1234) -->
+  <div id="login-modal" class="fixed inset-0 bg-[#2A3C35]/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 border border-[#E5DEC9] text-center space-y-5">
+      <div class="w-16 h-16 bg-[#EBF0ED] text-[#3B5249] rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-inner">
+        🌿
+      </div>
+      <div>
+        <h2 class="serif-title text-2xl font-bold text-[#2A3C35]">구미천연향수공방</h2>
+        <p class="text-xs text-[#66635E] mt-1">공방 대표 및 운영자 전용 관리 시스템</p>
+      </div>
+
+      <div class="bg-[#F6F2EA] p-3.5 rounded-xl text-xs text-[#66635E] text-left">
+        💡 <strong>안내:</strong> 관리자 접속 기본 비밀번호는 <code class="bg-white px-2 py-0.5 rounded font-bold text-[#3B5249]">1234</code> 입니다.
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-[#2A3C35] text-left mb-1.5">관리자 인증 비밀번호</label>
+          <input type="password" id="admin-pw-input" placeholder="비밀번호 입력" class="w-full px-4 py-3 rounded-xl border border-[#E5DEC9] focus:outline-none focus:ring-2 focus:ring-[#3B5249] bg-[#FDFBF7]" autofocus required>
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-[#3B5249] hover:bg-[#2A3C35] text-white font-bold text-sm shadow-md transition">
+          관리자 센터 입장하기 &rarr;
+        </button>
+      </form>
+
+      <div class="pt-2 border-t border-[#EFECE4]">
+        <a href="index.html" class="text-xs text-[#66635E] hover:text-[#3B5249] underline">&larr; 홈페이지로 돌아가기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 관리자 메인 인터페이스 -->
+  <div id="admin-app" class="min-h-screen flex flex-col hidden">
+    <!-- 상단 바 -->
+    <header class="bg-[#2A3C35] text-[#FDFBF7] px-6 py-4 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-40 shadow-md">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">🌿</span>
+        <div>
+          <h1 class="serif-title font-bold text-lg text-white">구미천연향수공방 관리자 센터</h1>
+          <p class="text-xs text-[#F3E5D7]/80">실시간 데이터 동기화 관리 모드</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <a href="index.html" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-semibold text-white border border-white/20 flex items-center gap-1.5">
+          <span>🌐</span> 홈페이지 새창 확인
+        </a>
+        <button onclick="handleAdminLogout()" class="px-3.5 py-1.5 rounded-lg bg-[#C95B4C] hover:bg-[#b04a3c] text-xs font-bold text-white transition">
+          로그아웃
+        </button>
+      </div>
+    </header>
+
+    <!-- 바디: 사이드바 + 메인 패널 -->
+    <div class="flex-1 flex flex-col md:flex-row">
+      <!-- 사이드 메뉴 -->
+      <aside class="w-full md:w-64 bg-[#3B5249] text-[#FDFBF7] p-4 flex md:flex-col gap-1.5 overflow-x-auto shrink-0 border-r border-[#2A3C35]">
+        <div class="hidden md:block px-3 py-2 text-xs font-bold text-[#F3E5D7] uppercase tracking-wider">
+          Menu &amp; Content Management
+        </div>
+        <button onclick="switchAdminTab('dashboard')" data-tab="dashboard" class="admin-tab-btn active w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold bg-[#D4A373] text-white flex items-center justify-between">
+          <span>📊 운영 대시보드</span>
+          <span id="badge-total-booking" class="px-1.5 py-0.5 rounded-full bg-white text-[#B88655] text-xs">0</span>
+        </button>
+        <button onclick="switchAdminTab('slides')" data-tab="slides" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-medium text-white/80 hover:bg-white/10 flex items-center gap-2">
+          <span>🖼️ 홈 3장 슬라이드 관리</span>
+        </button>
+        <button onclick="switchAdminTab('nav')" data-tab="nav" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-medium text-white/80 hover:bg-white/10 flex items-center gap-2">
+          <span>📂 6대 메뉴 &amp; 카테고리</span>
+        </button>
+        <button onclick="switchAdminTab('classes')" data-tab="classes" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-medium text-white/80 hover:bg-white/10 flex items-center justify-between">
+          <span>🧪 클래스 &amp; 예약 접수</span>
+          <span id="badge-class-booking" class="px-1.5 py-0.5 rounded-full bg-[#E06C75] text-white text-xs">0</span>
+        </button>
+        <button onclick="switchAdminTab('shop')" data-tab="shop" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-medium text-white/80 hover:bg-white/10 flex items-center justify-between">
+          <span>🛍️ 온라인 숍 상품 관리</span>
+          <span id="badge-shop-count" class="px-1.5 py-0.5 rounded-full bg-white/20 text-white text-xs">6</span>
+        </button>
+        <button onclick="switchAdminTab('settings')" data-tab="settings" class="admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-medium text-white/80 hover:bg-white/10 flex items-center gap-2">
+          <span>⚙️ 공방 정보 &amp; 백업/복원</span>
+        </button>
+      </aside>
+
+      <!-- 컨텐츠 영역 -->
+      <main class="flex-1 p-5 md:p-8 overflow-y-auto">
+
+        <!-- ================= 탭 1: 운영 대시보드 ================= -->
+        <section id="pane-dashboard" class="admin-tab-pane active space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="serif-title text-2xl font-bold text-[#2A3C35]">운영 현황 대시보드</h2>
+              <p class="text-xs text-[#66635E] mt-0.5">클래스 예약 현황과 온라인 숍 주문 접수 내역을 한눈에 확인합니다.</p>
+            </div>
+            <button onclick="exportAllData()" class="px-4 py-2 rounded-xl bg-[#3B5249] text-white text-xs font-bold hover:bg-[#2A3C35] shadow transition">
+              💾 전체 설정 JSON 백업 다운로드
+            </button>
+          </div>
+
+          <!-- 통계 카드 3종 -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-white p-5 rounded-2xl border border-[#E5DEC9] shadow-sm flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-[#66635E]">총 누적 예약 신청</div>
+                <div id="stat-booking-count" class="serif-title text-3xl font-bold text-[#3B5249] mt-1">0건</div>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-[#EBF0ED] text-[#3B5249] flex items-center justify-center text-2xl">📅</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-[#E5DEC9] shadow-sm flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-[#66635E]">등록 상품 수</div>
+                <div id="stat-product-count" class="serif-title text-3xl font-bold text-[#D4A373] mt-1">6개</div>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-[#F3E5D7] text-[#B88655] flex items-center justify-center text-2xl">🧴</div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-[#E5DEC9] shadow-sm flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-[#66635E]">진행 중인 클래스 과정</div>
+                <div id="stat-class-count" class="serif-title text-3xl font-bold text-[#516F63] mt-1">4개</div>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-[#EBF0ED] text-[#516F63] flex items-center justify-center text-2xl">🌿</div>
+            </div>
+          </div>
+
+          <!-- 최근 접수된 실시간 예약 목록 테이블 -->
+          <div class="bg-white rounded-2xl border border-[#E5DEC9] p-5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="serif-title text-lg font-bold text-[#2A3C35]">최근 접수된 클래스 예약 목록</h3>
+              <button onclick="downloadBookingsCSV()" class="px-3 py-1.5 rounded-lg border border-[#3B5249] text-[#3B5249] hover:bg-[#EBF0ED] text-xs font-bold">
+                📥 엑셀(CSV) 다운로드
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead>
+                  <tr class="bg-[#F6F2EA] text-[#2A3C35]">
+                    <th class="p-3 rounded-l-lg">예약 번호</th>
+                    <th class="p-3">고객 성함</th>
+                    <th class="p-3">연락처</th>
+                    <th class="p-3">클래스명</th>
+                    <th class="p-3">일시</th>
+                    <th class="p-3">인원</th>
+                    <th class="p-3">예상 금액</th>
+                    <th class="p-3">상태</th>
+                    <th class="p-3 rounded-r-lg text-center">관리</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-booking-tbody">
+                  <!-- JS로 렌더링 -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 탭 2: 홈 3장 슬라이드 & 프로모션 배너 관리 ================= -->
+        <section id="pane-slides" class="admin-tab-pane space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="serif-title text-2xl font-bold text-[#2A3C35]">홈 3장 슬라이드 &amp; 상단 배너 관리</h2>
+              <p class="text-xs text-[#66635E] mt-0.5">첫 화면에 노출되는 3장 슬라이드의 이미지 주소와 카피라이팅, 상단 띠배너 문구를 직접 변경합니다.</p>
+            </div>
+            <button onclick="saveHeroSlideSettings()" class="px-5 py-2.5 rounded-xl bg-[#3B5249] hover:bg-[#2A3C35] text-white text-xs font-bold shadow transition">
+              💾 슬라이드 변경사항 즉시 저장
+            </button>
+          </div>
+
+          <!-- 상단 띠배너 설정 -->
+          <div class="bg-white rounded-2xl border border-[#E5DEC9] p-5 shadow-sm space-y-3">
+            <h3 class="serif-title text-base font-bold text-[#2A3C35]">📢 최상단 프로모션 공지 배너 문구</h3>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <div class="sm:col-span-2">
+                <input type="text" id="admin-top-banner-text" class="w-full px-3.5 py-2.5 rounded-xl border border-[#E5DEC9] text-xs bg-[#FDFBF7]" value="🌿 [가을 정원 클래스 오픈] 2인 이상 동반 예약 시 천연 아로마 롤온(10ml) 증정 · 100% 식물성 에센셜 오일 블렌딩">
+              </div>
+              <div>
+                <input type="text" id="admin-top-banner-link" class="w-full px-3.5 py-2.5 rounded-xl border border-[#E5DEC9] text-xs bg-[#FDFBF7]" placeholder="링크 대상 (예: class.html#booking-section)" value="class.html#booking-section">
+              </div>
+            </div>
+          </div>
+
+          <!-- 슬라이드 3장 각각 편집 카드 -->
+          <div class="space-y-4" id="admin-slides-container">
+            <!-- Slide 1 -->
+            <div class="bg-white rounded-2xl border border-[#E5DEC9] p-6 shadow-sm space-y-4">
+              <div class="flex items-center justify-between border-b border-[#EFECE4] pb-3">
+                <span class="px-3 py-1 rounded-full bg-[#3B5249] text-white text-xs font-bold">슬라이드 01 (기본: 사계절 정원)</span>
+                <span class="text-xs text-[#66635E]">홈페이지 첫 로딩 시 기본 표시</span>
+              </div>
+              <div class="grid sm:grid-cols-2 gap-4 text-xs">
+                <div>
+                  <label class="block font-bold text-[#2A3C35] mb-1">배경 이미지 URL</label>
+                  <input type="text" id="slide-img-0" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1800&q=85">
+                </div>
+                <div>
+                  <label class="block font-bold text-[#2A3C35] mb-1">상단 영문 배지 문구</label>
+                  <input type="text" id="slide-badge-0" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="🌿 Slide 01 / 03 · Garden Atelier | 금오산 자락 사계절 정원 공방">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block font-bold text-[#2A3C35] mb-1">메인 큰 제목 (줄바꿈 가능)</label>
+                  <input type="text" id="slide-title-0" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="자연이 머무는 숲속 작은 집, 당신만의 향기를 만납니다.">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block font-bold text-[#2A3C35] mb-1">슬로건 및 설명 문구</label>
+                  <textarea id="slide-desc-0" rows="2" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]">“도심을 벗어나 자연 속에서 나만의 숨결을 조향하는 힐링 아틀리에”&#10;라벤더와 로즈마리가 자라는 전원주택 정원에서 허브티 한 잔의 여유와 함께 온전한 쉼을 경험해 보세요.</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="bg-white rounded-2xl border border-[#E5DEC9] p-6 shadow-sm space-y-4">
+              <div class="flex items-center justify-between border-b border-[#EFECE4] pb-3">
+                <span class="px-3 py-1 rounded-full bg-[#B88655] text-white text-xs font-bold">슬라이드 02 (천연 에센셜 오일 드롭)</span>
+              </div>
+              <div class="grid sm:grid-cols-2 gap-4 text-xs">
+                <div>
+                  <label class="block font-bold text-[#2A3C35] mb-1">배경 이미지 URL</label>
+                  <input type="text" id="slide-img-1" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=1800&q=85">
+                </div>
+                <div>
+                  <label class="block font-bold text-[#2A3C35] mb-1">상단 영문 배지 문구</label>
+                  <input type="text" id="slide-badge-1" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="💧 Slide 02 / 03 · 100% Pure Botanical | 합성향 무첨가 테라피 등급 원료">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block font-bold text-[#2A3C35] mb-1">메인 큰 제목</label>
+                  <input type="text" id="slide-title-1" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="머리 아픈 인공향 대신, 깊게 숨 쉴수록 맑아지는 자연의 결.">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block font-bold text-[#2A3C35] mb-1">슬로건 및 설명 문구</label>
+                  <textarea id="slide-desc-1" rows="2" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]">프랑스 프로방스 라벤더, 이탈리아 베르가못, 모로코 시더우드 등&#10;학명과 원산지가 투명하게 검증된 40여 종의 천연 에센셜 오일을 한 방울씩 정성껏 블렌딩합니다.</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="bg-white rounded-2xl border border-[#E5DEC9] p-6 shadow-sm space-y-4">
+              <div class="flex items-center justify-between border-b border-[#EFECE4] pb-3">
+                <span class="px-3 py-1 rounded-full bg-[#516F63] text-white text-xs font-bold">슬라이드 03 (햇살 창가 1:1 조향)</span>
+              </div>
+              <div class="grid sm:grid-cols-2 gap-4 text-xs">
+                <div>
+                  <label class="block font-bold text-[#2A3C35] mb-1">배경 이미지 URL</label>
+                  <input type="text" id="slide-img-2" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="https://images.unsplash.com/photo-1709666414115-47ecd5143293?auto=format&fit=crop&w=1800&q=85">
+                </div>
+                <div>
+                  <label class="block font-bold text-[#2A3C35] mb-1">상단 영문 배지 문구</label>
+                  <input type="text" id="slide-badge-2" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="✨ Slide 03 / 03 · Bespoke Perfumery | 햇살 가득한 통창 앞 1:1 맞춤 조향">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block font-bold text-[#2A3C35] mb-1">메인 큰 제목</label>
+                  <input type="text" id="slide-title-2" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="햇살이 머무는 창가에서 완성하는, 세상에 단 하나뿐인 시그니처 퍼퓸.">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block font-bold text-[#2A3C35] mb-1">슬로건 및 설명 문구</label>
+                  <textarea id="slide-desc-2" rows="2" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]">연인과의 특별한 데이트, 친구와의 근교 힐링 나들이, 기업·교직원 단체 워크숍까지&#10;수석 조향사의 1:1 가이드로 초보자도 나만의 인생 향수와 포뮬러 차트를 완성할 수 있습니다.</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 탭 3: 6대 메뉴 & 카테고리 설정 ================= -->
+        <section id="pane-nav" class="admin-tab-pane space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="serif-title text-2xl font-bold text-[#2A3C35]">6대 메인 메뉴 및 카테고리 관리</h2>
+              <p class="text-xs text-[#66635E] mt-0.5">홈페이지 상단 네비게이션 메뉴 이름 변경 및 노출 여부를 제어합니다.</p>
+            </div>
+            <button onclick="saveNavSettings()" class="px-5 py-2.5 rounded-xl bg-[#3B5249] hover:bg-[#2A3C35] text-white text-xs font-bold shadow transition">
+              💾 메뉴 설정 저장
+            </button>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-[#E5DEC9] p-6 shadow-sm">
+            <div class="space-y-4" id="admin-nav-list">
+              <!-- JS로 6대 메뉴 리스트 렌더링 -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 탭 4: 클래스 프로그램 & 예약 관리 ================= -->
+        <section id="pane-classes" class="admin-tab-pane space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="serif-title text-2xl font-bold text-[#2A3C35]">클래스 프로그램 &amp; 예약 접수 관리</h2>
+              <p class="text-xs text-[#66635E] mt-0.5">원데이 클래스 수강료, 소요시간, 정원 수정 및 접수된 고객 예약을 승인/취소합니다.</p>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="openClassModal()" class="px-4 py-2 rounded-xl bg-[#D4A373] text-white text-xs font-bold hover:bg-[#B88655] shadow transition">
+                + 새 클래스 추가
+              </button>
+              <button onclick="saveClassesSettings()" class="px-5 py-2 rounded-xl bg-[#3B5249] text-white text-xs font-bold hover:bg-[#2A3C35] shadow transition">
+                💾 클래스 저장
+              </button>
+            </div>
+          </div>
+
+          <!-- 클래스 목록 -->
+          <div class="grid sm:grid-cols-2 gap-4" id="admin-classes-grid">
+            <!-- JS 렌더링 -->
+          </div>
+
+          <!-- 전체 예약 관리 테이블 -->
+          <div class="bg-white rounded-2xl border border-[#E5DEC9] p-5 shadow-sm space-y-3">
+            <h3 class="serif-title text-lg font-bold text-[#2A3C35]">실시간 예약 신청 전체 내역</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead>
+                  <tr class="bg-[#F6F2EA] text-[#2A3C35]">
+                    <th class="p-3">일련번호</th>
+                    <th class="p-3">예약자명</th>
+                    <th class="p-3">연락처</th>
+                    <th class="p-3">선택 클래스</th>
+                    <th class="p-3">희망 일시</th>
+                    <th class="p-3">인원</th>
+                    <th class="p-3">결제 금액</th>
+                    <th class="p-3">진행 상태</th>
+                    <th class="p-3 text-center">작업</th>
+                  </tr>
+                </thead>
+                <tbody id="all-booking-tbody">
+                  <!-- JS 렌더링 -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 탭 5: 온라인 숍 상품 관리 ================= -->
+        <section id="pane-shop" class="admin-tab-pane space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="serif-title text-2xl font-bold text-[#2A3C35]">온라인 숍 상품 및 향 피라미드 관리</h2>
+              <p class="text-xs text-[#66635E] mt-0.5">시그니처 향수, 룸스프레이, DIY 키트 가격 및 Top/Middle/Base 향 피라미드 정보를 직접 관리합니다.</p>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="openProductEditModal(null)" class="px-4 py-2 rounded-xl bg-[#D4A373] text-white text-xs font-bold hover:bg-[#B88655] shadow transition">
+                + 새 상품 등록
+              </button>
+              <button onclick="saveShopProductsSettings()" class="px-5 py-2 rounded-xl bg-[#3B5249] text-white text-xs font-bold hover:bg-[#2A3C35] shadow transition">
+                💾 상품 저장
+              </button>
+            </div>
+          </div>
+
+          <!-- 상품 카드 그리드 -->
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" id="admin-product-grid">
+            <!-- JS 렌더링 -->
+          </div>
+        </section>
+
+        <!-- ================= 탭 6: 공방 기본 정보 & 백업/복원 ================= -->
+        <section id="pane-settings" class="admin-tab-pane space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="serif-title text-2xl font-bold text-[#2A3C35]">공방 기본 정보 &amp; 데이터 백업/복원</h2>
+              <p class="text-xs text-[#66635E] mt-0.5">대표자명, 연락처, 운영시간, 주차 안내 및 전체 설정 데이터 백업/복원</p>
+            </div>
+            <button onclick="saveAtelierInfoSettings()" class="px-5 py-2.5 rounded-xl bg-[#3B5249] hover:bg-[#2A3C35] text-white text-xs font-bold shadow transition">
+              💾 공방 정보 저장
+            </button>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <!-- 공방 기본 정보 설정 -->
+            <div class="bg-white rounded-2xl border border-[#E5DEC9] p-6 shadow-sm space-y-3.5 text-xs">
+              <h3 class="serif-title text-base font-bold text-[#2A3C35]">공방 운영 정보</h3>
+              <div>
+                <label class="block font-bold text-[#2A3C35] mb-1">공방 상호명</label>
+                <input type="text" id="info-atelier-name" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="구미 천연향수공방">
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block font-bold text-[#2A3C35] mb-1">대표 조향사</label>
+                  <input type="text" id="info-owner-name" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="김아로마">
+                </div>
+                <div>
+                  <label class="block font-bold text-[#2A3C35] mb-1">대표 전화번호</label>
+                  <input type="text" id="info-phone" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="054-456-7890">
+                </div>
+              </div>
+              <div>
+                <label class="block font-bold text-[#2A3C35] mb-1">공방 주소</label>
+                <input type="text" id="info-address" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="경상북도 구미시 금오산로 전원길 (수점동 전원마을)">
+              </div>
+              <div>
+                <label class="block font-bold text-[#2A3C35] mb-1">운영 시간 및 정기 휴무</label>
+                <input type="text" id="info-hours" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="화~일 10:30 - 20:00 (매주 월요일 정기 휴무 · 100% 예약제)">
+              </div>
+              <div>
+                <label class="block font-bold text-[#2A3C35] mb-1">주차 안내 문구</label>
+                <input type="text" id="info-parking" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" value="공방 마당 앞 전용 주차 공간 4대 무료 + 도보 1분 마을 공영주차장">
+              </div>
+            </div>
+
+            <!-- 데이터 백업, 복원 및 비밀번호 변경 -->
+            <div class="space-y-6">
+              <div class="bg-white rounded-2xl border border-[#E5DEC9] p-6 shadow-sm space-y-3.5 text-xs">
+                <h3 class="serif-title text-base font-bold text-[#2A3C35]">관리자 비밀번호 변경</h3>
+                <div>
+                  <label class="block font-bold text-[#2A3C35] mb-1">새로운 비밀번호</label>
+                  <input type="password" id="info-new-pw" class="w-full px-3 py-2 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" placeholder="새 비밀번호 입력">
+                </div>
+                <button onclick="changeAdminPassword()" class="w-full py-2.5 rounded-lg bg-[#3B5249] text-white font-bold">
+                  비밀번호 변경하기
+                </button>
+              </div>
+
+              <div class="bg-white rounded-2xl border border-[#E5DEC9] p-6 shadow-sm space-y-3.5 text-xs">
+                <h3 class="serif-title text-base font-bold text-[#2A3C35]">전체 데이터 백업 및 복원</h3>
+                <p class="text-[#66635E]">홈페이지에 등록된 모든 상품, 클래스, 슬라이드, 고객 예약 데이터를 하나의 파일로 보관하거나 복원합니다.</p>
+                <div class="grid grid-cols-2 gap-2">
+                  <button onclick="exportAllData()" class="py-2.5 rounded-lg bg-[#3B5249] text-white font-bold text-center">
+                    📥 백업 파일 다운로드
+                  </button>
+                  <label class="py-2.5 rounded-lg bg-[#D4A373] text-white font-bold text-center cursor-pointer hover:bg-[#B88655]">
+                    📤 백업 파일 복원하기
+                    <input type="file" accept=".json" onchange="importDataFile(event)" class="hidden">
+                  </label>
+                </div>
+                <button onclick="resetToInitialDefaults()" class="w-full py-2 rounded-lg border border-[#C95B4C] text-[#C95B4C] hover:bg-[#C95B4C] hover:text-white transition">
+                  ⚠️ 초기 공방 기획안 기본값으로 복구
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- 3. 모달: 상품 등록/수정 모달 -->
+  <div id="product-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto border border-[#E5DEC9]">
+      <div class="flex items-center justify-between border-b border-[#EFECE4] pb-3">
+        <h3 class="serif-title font-bold text-lg text-[#2A3C35]" id="product-modal-title">상품 정보 등록/수정</h3>
+        <button onclick="closeProductModal()" class="text-xl font-bold">&times;</button>
+      </div>
+
+      <input type="hidden" id="edit-prod-id">
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-[#2A3C35] mb-1">상품명</label>
+          <input type="text" id="edit-prod-name" class="w-full p-2.5 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" required>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-[#2A3C35] mb-1">카테고리</label>
+            <select id="edit-prod-cat" class="w-full p-2.5 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]">
+              <option value="perfume">시그니처 퍼퓸</option>
+              <option value="home">홈 프래그런스 (미스트/디퓨저)</option>
+              <option value="kit">DIY 키트 &amp; 선물 세트</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-[#2A3C35] mb-1">판매 가격 (원)</label>
+            <input type="number" id="edit-prod-price" class="w-full p-2.5 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]" required>
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-[#2A3C35] mb-1">대표 이미지 URL</label>
+          <input type="text" id="edit-prod-img" class="w-full p-2.5 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]">
+        </div>
+        <div>
+          <label class="block font-bold text-[#2A3C35] mb-1">무드 태그 (쉼표로 구분, 예: #숲속산책, #릴랙스)</label>
+          <input type="text" id="edit-prod-moods" class="w-full p-2.5 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]">
+        </div>
+        <div>
+          <label class="block font-bold text-[#2A3C35] mb-1">상품 한 줄 설명</label>
+          <input type="text" id="edit-prod-summary" class="w-full p-2.5 rounded-lg border border-[#E5DEC9] bg-[#FDFBF7]">
+        </div>
+
+        <!-- 향 피라미드 -->
+        <div class="bg-[#F6F2EA] p-3 rounded-xl space-y-2">
+          <div class="font-bold text-[#2A3C35]">향 피라미드 (Top / Middle / Base)</div>
+          <div>
+            <label class="block text-[11px] text-[#66635E]">Top Note (첫인상)</label>
+            <input type="text" id="edit-prod-top" class="w-full p-2 rounded border border-[#E5DEC9] bg-white">
+          </div>
+          <div>
+            <label class="block text-[11px] text-[#66635E]">Middle Note (하트노트)</label>
+            <input type="text" id="edit-prod-mid" class="w-full p-2 rounded border border-[#E5DEC9] bg-white">
+          </div>
+          <div>
+            <label class="block text-[11px] text-[#66635E]">Base Note (잔향)</label>
+            <input type="text" id="edit-prod-base" class="w-full p-2 rounded border border-[#E5DEC9] bg-white">
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="edit-prod-soldout" class="w-4 h-4 text-[#3B5249]">
+          <label for="edit-prod-soldout" class="font-bold text-[#C95B4C]">현재 품절(Sold Out) 처리</label>
+        </div>
+      </div>
+
+      <div class="flex gap-2 pt-2 border-t border-[#EFECE4]">
+        <button onclick="closeProductModal()" class="flex-1 py-2.5 rounded-xl border border-[#E5DEC9] font-bold text-xs">취소</button>
+        <button onclick="saveProductModalItem()" class="flex-1 py-2.5 rounded-xl bg-[#3B5249] text-white font-bold text-xs">저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    // 관리자 페이지 고유 스크립트
+    const ADMIN_PW_KEY = 'gumi_atelier_admin_pw';
+
+    function getAdminPassword() {
+      return localStorage.getItem(ADMIN_PW_KEY) || '1234';
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const input = document.getElementById('admin-pw-input').value;
+      if (input === getAdminPassword()) {
+        sessionStorage.setItem('gumi_admin_auth', 'true');
+        document.getElementById('login-modal').classList.add('hidden');
+        document.getElementById('admin-app').classList.remove('hidden');
+        loadAllAdminData();
+      } else {
+        alert('비밀번호가 일치하지 않습니다. (기본 비밀번호: 1234)');
+      }
+    }
+
+    function handleAdminLogout() {
+      sessionStorage.removeItem('gumi_admin_auth');
+      location.reload();
+    }
+
+    function switchAdminTab(tabId) {
+      document.querySelectorAll('.admin-tab-pane').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById('pane-' + tabId);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        if (btn.getAttribute('data-tab') === tabId) {
+          btn.className = 'admin-tab-btn active w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold bg-[#D4A373] text-white flex items-center justify-between';
+        } else {
+          btn.className = 'admin-tab-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-medium text-white/80 hover:bg-white/10 flex items-center justify-between';
+        }
+      });
+    }
+
+    // 데이터 로드
+    function loadAllAdminData() {
+      renderDashboardBookings();
+      renderAdminHeroSlides();
+      renderAdminNav();
+      renderAdminClasses();
+      renderAdminProducts();
+      renderAdminAtelierInfo();
+    }
+
+    // 1. 대시보드 및 예약 렌더링
+    function renderDashboardBookings() {
+      const bookings = window.AtelierStore.getBookings();
+      document.getElementById('stat-booking-count').textContent = bookings.length + '건';
+      document.getElementById('badge-total-booking').textContent = bookings.length;
+      document.getElementById('badge-class-booking').textContent = bookings.filter(b => b.status === '대기').length;
+
+      const dBody = document.getElementById('dashboard-booking-tbody');
+      const aBody = document.getElementById('all-booking-tbody');
+
+      if (bookings.length === 0) {
+        const emptyRow = `<tr><td colspan="9" class="p-8 text-center text-[#66635E]">접수된 실시간 예약 내역이 없습니다. (홈페이지 클래스 캘린더에서 테스트 신청 가능)</td></tr>`;
+        if (dBody) dBody.innerHTML = emptyRow;
+        if (aBody) aBody.innerHTML = emptyRow;
+        return;
+      }
+
+      const rows = bookings.map((b, idx) => {
+        const statusBadge = b.status === '승인'
+          ? `<span class="px-2 py-0.5 rounded-full bg-[#03C75A]/15 text-[#029E47] font-bold">승인 완료</span>`
+          : b.status === '취소'
+          ? `<span class="px-2 py-0.5 rounded-full bg-[#C95B4C]/15 text-[#C95B4C] font-bold">취소됨</span>`
+          : `<span class="px-2 py-0.5 rounded-full bg-[#D4A373]/20 text-[#B88655] font-bold">접수 대기</span>`;
+
+        return `
+          <tr class="border-b border-[#EFECE4] hover:bg-[#FDFBF7]">
+            <td class="p-3 font-mono text-[#66635E]">${b.id || `BK-${1000 + idx}`}</td>
+            <td class="p-3 font-bold text-[#2A3C35]">${b.name}</td>
+            <td class="p-3">${b.phone}</td>
+            <td class="p-3">${b.className}</td>
+            <td class="p-3 font-semibold">${b.dateTime}</td>
+            <td class="p-3">${b.count}명</td>
+            <td class="p-3 font-bold text-[#3B5249]">${(b.totalPrice || 0).toLocaleString()}원</td>
+            <td class="p-3">${statusBadge}</td>
+            <td class="p-3 text-center space-x-1">
+              <button onclick="updateBookingStatus('${b.id}', '승인')" class="px-2 py-1 rounded bg-[#3B5249] text-white hover:bg-[#2A3C35]">승인</button>
+              <button onclick="updateBookingStatus('${b.id}', '취소')" class="px-2 py-1 rounded bg-[#C95B4C] text-white hover:bg-[#b04a3c]">취소</button>
+              <button onclick="deleteBookingItem('${b.id}')" class="px-2 py-1 rounded border border-[#E5DEC9] text-[#66635E]">삭제</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (dBody) dBody.innerHTML = rows;
+      if (aBody) aBody.innerHTML = rows;
+    }
+
+    function updateBookingStatus(id, newStatus) {
+      window.AtelierStore.updateBookingStatus(id, newStatus);
+      renderDashboardBookings();
+    }
+
+    function deleteBookingItem(id) {
+      if (confirm('해당 예약 내역을 삭제하시겠습니까?')) {
+        window.AtelierStore.deleteBooking(id);
+        renderDashboardBookings();
+      }
+    }
+
+    function downloadBookingsCSV() {
+      const bookings = window.AtelierStore.getBookings();
+      if (bookings.length === 0) {
+        alert('다운로드할 예약 데이터가 없습니다.');
+        return;
+      }
+      let csv = '\uFEFF예약번호,고객명,연락처,클래스명,희망일시,인원,결제금액,상태\n';
+      bookings.forEach(b => {
+        csv += `"${b.id}","${b.name}","${b.phone}","${b.className}","${b.dateTime}","${b.count}명","${b.totalPrice}원","${b.status}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `구미천연향수공방_예약자명단_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // 2. 홈 슬라이드 렌더링 & 저장
+    function renderAdminHeroSlides() {
+      const config = window.AtelierStore.getHeroConfig();
+      if (config.topBanner) {
+        document.getElementById('admin-top-banner-text').value = config.topBanner.text || '';
+        document.getElementById('admin-top-banner-link').value = config.topBanner.link || '';
+      }
+      if (config.slides && config.slides.length >= 3) {
+        config.slides.forEach((s, i) => {
+          const imgEl = document.getElementById(`slide-img-${i}`);
+          const badgeEl = document.getElementById(`slide-badge-${i}`);
+          const titleEl = document.getElementById(`slide-title-${i}`);
+          const descEl = document.getElementById(`slide-desc-${i}`);
+          if (imgEl) imgEl.value = s.image;
+          if (badgeEl) badgeEl.value = s.badge;
+          if (titleEl) titleEl.value = s.title;
+          if (descEl) descEl.value = s.desc;
+        });
+      }
+    }
+
+    function saveHeroSlideSettings() {
+      const slides = [0, 1, 2].map(i => ({
+        image: document.getElementById(`slide-img-${i}`).value,
+        badge: document.getElementById(`slide-badge-${i}`).value,
+        title: document.getElementById(`slide-title-${i}`).value,
+        desc: document.getElementById(`slide-desc-${i}`).value
+      }));
+
+      const topBanner = {
+        text: document.getElementById('admin-top-banner-text').value,
+        link: document.getElementById('admin-top-banner-link').value
+      };
+
+      window.AtelierStore.saveHeroConfig({ topBanner, slides });
+      alert('슬라이드 및 배너 설정이 성공적으로 저장되었습니다! 홈페이지에 즉시 반영됩니다.');
+    }
+
+    // 3. 네비게이션 메뉴 관리
+    function renderAdminNav() {
+      const navList = window.AtelierStore.getNavConfig();
+      const container = document.getElementById('admin-nav-list');
+      if (!container) return;
+
+      container.innerHTML = navList.map((item, idx) => `
+        <div class="flex items-center justify-between p-3.5 rounded-xl border border-[#E5DEC9] bg-[#FDFBF7]">
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-[#3B5249] text-white flex items-center justify-center font-bold text-xs">${idx + 1}</span>
+            <input type="text" id="nav-label-${item.id}" value="${item.label}" class="px-3 py-1.5 rounded-lg border border-[#E5DEC9] text-xs font-bold text-[#2A3C35] bg-white">
+            <span class="text-xs text-[#66635E] font-mono">(${item.url})</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs text-[#2A3C35] font-semibold flex items-center gap-1.5">
+              <input type="checkbox" id="nav-visible-${item.id}" ${item.visible !== false ? 'checked' : ''} class="w-4 h-4">
+              메뉴 표시
+            </label>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function saveNavSettings() {
+      const navList = window.AtelierStore.getNavConfig();
+      const updated = navList.map(item => ({
+        ...item,
+        label: document.getElementById(`nav-label-${item.id}`).value,
+        visible: document.getElementById(`nav-visible-${item.id}`).checked
+      }));
+      window.AtelierStore.saveNavConfig(updated);
+      alert('메뉴 구성이 저장되었습니다!');
+    }
+
+    // 4. 클래스 관리
+    function renderAdminClasses() {
+      const classes = window.AtelierStore.getClasses();
+      document.getElementById('stat-class-count').textContent = classes.length + '개';
+      const container = document.getElementById('admin-classes-grid');
+      if (!container) return;
+
+      container.innerHTML = classes.map((c, idx) => `
+        <div class="bg-white rounded-2xl border border-[#E5DEC9] p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-[#EFECE4] pb-2">
+            <span class="font-bold text-[#3B5249] text-sm">${c.name}</span>
+            <span class="font-bold text-sm text-[#D4A373]">${c.price.toLocaleString()}원</span>
+          </div>
+          <p class="text-xs text-[#66635E]">${c.desc}</p>
+          <div class="grid grid-cols-2 gap-2 text-xs text-[#66635E]">
+            <div>⏱ 소요시간: <strong>${c.duration}</strong></div>
+            <div>👥 최대정원: <strong>${c.maxSeats}명</strong></div>
+          </div>
+          <div class="flex gap-2 pt-2 border-t border-[#EFECE4]">
+            <button onclick="editClassItem(${idx})" class="flex-1 py-1.5 rounded-lg border border-[#3B5249] text-[#3B5249] text-xs font-bold">수정</button>
+            <button onclick="deleteClassItem(${idx})" class="py-1.5 px-3 rounded-lg border border-[#C95B4C] text-[#C95B4C] text-xs font-bold">삭제</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function saveClassesSettings() {
+      alert('클래스 프로그램 설정이 정상 저장되었습니다.');
+    }
+
+    function deleteClassItem(idx) {
+      if (confirm('해당 클래스를 목록에서 삭제하시겠습니까?')) {
+        const classes = window.AtelierStore.getClasses();
+        classes.splice(idx, 1);
+        window.AtelierStore.saveClasses(classes);
+        renderAdminClasses();
+      }
+    }
+
+    // 5. 상품 관리
+    function renderAdminProducts() {
+      const prods = window.AtelierStore.getProducts();
+      document.getElementById('stat-product-count').textContent = prods.length + '개';
+      document.getElementById('badge-shop-count').textContent = prods.length;
+      const container = document.getElementById('admin-product-grid');
+      if (!container) return;
+
+      container.innerHTML = prods.map(p => `
+        <div class="bg-white rounded-2xl border border-[#E5DEC9] overflow-hidden shadow-sm flex flex-col justify-between">
+          <div class="relative h-36 bg-[#F6F2EA]">
+            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-fit-cover">
+            ${p.soldOut ? '<span class="absolute top-2 right-2 px-2 py-0.5 rounded bg-[#C95B4C] text-white text-xs font-bold">품절 (Sold Out)</span>' : ''}
+          </div>
+          <div class="p-4 space-y-2 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="text-[11px] font-bold text-[#B88655] uppercase">${p.categoryLabel || p.category}</div>
+              <h4 class="serif-title font-bold text-sm text-[#2A3C35] mt-0.5">${p.name}</h4>
+              <p class="text-xs text-[#66635E] mt-1 line-clamp-2">${p.summary}</p>
+            </div>
+            <div>
+              <div class="font-bold text-sm text-[#3B5249] pt-2 border-t border-[#EFECE4] flex justify-between items-center">
+                <span>${p.price.toLocaleString()}원</span>
+                <span class="text-xs text-[#66635E] font-normal">${(p.moods || []).join(' ')}</span>
+              </div>
+              <div class="flex gap-1.5 mt-3">
+                <button onclick="openProductEditModal('${p.id}')" class="flex-1 py-1.5 rounded-lg bg-[#3B5249] text-white text-xs font-bold">수정</button>
+                <button onclick="deleteProductItem('${p.id}')" class="py-1.5 px-3 rounded-lg border border-[#C95B4C] text-[#C95B4C] text-xs font-bold">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openProductEditModal(id) {
+      const modal = document.getElementById('product-modal');
+      const title = document.getElementById('product-modal-title');
+      const prods = window.AtelierStore.getProducts();
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      if (!id) {
+        title.textContent = '새로운 천연 향기 상품 등록';
+        document.getElementById('edit-prod-id').value = '';
+        document.getElementById('edit-prod-name').value = '';
+        document.getElementById('edit-prod-cat').value = 'perfume';
+        document.getElementById('edit-prod-price').value = 55000;
+        document.getElementById('edit-prod-img').value = 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=900&q=80';
+        document.getElementById('edit-prod-moods').value = '#숲속산책, #릴랙스';
+        document.getElementById('edit-prod-summary').value = '';
+        document.getElementById('edit-prod-top').value = '베르가못, 유칼립투스';
+        document.getElementById('edit-prod-mid').value = '프렌치 라벤더, 로즈마리';
+        document.getElementById('edit-prod-base').value = '편백(히노끼), 시더우드';
+        document.getElementById('edit-prod-soldout').checked = false;
+        return;
+      }
+
+      const p = prods.find(item => item.id === id);
+      if (!p) return;
+      title.textContent = '상품 정보 및 향 피라미드 수정';
+      document.getElementById('edit-prod-id').value = p.id;
+      document.getElementById('edit-prod-name').value = p.name;
+      document.getElementById('edit-prod-cat').value = p.category || 'perfume';
+      document.getElementById('edit-prod-price').value = p.price;
+      document.getElementById('edit-prod-img').value = p.image || '';
+      document.getElementById('edit-prod-moods').value = (p.moods || []).join(', ');
+      document.getElementById('edit-prod-summary').value = p.summary || '';
+      document.getElementById('edit-prod-top').value = p.pyramid?.top || '';
+      document.getElementById('edit-prod-mid').value = p.pyramid?.middle || '';
+      document.getElementById('edit-prod-base').value = p.pyramid?.base || '';
+      document.getElementById('edit-prod-soldout').checked = !!p.soldOut;
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('product-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function saveProductModalItem() {
+      const id = document.getElementById('edit-prod-id').value || ('prod-' + Date.now());
+      const name = document.getElementById('edit-prod-name').value;
+      const cat = document.getElementById('edit-prod-cat').value;
+      const price = parseInt(document.getElementById('edit-prod-price').value, 10) || 0;
+      const image = document.getElementById('edit-prod-img').value;
+      const summary = document.getElementById('edit-prod-summary').value;
+      const moods = document.getElementById('edit-prod-moods').value.split(',').map(s => s.trim()).filter(Boolean);
+      const top = document.getElementById('edit-prod-top').value;
+      const mid = document.getElementById('edit-prod-mid').value;
+      const base = document.getElementById('edit-prod-base').value;
+      const soldOut = document.getElementById('edit-prod-soldout').checked;
+
+      const catLabels = {
+        perfume: '시그니처 퍼퓸',
+        home: '홈 프래그런스',
+        kit: 'DIY 키트 & 선물 세트'
+      };
+
+      const prods = window.AtelierStore.getProducts();
+      const existingIdx = prods.findIndex(p => p.id === id);
+
+      const itemData = {
+        id,
+        name,
+        category: cat,
+        categoryLabel: catLabels[cat] || '천연 향기',
+        price,
+        image,
+        summary,
+        moods,
+        soldOut,
+        pyramid: { top, middle: mid, base },
+        ingredients: existingIdx >= 0 ? prods[existingIdx].ingredients : [
+          { name: '100% 천연 에센셜 오일', latin: 'Pure Essential Oils', origin: '원산지 검증 완료' }
+        ]
+      };
+
+      if (existingIdx >= 0) {
+        prods[existingIdx] = itemData;
+      } else {
+        prods.push(itemData);
+      }
+
+      window.AtelierStore.saveProducts(prods);
+      closeProductModal();
+      renderAdminProducts();
+      alert('상품 정보가 성공적으로 저장되었습니다!');
+    }
+
+    function deleteProductItem(id) {
+      if (confirm('해당 상품을 삭제하시겠습니까?')) {
+        const prods = window.AtelierStore.getProducts().filter(p => p.id !== id);
+        window.AtelierStore.saveProducts(prods);
+        renderAdminProducts();
+      }
+    }
+
+    function saveShopProductsSettings() {
+      alert('상품 목록이 안전하게 저장되었습니다.');
+    }
+
+    // 6. 공방 기본 정보 설정
+    function renderAdminAtelierInfo() {
+      const info = window.AtelierStore.getAtelierInfo();
+      document.getElementById('info-atelier-name').value = info.name || '구미 천연향수공방';
+      document.getElementById('info-owner-name').value = info.owner || '김아로마';
+      document.getElementById('info-phone').value = info.phone || '054-456-7890';
+      document.getElementById('info-address').value = info.address || '경상북도 구미시 금오산로 전원길 (수점동 전원마을)';
+      document.getElementById('info-hours').value = info.hours || '화~일 10:30 - 20:00 (월요일 휴무)';
+      document.getElementById('info-parking').value = info.parking || '공방 마당 앞 전용 주차 공간 4대 무료';
+    }
+
+    function saveAtelierInfoSettings() {
+      const updated = {
+        name: document.getElementById('info-atelier-name').value,
+        owner: document.getElementById('info-owner-name').value,
+        phone: document.getElementById('info-phone').value,
+        address: document.getElementById('info-address').value,
+        hours: document.getElementById('info-hours').value,
+        parking: document.getElementById('info-parking').value
+      };
+      window.AtelierStore.saveAtelierInfo(updated);
+      alert('공방 정보가 저장되었습니다! 모든 페이지의 푸터 및 연락처에 반영됩니다.');
+    }
+
+    function changeAdminPassword() {
+      const newPw = document.getElementById('info-new-pw').value;
+      if (!newPw || newPw.trim().length < 4) {
+        alert('비밀번호는 최소 4자리 이상 입력해 주세요.');
+        return;
+      }
+      localStorage.setItem(ADMIN_PW_KEY, newPw.trim());
+      alert('관리자 비밀번호가 변경되었습니다!');
+      document.getElementById('info-new-pw').value = '';
+    }
+
+    // 백업 및 복원
+    function exportAllData() {
+      const data = window.AtelierStore.exportAll();
+      const str = JSON.stringify(data, null, 2);
+      const blob = new Blob([str], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `구미천연향수공방_전체백업_${new Date().toISOString().slice(0,10)}.json`;
+      link.click();
+    }
+
+    function importDataFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          window.AtelierStore.importAll(parsed);
+          alert('백업 데이터가 성공적으로 복원되었습니다!');
+          location.reload();
+        } catch (err) {
+          alert('올바른 백업 JSON 파일이 아닙니다.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetToInitialDefaults() {
+      if (confirm('모든 설정을 초기 기획안 기본값으로 되돌리시겠습니까? (기존 고객 예약 내역은 보존됩니다)')) {
+        window.AtelierStore.resetDefaults();
+        alert('기본값으로 초기화되었습니다.');
+        location.reload();
+      }
+    }
+
+    // 초기 체크
+    document.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem('gumi_admin_auth') === 'true') {
+        document.getElementById('login-modal').classList.add('hidden');
+        document.getElementById('admin-app').classList.remove('hidden');
+        loadAllAdminData();
+      }
+    });
+  </script>
+</body>
+</html>

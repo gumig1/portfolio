@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구미천연향수공방 카드뉴스 생성기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #E6E2DA;
+            margin: 0;
+            padding: 24px 16px 60px 16px;
+            color: #2F4A3F;
+        }
+
+        /* 화면 미리보기용 래퍼 (1080x1350을 0.35배로 축소 표시) */
+        .preview-shell {
+            width: 378px;  /* 1080 * 0.35 */
+            height: 472.5px; /* 1350 * 0.35 */
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(47, 74, 63, 0.12);
+            background-color: #F5EFE4;
+        }
+
+        /* 실제 캡처되는 1080x1350 원본 슬라이드 (저장 시 그림자/테두리 없음) */
+        .slide-canvas {
+            width: 1080px;
+            height: 1350px;
+            background-color: #F5EFE4;
+            color: #2F4A3F;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: scale(0.35);
+            transform-origin: top left;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* 글꼴 크기 및 왼쪽 정렬 규칙 (제목 72~88px, 본문 38~44px, 최소 28px 이상) */
+        .slide-title {
+            font-size: 78px;
+            font-weight: 700;
+            line-height: 1.38;
+            letter-spacing: -0.02em;
+            color: #2F4A3F;
+            text-align: left;
+            word-break: keep-all;
+        }
+
+        .slide-body {
+            font-size: 42px;
+            font-weight: 400;
+            line-height: 1.55;
+            letter-spacing: -0.01em;
+            color: #2F4A3F;
+            text-align: left;
+            word-break: keep-all;
+        }
+
+        .slide-meta {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 1.4;
+            color: #8FA89A;
+        }
+
+        /* 강조 밑줄 규칙: 글자 아래 테두리 선(12px), 글자와 겹치지 않게 아래에 배치 */
+        .accent-underline {
+            display: inline;
+            border-bottom: 12px solid #C9A35B;
+            padding-bottom: 4px;
+        }
+
+        /* 사진 영역 스타일 */
+        .photo-slot {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            cursor: pointer;
+            background-color: #E4DCD3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 컨트롤 바 (PNG 저장 시 찍히지 않는 외부 영역) -->
+    <header class="max-w-7xl mx-auto mb-8 bg-white rounded-2xl p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-xl font-bold text-[#2F4A3F]">구미천연향수공방 카드뉴스 틀 (1080×1350)</h1>
+            <p class="text-sm text-gray-600 mt-1">
+                각 장의 사진을 <strong>클릭</strong>하거나 채팅창의 이미지를 <strong>마우스로 끌어다 놓으면(Drag & Drop)</strong> 내 사진으로 바로 바뀝니다.
+            </p>
+        </div>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+            <span id="status-msg" class="text-sm font-medium text-[#2F4A3F] hidden">저장 중...</span>
+            <button id="btn-save-all" onclick="downloadAllSlides()" class="w-full sm:w-auto bg-[#2F4A3F] hover:bg-[#23382f] text-white font-bold px-6 py-3 rounded-xl transition cursor-pointer">
+                6장 모두 PNG 저장
+            </button>
+        </div>
+    </header>
+
+    <!-- 카드뉴스 6장 미리보기 그리드 -->
+    <main id="slides-grid" class="max-w-7xl mx-auto flex flex-wrap gap-8 justify-center"></main>
+
+    <!-- 숨겨진 파일 업로드 입력창 -->
+    <input type="file" id="photo-input" accept="image/*" class="hidden" />
+
+    <script>
+        /* =========================================================================
+           [원고 및 가게 정보 설정] - 매주 이 SLIDES 목록의 글만 바꿔서 사용하세요.
+           ( / 는 줄바꿈, *낱말* 은 강조 밑줄)
+           ========================================================================= */
+        const SHOP_INFO = {
+            name: "구미천연향수공방",
+            location: "구미대근처 전원주택"
+        };
+
+        const SLIDES = [
+            {
+                type: "cover",
+                title: "나만의 향수, / *무엇부터* 시작할까요?",
+                image: "https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=1080&q=85",
+                sceneKey: "workshop_bottles"
+            },
+            {
+                type: "body",
+                number: "02 / 06",
+                title: "어려운 용어는 / *몰라도* 괜찮아요",
+                body: "좋아하는 계절과 장소를 / 떠올리는 것부터 시작해요.",
+                image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1080&q=85",
+                sceneKey: "window_nature"
+            },
+            {
+                type: "body",
+                number: "03 / 06",
+                title: "마음이 머문 / 풍경을 *떠올려요*",
+                body: "바다, 숲길, 비 오는 날. / 그 기억이 향의 시작이에요.",
+                image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1080&q=85",
+                sceneKey: "misty_forest"
+            },
+            {
+                type: "body",
+                number: "04 / 06",
+                title: "시향지로 하나씩 / *맡아 보며* 섞어요",
+                body: "마음에 드는 향을 모아 / 조금씩 비율을 맞춰요.",
+                image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=1080&q=85",
+                sceneKey: "scent_strips"
+            },
+            {
+                type: "body",
+                number: "05 / 06",
+                title: "엄마를 위한 / *숲속 냄새* 한 병",
+                body: "비 오는 토요일, / 서로의 향을 맡아 보며 웃던 두 분.",
+                image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1080&q=85",
+                sceneKey: "perfume_gift"
+            },
+            {
+                type: "closing",
+                title: "프로필 링크에서 / 예약 안내",
+                button: "예약 안내 보기"
+            }
+        ];
+
+        /* =========================================================================
+           원고 파싱 함수: '/'는 줄바꿈(<br>)으로, '*낱말*'은 12px 강조 밑줄로 변환
+           ========================================================================= */
+        function formatManuscript(str) {
+            if (!str) return "";
+            return str
+                .split(" / ")
+                .map(line => line.replace(/\*(.*?)\*/g, '<span class="accent-underline">$1</span>'))
+                .join("<br>");
+        }
+
+        /* =========================================================================
+           네트워크 차단 시에도 사진이 깨지지 않도록 보장하는 고해상도 캔버스 일러스트 백업
+           ========================================================================= */
+        function createFallbackSceneDataURL(sceneKey) {
+            const c = document.createElement("canvas");
+            c.width = 1080;
+            c.height = 800;
+            const ctx = c.getContext("2d");
+
+            // 배경 그라데이션
+            const grad = ctx.createLinearGradient(0, 0, 1080, 800);
+            if (sceneKey === "workshop_bottles") {
+                grad.addColorStop(0, "#D8C8B4");
+                grad.addColorStop(1, "#B59E84");
+            } else if (sceneKey === "window_nature") {
+                grad.addColorStop(0, "#CFE0D5");
+                grad.addColorStop(1, "#8FA89A");
+            } else if (sceneKey === "misty_forest") {
+                grad.addColorStop(0, "#7E998A");
+                grad.addColorStop(1, "#3E5B4E");
+            } else if (sceneKey === "scent_strips") {
+                grad.addColorStop(0, "#E2D5C4");
+                grad.addColorStop(1, "#C4B097");
+            } else {
+                grad.addColorStop(0, "#DCD4C6");
+                grad.addColorStop(1, "#A8B8AC");
+            }
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1080, 800);
+
+            // 은은한 빛 효과
+            ctx.fillStyle = "rgba(255, 250, 240, 0.28)";
+            ctx.beginPath();
+            ctx.arc(820, 180, 320, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 갈색 향수병 오브제 드로잉
+            ctx.fillStyle = "#5C3A21";
+            ctx.fillRect(460, 340, 160, 260);
+            ctx.fillStyle = "#2F241D";
+            ctx.fillRect(505, 270, 70, 70);
+            ctx.fillStyle = "#F5EFE4";
+            ctx.fillRect(480, 420, 120, 95);
+
+            return c.toDataURL("image/png");
+        }
+
+        /* =========================================================================
+           외부 이미지를 Base64 DataURL로 변환 (html2canvas 저장 시 빈 화면 방지)
+           ========================================================================= */
+        async function loadSafeImage(imgElement, url, sceneKey) {
+            try {
+                const response = await fetch(url, { mode: "cors" });
+                if (!response.ok) throw new Error("Image fetch failed");
+                const blob = await response.blob();
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    imgElement.src = reader.result;
+                };
+                reader.readAsDataURL(blob);
+            } catch (err) {
+                imgElement.src = createFallbackSceneDataURL(sceneKey);
+            }
+        }
+
+        /* =========================================================================
+           슬라이드 렌더링
+           ========================================================================= */
+        let activeSlideIndex = null;
+
+        function renderSlides() {
+            const grid = document.getElementById("slides-grid");
+            grid.innerHTML = "";
+
+            SLIDES.forEach((slide, idx) => {
+                const cardContainer = document.createElement("div");
+                cardContainer.className = "flex flex-col items-center gap-3";
+
+                // 상단 개별 컨트롤 버튼 (캡처 영역 바깥)
+                const controlBar = document.createElement("div");
+                controlBar.className = "w-full flex items-center justify-between px-1";
+
+                const labelSpan = document.createElement("span");
+                labelSpan.className = "text-sm font-bold text-[#2F4A3F]";
+                labelSpan.textContent = `${idx + 1}번 카드`;
+
+                const btnGroup = document.createElement("div");
+                btnGroup.className = "flex items-center gap-2";
+
+                if (slide.type !== "closing") {
+                    const changePhotoBtn = document.createElement("button");
+                    changePhotoBtn.className = "bg-white hover:bg-gray-100 text-[#2F4A3F] border border-gray-300 px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer";
+                    changePhotoBtn.textContent = "사진 바꾸기";
+                    changePhotoBtn.onclick = () => triggerPhotoSelect(idx);
+                    btnGroup.appendChild(changePhotoBtn);
+                }
+
+                const saveSingleBtn = document.createElement("button");
+                saveSingleBtn.className = "bg-[#2F4A3F] hover:bg-[#23382f] text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer";
+                saveSingleBtn.textContent = "PNG 저장";
+                saveSingleBtn.onclick = () => downloadSingleSlide(idx);
+                btnGroup.appendChild(saveSingleBtn);
+
+                controlBar.appendChild(labelSpan);
+                controlBar.appendChild(btnGroup);
+
+                // 미리보기 쉘 & 1080x1350 원본 슬라이드
+                const previewShell = document.createElement("div");
+                previewShell.className = "preview-shell";
+
+                const slideCanvas = document.createElement("div");
+                slideCanvas.className = "slide-canvas";
+                slideCanvas.id = `slide-canvas-${idx}`;
+
+                // 1) 표지: 위쪽 사진 + 아래 큰 제목 2줄 + 맨 아래 작은 가게 이름
+                if (slide.type === "cover") {
+                    slideCanvas.innerHTML = `
+                        <div class="photo-slot" style="height: 760px;" data-idx="${idx}">
+                            <img id="slide-img-${idx}" alt="" />
+                        </div>
+                        <div style="flex: 1; padding: 80px 90px 75px 90px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <div class="slide-title" style="margin-top: 10px;">${formatManuscript(slide.title)}</div>
+                            <div class="slide-meta" style="text-align: left;">${SHOP_INFO.name}</div>
+                        </div>
+                    `;
+                }
+                // 2) 본문: 왼쪽 위 번호(02 / 06) + 제목 2줄 + 본문 3줄 안 + 아래 사진 + 오른쪽 아래 "넘겨 보기 →"
+                else if (slide.type === "body") {
+                    slideCanvas.innerHTML = `
+                        <div style="padding: 85px 90px 75px 90px; height: 100%; display: flex; flex-direction: column; box-sizing: border-box;">
+                            <div class="slide-meta" style="text-align: left; margin-bottom: 36px;">${slide.number}</div>
+                            <div class="slide-title" style="margin-bottom: 36px;">${formatManuscript(slide.title)}</div>
+                            <div class="slide-body" style="margin-bottom: 54px;">${formatManuscript(slide.body)}</div>
+                            <div class="photo-slot" style="flex: 1; min-height: 480px;" data-idx="${idx}">
+                                <img id="slide-img-${idx}" alt="" />
+                            </div>
+                            <div class="slide-meta" style="text-align: right; margin-top: 36px;">넘겨 보기 →</div>
+                        </div>
+                    `;
+                }
+                // 3) 마무리: 행동 한 줄(2줄) + 강조색 버튼 + 가게 이름 + 위치 한 줄 (사진 없음)
+                else if (slide.type === "closing") {
+                    slideCanvas.innerHTML = `
+                        <div style="padding: 110px 90px 95px 90px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box;">
+                            <div></div>
+                            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <div class="slide-title" style="margin-bottom: 64px;">${formatManuscript(slide.title)}</div>
+                                <div style="background-color: #C9A35B; color: #F5EFE4; font-size: 42px; font-weight: 700; padding: 34px 72px; border-radius: 16px; display: inline-block;">
+                                    ${slide.button}
+                                </div>
+                            </div>
+                            <div style="text-align: left;">
+                                <div style="font-size: 36px; font-weight: 700; color: #2F4A3F; margin-bottom: 12px;">${SHOP_INFO.name}</div>
+                                <div class="slide-meta">${SHOP_INFO.location}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                previewShell.appendChild(slideCanvas);
+                cardContainer.appendChild(controlBar);
+                cardContainer.appendChild(previewShell);
+                grid.appendChild(cardContainer);
+
+                // 사진이 있는 장은 이미지 로드 및 클릭/드래그앤드롭 이벤트 연결
+                if (slide.type !== "closing") {
+                    const imgEl = slideCanvas.querySelector(`#slide-img-${idx}`);
+                    loadSafeImage(imgEl, slide.image, slide.sceneKey);
+
+                    const slotEl = slideCanvas.querySelector(".photo-slot");
+                    slotEl.addEventListener("click", () => triggerPhotoSelect(idx));
+
+                    // 드래그 앤 드롭으로 사진 즉시 교체 지원
+                    slotEl.addEventListener("dragover", (e) => {
+                        e.preventDefault();
+                        slotEl.style.opacity = "0.75";
+                    });
+                    slotEl.addEventListener("dragleave", () => {
+                        slotEl.style.opacity = "1";
+                    });
+                    slotEl.addEventListener("drop", (e) => {
+                        e.preventDefault();
+                        slotEl.style.opacity = "1";
+                        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                            applyUserPhotoFile(idx, e.dataTransfer.files[0]);
+                        }
+                    });
+                }
+            });
+        }
+
+        /* =========================================================================
+           사용자 사진 교체 기능 (클릭 & 드래그앤드롭)
+           ========================================================================= */
+        function triggerPhotoSelect(index) {
+            activeSlideIndex = index;
+            const input = document.getElementById("photo-input");
+            input.value = "";
+            input.click();
+        }
+
+        function applyUserPhotoFile(index, file) {
+            if (!file || !file.type.startsWith("image/")) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const imgEl = document.getElementById(`slide-img-${index}`);
+                if (imgEl) {
+                    imgEl.src = ev.target.result;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.getElementById("photo-input").addEventListener("change", (e) => {
+            if (e.target.files && e.target.files[0] && activeSlideIndex !== null) {
+                applyUserPhotoFile(activeSlideIndex, e.target.files[0]);
+            }
+        });
+
+        /* =========================================================================
+           PNG 저장 기능 (원본 1080×1350 해상도, 그림자/테두리/버튼 제외)
+           ========================================================================= */
+        async function downloadSingleSlide(index) {
+            const statusEl = document.getElementById("status-msg");
+            statusEl.textContent = `${index + 1}번 장 PNG 생성 중...`;
+            statusEl.classList.remove("hidden");
+
+            const sourceNode = document.getElementById(`slide-canvas-${index}`);
+
+            // 화면 깜빡임 없이 정밀한 1080x1350 캡처를 위해 오프스크린 복제본 생성
+            const cloneHolder = document.createElement("div");
+            cloneHolder.style.position = "fixed";
+            cloneHolder.style.left = "-99999px";
+            cloneHolder.style.top = "0";
+            cloneHolder.style.width = "1080px";
+            cloneHolder.style.height = "1350px";
+            cloneHolder.style.overflow = "hidden";
+            cloneHolder.style.zIndex = "-1";
+
+            const cloneNode = sourceNode.cloneNode(true);
+            cloneNode.style.transform = "none";
+            cloneNode.style.position = "relative";
+            cloneNode.style.width = "1080px";
+            cloneNode.style.height = "1350px";
+            cloneNode.style.boxShadow = "none";
+            cloneNode.style.border = "none";
+            cloneNode.style.backgroundColor = "#F5EFE4";
+
+            cloneHolder.appendChild(cloneNode);
+            document.body.appendChild(cloneHolder);
+
+            // 폰트 및 이미지 렌더링 안정화 대기
+            await document.fonts.ready;
+            await new Promise(r => setTimeout(r, 150));
+
+            try {
+                const canvas = await html2canvas(cloneNode, {
+                    width: 1080,
+                    height: 1350,
+                    scale: 1,
+                    backgroundColor: "#F5EFE4",
+                    useCORS: true,
+                    allowTaint: false,
+                    logging: false
+                });
+
+                const link = document.createElement("a");
+                const numStr = String(index + 1).padStart(2, "0");
+                link.download = `구미천연향수공방_카드뉴스_${numStr}.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            } finally {
+                document.body.removeChild(cloneHolder);
+                statusEl.classList.add("hidden");
+            }
+        }
+
+        async function downloadAllSlides() {
+            const btn = document.getElementById("btn-save-all");
+            btn.disabled = true;
+            btn.style.opacity = "0.6";
+
+            for (let i = 0; i < SLIDES.length; i++) {
+                await downloadSingleSlide(i);
+                await new Promise(r => setTimeout(r, 450));
+            }
+
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }
+
+        // 초기 실행
+        renderSlides();
+    </script>
+</body>
+</html>

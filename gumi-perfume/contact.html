@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문의 &amp; 오시는 길 (Contact &amp; Location) | 구미 천연 향수 공방</title>
+  <meta name="description" content="구미 전원주택 천연 향수 공방 오시는 길, 초행길 진입로 사진 안내, 전용 주차장, 대중교통 안내, FAQ 및 1:1 상담.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="top-banner">
+    🚗 전원주택 앞 마당 전용 주차 4대 가능 · 내비게이션에 ‘구미 천연향수공방’을 검색해 주세요!
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-logo-main">🌿 구미 천연향수공방</span>
+        <span class="brand-logo-sub">Gumi Natural Perfume Atelier</span>
+      </a>
+
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html" class="nav-link">홈 (Home)</a>
+        <a href="about.html" class="nav-link">공방 소개</a>
+        <a href="class.html" class="nav-link">클래스 &amp; 예약</a>
+        <a href="shop.html" class="nav-link">온라인 숍</a>
+        <a href="reviews.html" class="nav-link">갤러리 &amp; 후기</a>
+        <a href="contact.html" class="nav-link active">문의 &amp; 오시는 길</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="admin.html" class="cart-btn" style="border-style:dashed; font-size:0.82rem;" title="공방 관리자 센터 바로가기">
+          🔐 관리자
+        </a>
+        <button class="cart-btn" onclick="openCartModal()">
+          🛍️ 장바구니 <span class="cart-badge">0</span>
+        </button>
+        <a href="class.html#booking-section" class="btn btn-primary btn-sm">클래스 예약</a>
+        <button class="mobile-menu-btn" id="mobile-menu-toggle">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-badge">Location, FAQ &amp; Direct Contact</span>
+      <h1>문의 &amp; 오시는 길</h1>
+      <p>초행길에도 편안하게 찾아오실 수 있도록 전원주택 골목 진입로와 주차 공간, 1:1 상담 채널을 안내해 드립니다.</p>
+    </div>
+  </section>
+
+  <!-- 1. 위치 안내 & 원클릭 내비게이션 바로가기 -->
+  <section class="section" id="map-guide">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Map &amp; Quick Navigation</span>
+        <h2 class="section-title">공방 위치 및 원클릭 길안내</h2>
+        <p class="section-desc">모바일에서 아래 버튼을 누르시면 자주 쓰시는 지도 앱으로 즉시 길안내가 시작됩니다.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:36px; align-items:stretch;">
+        <!-- 약도 그래픽 박스 -->
+        <div style="background:linear-gradient(145deg, #EBF0ED, #F6F2EA); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; display:flex; flex-direction:column; justify-content:space-between; min-height:360px; position:relative;">
+          <div>
+            <span class="mood-tag" style="background:var(--primary); color:#fff; padding:5px 12px;">GUMI GARDEN ATELIER MAP</span>
+            <h3 style="font-size:1.45rem; color:var(--primary-dark); margin:14px 0 8px;">경북 구미시 금오산로 전원길 (수점동 전원주택 단지)</h3>
+            <p style="font-size:0.92rem; color:var(--text-muted);">금오산 대주차장 회전교차로에서 차량 3분 거리 · 조용한 숲길 초입 2층 화이트&amp;우드 전원주택</p>
+          </div>
+
+          <!-- 시각적 약도 다이어그램 -->
+          <div style="background:#fff; border:1px dashed var(--primary); border-radius:12px; padding:22px; margin:20px 0; text-align:center;">
+            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;">[구미역 / 구미IC 방면] &rarr; 금오산 사거리 &rarr; 수점동 전원마을 입구</div>
+            <div style="display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; font-weight:700; color:var(--primary-dark);">
+              <span style="background:var(--bg-alt); padding:8px 14px; border-radius:8px;">회전교차로 우회전</span>
+              <span>&rarr;</span>
+              <span style="background:var(--bg-alt); padding:8px 14px; border-radius:8px;">소나무길 150m 직진</span>
+              <span>&rarr;</span>
+              <span style="background:var(--primary); color:#fff; padding:10px 16px; border-radius:8px;">🌿 구미 천연향수공방 (우측 정원집)</span>
+            </div>
+          </div>
+
+          <!-- 원클릭 길안내 버튼 3종 -->
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
+            <button type="button" class="btn btn-primary btn-sm" style="background:#03C75A;" onclick="showToast('네이버 지도 길찾기로 연결합니다.')">
+              🟢 네이버 지도 바로가기
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" style="background:#FF5B28;" onclick="showToast('티맵(T-map) 내비게이션 안내를 시작합니다.')">
+              🧭 티맵(T-map) 안내
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" style="background:#FEE500; border-color:#E5CE00; color:#3C1E1E;" onclick="showToast('카카오맵 위치 안내로 연결합니다.')">
+              🟡 카카오맵 바로가기
+            </button>
+          </div>
+        </div>
+
+        <!-- 자차 및 대중교통 상세 안내 -->
+        <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; display:flex; flex-direction:column; gap:20px;">
+          <div>
+            <h3 style="font-size:1.25rem; color:var(--primary-dark); margin-bottom:8px;">🚗 자차 이용 및 인근 지역 소요시간</h3>
+            <ul style="font-size:0.93rem; color:var(--text-muted); display:flex; flex-direction:column; gap:6px;">
+              <li>• <strong>구미역 / 금리단길(각산동):</strong> 차량 약 8~10분 소요</li>
+              <li>• <strong>경부고속도로 구미IC:</strong> 차량 약 12분 소요</li>
+              <li>• <strong>김천 혁신도시 / 칠곡 왜관:</strong> 차량 약 25분 소요</li>
+              <li>• <strong>대구 시내 / 수성구 방면:</strong> 차량 약 35~40분 소요</li>
+            </ul>
+          </div>
+
+          <div style="border-top:1px solid var(--border-light); padding-top:16px;">
+            <h3 style="font-size:1.25rem; color:var(--primary-dark); margin-bottom:8px;">🅿️ 전용 주차장 안내</h3>
+            <p style="font-size:0.93rem; color:var(--text-muted);">
+              전원주택 대문 앞 <strong>전용 주차 공간에 최대 4대까지 여유 있게 주차</strong>하실 수 있습니다. 단체 워크숍 방문 시 도보 1분 거리의 마을 무료 공영주차장을 함께 안내해 드립니다.
+            </p>
+          </div>
+
+          <div style="border-top:1px solid var(--border-light); padding-top:16px;">
+            <h3 style="font-size:1.25rem; color:var(--primary-dark); margin-bottom:8px;">🚌 대중교통 이용 안내</h3>
+            <p style="font-size:0.93rem; color:var(--text-muted);">
+              • <strong>버스:</strong> 구미역 광장 정류장에서 27번, 52번 시내버스 탑승 &rarr; ‘수점동 전원마을 입구’ 하차 후 정원 산책로 따라 도보 4분<br>
+              • <strong>택시:</strong> 구미역 또는 구미종합터미널에서 기본요금~5,000원대 거리입니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 초행길 방문자를 위한 골목 진입로 & 주차 사진 가이드 -->
+  <section class="section section-alt" id="entry-photo-guide">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Step-by-Step Roadview Guide</span>
+        <h2 class="section-title">초행길 방문자를 위한 골목 진입로 사진 안내</h2>
+        <p class="section-desc">전원주택 단지 특성상 처음 오시는 분들도 헤매지 않으시도록 진입 순서를 사진으로 안내해 드립니다.</p>
+      </div>
+
+      <div class="usp-grid">
+        <div class="class-card">
+          <div class="class-card-img" style="height:210px;">
+            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80" alt="전원마을 입구 표지판">
+            <span class="class-badge">Step 01 · 마을 초입 진입</span>
+          </div>
+          <div class="class-card-body">
+            <h3 class="class-card-title" style="font-size:1.15rem;">1. 전원마을 소나무 표지석 우회전</h3>
+            <p class="class-card-desc">금오산로 대로변에서 ‘수점 전원마을’ 나무 이정표가 보이는 완만한 오르막길로 우회전하여 진입합니다.</p>
+          </div>
+        </div>
+
+        <div class="class-card">
+          <div class="class-card-img" style="height:210px;">
+            <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80" alt="우드 게이트와 초록 대문">
+            <span class="class-badge">Step 02 · 공방 정원 대문</span>
+          </div>
+          <div class="class-card-body">
+            <h3 class="class-card-title" style="font-size:1.15rem;">2. 150m 직진 후 우측 초록 지붕 전원주택</h3>
+            <p class="class-card-desc">길 끝 우측에 포레스트 그린 색상의 우드 입간판(`Gumi Scent Atelier`)과 사계절 정원이 보입니다.</p>
+          </div>
+        </div>
+
+        <div class="class-card">
+          <div class="class-card-img" style="height:210px;">
+            <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80" alt="마당 전용 주차장 및 입구">
+            <span class="class-badge">Step 03 · 전용 주차 후 입장</span>
+          </div>
+          <div class="class-card-body">
+            <h3 class="class-card-title" style="font-size:1.15rem;">3. 마당 앞 주차 후 정원 데크로 입장</h3>
+            <p class="class-card-desc">대문 앞 전용 주차선에 주차하신 뒤, 돌담길을 따라 1층 햇살 조향실 테라스로 들어오시면 됩니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 자주 묻는 질문 (FAQ) -->
+  <section class="section" id="faq-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Frequently Asked Questions</span>
+        <h2 class="section-title">자주 묻는 질문 (FAQ)</h2>
+        <p class="section-desc">수강생과 구매 고객분들께서 가장 많이 물어보시는 질문들을 모았습니다.</p>
+      </div>
+
+      <div class="accordion-list">
+        <div class="accordion-item open">
+          <button class="accordion-header" type="button">
+            <span>Q. 천연 향수가 처음인데, 향을 잘 모르는 초보자나 남성분도 참여하기 괜찮을까요?</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body" style="max-height:200px;">
+            <div class="accordion-content">
+              물론입니다! 방문하시는 수강생의 80% 이상이 조향을 처음 경험하시는 분들이며, 커플 데이트로 오시는 남성분들도 우디·시트러스·허브 계열 향료를 시향하며 무척 즐거워하십니다. 조향사가 1:1로 난이도에 맞춰 친절하게 리드해 드립니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span>Q. 임산부나 두통이 심한 사람도 천연 향수 클래스를 들을 수 있나요?</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              저희 공방은 합성 향료를 전혀 쓰지 않고 100% 식물성 에센셜 오일만 사용하므로 평소 인공향에 두통을 느끼셨던 분들에게 특히 추천드립니다. 임산부 고객님의 경우 예약 시 미리 말씀해 주시면 임신 주수에 맞춰 안전하게 사용할 수 있는 부드러운 시트러스·플로럴 오일 위주로 세팅해 드립니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span>Q. 클래스에서 만든 향수는 당일에 바로 가져갈 수 있나요?</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              네, 클래스 당일 50ml 본품 보틀에 커스텀 라벨링과 친환경 패키지 포장까지 모두 마쳐 바로 가져가실 수 있습니다. 당일 바로 시향도 가능하며, 집에서 약 1~2주간 서늘한 곳에 숙성하시면 알코올 기운이 날아가고 더욱 깊은 본연의 향이 완성됩니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span>Q. 기업 워크숍 출강이나 학교 교직원 단체 대관은 몇 명부터 가능한가요?</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              공방 단독 대관 워크숍은 <strong>최소 6인 ~ 최대 16인</strong>까지 가능하며, 기업·학교·관공서 외부 출강은 <strong>최소 10인 ~ 최대 100인 이상</strong>까지 규모와 예산에 맞춰 진행합니다. 아래 1:1 문의 폼으로 희망 일자와 인원을 남겨주시면 당일 내로 상세 견적서와 프로그램 제안서를 보내드립니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 1:1 상담 & 기업/단체 견적 요청 섹션 -->
+  <section class="section section-alt" id="consult-section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:40px; align-items:start;">
+        <div>
+          <span class="section-subtitle">1:1 Direct Consultation</span>
+          <h2 class="section-title" style="font-size:2rem;">빠른 상담 채널 &amp; 단체 견적 문의</h2>
+          <p style="color:var(--text-muted); margin-bottom:24px;">
+            실시간 채팅 상담을 원하시면 <strong>네이버 톡톡</strong> 또는 <strong>카카오톡 채널</strong> 버튼을 눌러주세요. 클래스 진행 시간을 제외하고 가장 빠르게 답변해 드립니다.
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:28px;">
+            <button type="button" class="btn" style="background:#03C75A; color:#fff; justify-content:flex-start; padding:16px 22px;" onclick="showToast('네이버 톡톡 1:1 상담창을 실행합니다.')">
+              🟢 네이버 톡톡으로 실시간 1:1 문의하기 (평균 10분 내 답변)
+            </button>
+            <button type="button" class="btn" style="background:#FEE500; color:#3C1E1E; justify-content:flex-start; padding:16px 22px;" onclick="showToast('카카오톡 채널 @구미천연향수공방 상담창을 실행합니다.')">
+              💬 카카오톡 채널 (@구미천연향수공방) 상담하기
+            </button>
+          </div>
+
+          <div style="background:var(--card-bg); padding:22px; border-radius:var(--radius-md); border:1px solid var(--border);">
+            <h4 style="color:var(--primary-dark); margin-bottom:8px;">📞 유선 및 이메일 안내</h4>
+            <p style="font-size:0.92rem; color:var(--text-muted);">
+              • 대표 번호: <strong>054-456-7890</strong><br>
+              • 출강/제휴 이메일: <strong>atelier@gumiscent.kr</strong><br>
+              • 운영 시간: 화~일 10:30 - 20:00 (매주 월요일 정기 휴무)
+            </p>
+          </div>
+        </div>
+
+        <!-- 기업/단체 및 일반 문의 폼 -->
+        <form id="inquiryForm" class="booking-form-panel" style="background:var(--card-bg); box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:12px;">
+          <h3 style="font-size:1.35rem; color:var(--primary-dark); margin-bottom:4px;">온라인 문의 &amp; 단체 견적 요청서</h3>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>단체/기업명 (필수)</label>
+              <input type="text" name="companyName" class="form-control" placeholder="예: 구미00기업" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>담당자 성함 (필수)</label>
+              <input type="text" name="managerName" class="form-control" placeholder="예: 김담당" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>연락처 (필수)</label>
+              <input type="text" name="phone" class="form-control" placeholder="010-0000-0000" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>이메일 (필수)</label>
+              <input type="email" name="email" class="form-control" placeholder="example@company.com" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label>문의 유형 (필수)</label>
+            <div style="display:flex; gap:20px; align-items:center; padding:8px 0;">
+              <label style="display:inline-flex; align-items:center; gap:6px; font-weight:500; cursor:pointer; margin:0;">
+                <input type="radio" name="type" value="출강" required> 출강
+              </label>
+              <label style="display:inline-flex; align-items:center; gap:6px; font-weight:500; cursor:pointer; margin:0;">
+                <input type="radio" name="type" value="단체주문" required> 단체주문
+              </label>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>희망 날짜 (필수)</label>
+              <input type="date" name="date" class="form-control" required>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label>참석 인원/수량 (필수)</label>
+              <input type="number" name="peopleCount" class="form-control" min="1" placeholder="예: 20" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label>1인당 예산 (선택)</label>
+            <input type="text" name="budget" class="form-control" placeholder="예: 30,000원 ~ 50,000원">
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label>추가 문의 (선택)</label>
+            <textarea name="memo" rows="4" class="form-control" placeholder="희망 시간대나 기타 요청사항을 자유롭게 적어주세요."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%; padding:12px; margin-top:6px;">문의하기</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 플로팅 상담 -->
+  <div class="floating-consult">
+    <a href="#consult-section" class="float-btn float-naver"><span>N</span> 네이버 톡톡 문의</a>
+    <a href="#consult-section" class="float-btn float-kakao"><span>💬</span> 카톡 채널 상담</a>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">🌿 구미 천연향수공방</div>
+          <p style="margin-bottom:14px;">도심을 벗어나 자연 속에서 나만의 숨결을 조향하는 힐링 아틀리에.</p>
+          <p style="font-size:0.82rem; color:rgba(253,251,247,0.6);">경북 구미시 금오산로 전원길 | 대표 조향사: 김아로마</p>
+        </div>
+        <div>
+          <div class="footer-title">메뉴 바로가기</div>
+          <ul class="footer-links">
+            <li><a href="about.html">공방 소개</a></li>
+            <li><a href="class.html">클래스 안내 &amp; 예약</a></li>
+            <li><a href="shop.html">온라인 숍</a></li>
+            <li><a href="reviews.html">갤러리 &amp; 후기</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">고객 지원</div>
+          <ul class="footer-links">
+            <li><a href="#entry-photo-guide">전원주택 진입로 안내</a></li>
+            <li><a href="#faq-section">자주 묻는 질문 (FAQ)</a></li>
+            <li><a href="class.html#policy-section">취소 및 환불 규정</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">예약 &amp; 상담 센터</div>
+          <p style="font-family:var(--font-serif); font-size:1.35rem; color:var(--secondary-light); font-weight:700;">054-456-7890</p>
+          <p style="font-size:0.84rem;">화~일 10:30 - 20:00 (월요일 휴무)</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Gumi Natural Perfume Atelier. All rights reserved.</span>
+        <span>이용약관 | 개인정보처리방침</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyy5joM8bWFkeaCjMacC4dVANIIJB-CiI0hLQVc3ACHEzMPKLb81FKYoBvrRRTRLobp/exec';
+    const form = document.getElementById('inquiryForm');
+
+    if (form) {
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.textContent = '전송 중...';
+        submitButton.disabled = true;
+
+        const data = Object.fromEntries(new FormData(form).entries());
+
+        fetch(scriptURL, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+        })
+        .then(() => {
+          alert('문의가 성공적으로 접수되었습니다. 24시간 내에 연락드리겠습니다.');
+          form.reset();
+        })
+        .catch(error => {
+          alert('접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+          console.error('Error!', error.message);
+        })
+        .finally(() => {
+          submitButton.textContent = '문의하기';
+          submitButton.disabled = false;
+        });
+      });
+    }
+  </script>
+</body>
+</html>

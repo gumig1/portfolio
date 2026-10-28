@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>클래스 안내 &amp; 실시간 예약 (Class &amp; Booking) | 구미 천연 향수 공방</title>
+  <meta name="description" content="구미 천연 향수 원데이 클래스, 아로마 룸스프레이 & 디퓨저 클래스, 전문가 과정 및 기업 워크숍 출강 안내. 실시간 잔여석 캘린더 예약.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="top-banner">
+    🌿 1타임 최대 6인 소규모 프라이빗 운영 · 당일 예약은 네이버 톡톡 또는 유선(054-456-7890)으로 문의해 주세요.
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-logo-main">🌿 구미 천연향수공방</span>
+        <span class="brand-logo-sub">Gumi Natural Perfume Atelier</span>
+      </a>
+
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html" class="nav-link">홈 (Home)</a>
+        <a href="about.html" class="nav-link">공방 소개</a>
+        <a href="class.html" class="nav-link active">클래스 &amp; 예약</a>
+        <a href="shop.html" class="nav-link">온라인 숍</a>
+        <a href="reviews.html" class="nav-link">갤러리 &amp; 후기</a>
+        <a href="contact.html" class="nav-link">문의 &amp; 오시는 길</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="admin.html" class="cart-btn" style="border-style:dashed; font-size:0.82rem;" title="공방 관리자 센터 바로가기">
+          🔐 관리자
+        </a>
+        <button class="cart-btn" onclick="openCartModal()">
+          🛍️ 장바구니 <span class="cart-badge">0</span>
+        </button>
+        <a href="#booking-section" class="btn btn-primary btn-sm">실시간 예약</a>
+        <button class="mobile-menu-btn" id="mobile-menu-toggle">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-badge">Bespoke Scent Class &amp; Booking</span>
+      <h1>클래스 안내 &amp; 실시간 예약</h1>
+      <p>4단계 전문 조향 프로세스를 통해 세상에 단 하나뿐인 나만의 천연 향기를 완성해 보세요.</p>
+    </div>
+  </section>
+
+  <!-- 1. 조향 프로세스 인포그래픽 (Step 1 ~ 4) -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">4-Step Perfumery Process</span>
+        <h2 class="section-title">나만의 향기가 탄생하는 4단계 여정</h2>
+        <p class="section-desc">초보자도 조향사의 1:1 가이드에 따라 쉽고 깊이 있게 나만의 향수 포뮬러를 완성할 수 있습니다.</p>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="process-num">01</div>
+          <div class="process-en">Step 1 · Olfaction</div>
+          <h3 class="process-title">후각 깨우기 &amp; 시향</h3>
+          <p class="process-desc">
+            정원 허브티로 감각을 이완한 뒤, 40여 종의 Top·Middle·Base 천연 에센셜 오일을 시향하며 선호하는 향조와 아로마 효능을 탐색합니다.
+          </p>
+        </div>
+
+        <div class="process-step">
+          <div class="process-num">02</div>
+          <div class="process-en">Step 2 · Note Formula</div>
+          <h3 class="process-title">조향 차트 설계</h3>
+          <p class="process-desc">
+            내가 선택한 향료들의 휘발 속도와 발향 밸런스를 고려해 조향사와 함께 황금 비율의 레시피(Formula) 차트를 설계합니다.
+          </p>
+        </div>
+
+        <div class="process-step">
+          <div class="process-num">03</div>
+          <div class="process-en">Step 3 · Blending</div>
+          <h3 class="process-title">포뮬러 테스트 &amp; 조율</h3>
+          <p class="process-desc">
+            1차 샘플 블렌딩 후 피부 및 시향지 발향을 확인하고, 원하는 무드에 맞게 방울 단위로 세밀하게 향의 농도와 잔향을 조율합니다.
+          </p>
+        </div>
+
+        <div class="process-step">
+          <div class="process-num">04</div>
+          <div class="process-en">Step 4 · Final Work</div>
+          <h3 class="process-title">본품 완성 &amp; 커스텀 라벨링</h3>
+          <p class="process-desc">
+            나만의 향수 이름과 조향 일자를 적은 커스텀 라벨을 부착하고, 정원 포토존에서 기념 촬영 후 친환경 패키지에 담아갑니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 전체 클래스 라인업 (4종) -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Curriculum &amp; Programs</span>
+        <h2 class="section-title">프로그램별 상세 커리큘럼</h2>
+        <p class="section-desc">원데이 체험부터 심화 취미반, 기업·교직원 단체 힐링 워크숍까지 맞춤 운영합니다.</p>
+      </div>
+
+      <div class="class-grid-2">
+        <!-- 프로그램 1 -->
+        <article class="class-card">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1709666414115-47ecd5143293?auto=format&fit=crop&w=1000&q=80" alt="나만의 시그니처 향수 원데이 클래스">
+            <span class="class-badge">01 · 원데이 시그니처</span>
+          </div>
+          <div class="class-card-body">
+            <div class="class-meta">
+              <span>⏱ 90분 소요</span>
+              <span>🧴 오드퍼퓸 50ml 완성</span>
+              <span>👥 1~6인 프라이빗</span>
+            </div>
+            <h3 class="class-card-title">나만의 시그니처 천연 향수 만들기</h3>
+            <p class="class-card-desc">
+              가장 인기 있는 대표 원데이 클래스입니다. 조향 오르간 앞에서의 1:1 시향부터 커스텀 라벨링까지 포함되며, 완성된 포뮬러 차트는 공방에 보관되어 추후 동일 향 재주문(리필 할인)도 가능합니다.
+            </p>
+            <div class="class-card-footer">
+              <div class="class-price">55,000원 <span>/ 1인 (30ml 선택 시 45,000원)</span></div>
+              <a href="#booking-section" class="btn btn-primary btn-sm">이 클래스 선택</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 프로그램 2 -->
+        <article class="class-card">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=1000&q=80" alt="아로마 힐링 룸스프레이 & 디퓨저 클래스">
+            <span class="class-badge" style="background:var(--secondary-dark);">02 · 홈 프래그런스</span>
+          </div>
+          <div class="class-card-body">
+            <div class="class-meta">
+              <span>⏱ 70분 소요</span>
+              <span>🧴 룸스프레이 100ml 또는 디퓨저 150ml</span>
+              <span>🎁 휴대용 15ml 증정</span>
+            </div>
+            <h3 class="class-card-title">아로마 힐링 룸스프레이 &amp; 디퓨저 클래스</h3>
+            <p class="class-card-desc">
+              숙면 유도, 집중력 향상, 반려동물 친화 향기 등 일상 공간의 목적에 맞춘 아로마테라피 블렌딩 클래스입니다. 집들이 선물이나 부모님 선물용으로도 만족도가 높습니다.
+            </p>
+            <div class="class-card-footer">
+              <div class="class-price">42,000원 <span>/ 1인 (듀오 제작 시 75,000원)</span></div>
+              <a href="#booking-section" class="btn btn-primary btn-sm">이 클래스 선택</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 프로그램 3 -->
+        <article class="class-card">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=1000&q=80" alt="전문가 및 심화 취미 클래스">
+            <span class="class-badge">03 · 심화 취미 / 전문가 과정</span>
+          </div>
+          <div class="class-card-body">
+            <div class="class-meta">
+              <span>⏱ 주 1회 · 총 4주 (회당 120분)</span>
+              <span>📜 수료증 발급</span>
+              <span>👤 1:1 또는 2:1 밀착 지도</span>
+            </div>
+            <h3 class="class-card-title">보태니컬 천연 조향 심화 과정 (4주 코스)</h3>
+            <p class="class-card-desc">
+              시트러스·플로럴·우디·오리엔탈 4대 향조의 천연 어코드 구조와 숙성 학문을 깊이 있게 다루며, 4주 동안 총 4가지 테마의 천연 향수와 인센스/롤온을 직접 처방합니다.
+            </p>
+            <div class="class-card-footer">
+              <div class="class-price">280,000원 <span>/ 4회 재료비 전액 포함</span></div>
+              <a href="#booking-section" class="btn btn-outline btn-sm">일정 상담 신청</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 프로그램 4 -->
+        <article class="class-card">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1000&q=80" alt="기업 출강 및 단체 대관">
+            <span class="class-badge" style="background:#516F63;">04 · 기업 출강 / 단체 대관</span>
+          </div>
+          <div class="class-card-body">
+            <div class="class-meta">
+              <span>⏱ 60~90분 맞춤 구성</span>
+              <span>👥 공방 대관 7~16인 / 외부 출강 10~100인</span>
+            </div>
+            <h3 class="class-card-title">기업 워크숍 · 교직원 연수 · 프라이빗 대관</h3>
+            <p class="class-card-desc">
+              구미 국가산단 기업 팀빌딩, 학교 교직원 힐링 연수, 공공기관 문화 행사용 맞춤 프로그램입니다. 전원주택 전체 단독 대관 또는 원하시는 장소로 전문 조향 키트를 갖추어 출강합니다.
+            </p>
+            <div class="class-card-footer">
+              <div class="class-price">맞춤 견적 <span>/ 세금계산서·카드결제 지원</span></div>
+              <a href="contact.html#consult-section" class="btn btn-secondary btn-sm">단체 견적 요청</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 실시간 예약 캘린더 위젯 -->
+  <section class="section" id="booking-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Real-time Calendar Booking</span>
+        <h2 class="section-title">실시간 클래스 예약 캘린더</h2>
+        <p class="section-desc">
+          원하시는 날짜와 타임을 선택하면 잔여 좌석(타임당 최대 6석)을 즉시 확인하고 예약할 수 있습니다.
+        </p>
+      </div>
+
+      <div class="booking-container">
+        <!-- 좌측: 캘린더 및 타임 선택 -->
+        <div>
+          <div class="calendar-header">
+            <button type="button" class="calendar-nav-btn" id="cal-prev-btn" aria-label="이전 달">&larr;</button>
+            <h3 class="calendar-month-title" id="calendar-month-label">2026년 10월</h3>
+            <button type="button" class="calendar-nav-btn" id="cal-next-btn" aria-label="다음 달">&rarr;</button>
+          </div>
+
+          <div class="calendar-weekdays">
+            <div style="color:#C95B4C;">일</div>
+            <div>월(휴무)</div>
+            <div>화</div>
+            <div>수</div>
+            <div>목</div>
+            <div>금</div>
+            <div style="color:#3B5249;">토</div>
+          </div>
+
+          <div class="calendar-days" id="calendar-days">
+            <!-- JS에 의해 렌더링 -->
+          </div>
+
+          <div style="margin-top:26px;">
+            <h4 style="font-size:0.95rem; color:var(--primary-dark); margin-bottom:6px;">
+              🕒 예약 가능 시간대 선택 <span style="font-weight:400; font-size:0.82rem; color:var(--text-muted);">(1타임 최대 6인 프라이빗 운영)</span>
+            </h4>
+            <div class="timeslot-grid" id="timeslot-list">
+              <!-- JS에 의해 렌더링 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 우측: 클래스 & 인원 선택 및 예약 신청 -->
+        <form class="booking-form-panel" id="realtime-booking-form">
+          <h3 style="font-size:1.3rem; color:var(--primary-dark);">예약 옵션 선택</h3>
+
+          <div class="form-group">
+            <label for="booking-class-select">클래스 선택</label>
+            <select id="booking-class-select" class="form-control">
+              <option value="나만의 시그니처 향수 50ml|55000">나만의 시그니처 천연 향수 50ml (55,000원/1인)</option>
+              <option value="나만의 시그니처 향수 30ml|45000">나만의 시그니처 천연 향수 30ml (45,000원/1인)</option>
+              <option value="아로마 힐링 룸스프레이 100ml|42000">아로마 힐링 룸스프레이 100ml (42,000원/1인)</option>
+              <option value="천연 우드 디퓨저 150ml|50000">천연 우드 리드 디퓨저 150ml (50,000원/1인)</option>
+              <option value="심화 취미 4주 정규반 (1회차)|280000">보태니컬 조향 심화 4주 과정 (280,000원/1인)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="booking-count-select">참여 인원 (최소 1인 ~ 최대 6인)</label>
+            <select id="booking-count-select" class="form-control">
+              <option value="1">1명 (1:1 단독 집중 클래스)</option>
+              <option value="2" selected>2명 (커플 / 친구 추천 · 롤온 증정)</option>
+              <option value="3">3명 (소그룹 힐링 모임)</option>
+              <option value="4">4명 (프라이빗 테이블)</option>
+              <option value="5">5명 (프라이빗 단독 타임)</option>
+              <option value="6">6명 (프라이빗 단독 타임 최대 정원)</option>
+            </select>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label for="booking-guest-name">예약자 성함</label>
+              <input type="text" id="booking-guest-name" class="form-control" placeholder="홍길동" required>
+            </div>
+            <div class="form-group">
+              <label for="booking-guest-phone">연락처 (알림톡 수신)</label>
+              <input type="tel" id="booking-guest-phone" class="form-control" placeholder="010-1234-5678" required>
+            </div>
+          </div>
+
+          <div class="booking-summary-box">
+            <div class="booking-summary-row">
+              <span>선택 일시</span>
+              <strong id="summary-date">2026.10.24 (14:00)</strong>
+            </div>
+            <div class="booking-summary-row">
+              <span>프로그램</span>
+              <span id="summary-class">나만의 시그니처 향수 50ml</span>
+            </div>
+            <div class="booking-summary-row">
+              <span>예약 인원</span>
+              <span id="summary-count">2명 (프라이빗 테이블)</span>
+            </div>
+            <div class="booking-summary-total">
+              <span>총 결제 예정 금액</span>
+              <span id="summary-total">110,000원</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;">실시간 예약 신청 &amp; 알림톡 받기</button>
+          <button type="button" class="btn btn-outline" style="width:100%; border-color:#03C75A; color:#029e47;" onclick="showToast('네이버 스마트플레이스 예약 연동 창으로 이동합니다.')">
+            🟢 네이버 예약(N Pay)으로 바로 결제하기
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 클래스 정책 고지 (아코디언 UI) -->
+  <section class="section section-alt" id="policy-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Class Policy &amp; Notice</span>
+        <h2 class="section-title">예약 전 꼭 확인해 주세요</h2>
+        <p class="section-desc">쾌적하고 집중도 높은 조향 클래스를 위해 아래 안내 사항을 운영하고 있습니다.</p>
+      </div>
+
+      <div class="accordion-list">
+        <div class="accordion-item open">
+          <button class="accordion-header" type="button">
+            <span>1. 예약 취소 및 날짜 변경 / 환불 기준 안내</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body" style="max-height:240px;">
+            <div class="accordion-content">
+              <ul style="list-style:disc; padding-left:20px; display:flex; flex-direction:column; gap:6px;">
+                <li>클래스 <strong>3일 전까지:</strong> 100% 전액 환불 또는 날짜/시간 1회 무료 변경 가능</li>
+                <li>클래스 <strong>2일 전 ~ 1일 전:</strong> 결제 금액의 50% 환불 (천연 원료 소분 및 좌석 세팅 준비)</li>
+                <li>클래스 <strong>당일 취소 및 노쇼(No-Show):</strong> 환불 및 일정 변경 불가 (단, 지인 양도는 가능)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span>2. 지각 시 유의사항 및 도착 시간 안내</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              원활한 시향과 정원 웰컴 티타임을 위해 <strong>수업 시작 10분 전 도착</strong>을 권장드립니다. 다음 타임 예약 고객을 위해 수업 시작 후 <strong>20분 이상 지각 시</strong> 시향 가짓수가 일부 축소될 수 있으며, 30분 이상 연락 없이 지연될 경우 자동 노쇼 처리됩니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span>3. 미참여 동반자, 어린이 및 반려견 동반 규정</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              조향실 내부에는 고농축 천연 에센셜 오일과 유리 비커 등 정밀 도구가 비치되어 있어 <strong>미참여 인원의 조향실 내부 대기는 정중히 제한</strong>하고 있습니다(정원 테라스 대기는 가능).<br>
+              또한 강아지·고양이 등 반려동물은 특정 에센셜 오일 성분에 민감할 수 있으므로, 조향실 내부 동반은 사전 문의 후 단독 대관 타임에만 가능합니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" type="button">
+            <span>4. 방문 당일 향수/핸드크림 착용 자제 안내</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              섬세한 천연 에센셜 오일의 본래 향을 정확하게 느끼실 수 있도록, 방문 당일에는 <strong>기존 향수나 향이 강한 핸드크림·바디로션 사용을 피해주시면</strong> 더욱 만족스러운 조향 결과를 얻으실 수 있습니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 플로팅 상담 -->
+  <div class="floating-consult">
+    <a href="contact.html#consult-section" class="float-btn float-naver"><span>N</span> 네이버 톡톡 문의</a>
+    <a href="contact.html#consult-section" class="float-btn float-kakao"><span>💬</span> 카톡 채널 상담</a>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">🌿 구미 천연향수공방</div>
+          <p style="margin-bottom:14px;">도심을 벗어나 자연 속에서 나만의 숨결을 조향하는 힐링 아틀리에.</p>
+          <p style="font-size:0.82rem; color:rgba(253,251,247,0.6);">경북 구미시 금오산로 전원길 | 대표 조향사: 김아로마</p>
+        </div>
+        <div>
+          <div class="footer-title">메뉴 바로가기</div>
+          <ul class="footer-links">
+            <li><a href="about.html">공방 소개</a></li>
+            <li><a href="class.html">클래스 안내 &amp; 예약</a></li>
+            <li><a href="shop.html">온라인 숍</a></li>
+            <li><a href="reviews.html">갤러리 &amp; 후기</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">고객 지원</div>
+          <ul class="footer-links">
+            <li><a href="contact.html#entry-photo-guide">전원주택 진입로 안내</a></li>
+            <li><a href="contact.html#faq-section">자주 묻는 질문 (FAQ)</a></li>
+            <li><a href="#policy-section">취소 및 환불 규정</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">예약 &amp; 상담 센터</div>
+          <p style="font-family:var(--font-serif); font-size:1.35rem; color:var(--secondary-light); font-weight:700;">054-456-7890</p>
+          <p style="font-size:0.84rem;">화~일 10:30 - 20:00 (월요일 휴무)</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Gumi Natural Perfume Atelier. All rights reserved.</span>
+        <span>이용약관 | 개인정보처리방침</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

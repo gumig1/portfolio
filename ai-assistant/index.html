@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>구미천연향수공방 · 사장님 AI 매출 비서</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* 구미천연향수공방 브랜드 컬러 팔레트 */
+      --bg-cream: #F5EFE4;
+      --bg-soft: #FAF6F0;
+      --bg-beige: #EDE3D3;
+      --card-bg: #FFFFFF;
+      --border-warm: #DFD2BF;
+      --border-light: #ECE3D5;
+
+      --gold-highlight: #C8A560;
+      --gold-soft: rgba(200, 165, 96, 0.38);
+      --wood-light: #B88E68;
+      --wood-main: #8B5E3C;
+      --wood-dark: #5C3D24;
+
+      --forest-main: #2A4034;
+      --forest-sub: #3B5249;
+      --forest-tint: #EBF0ED;
+
+      --text-main: #2C221A;
+      --text-sub: #6E5A49;
+      --text-muted: #9C8875;
+      --danger: #C95B46;
+
+      --shadow-sm: 0 4px 14px rgba(60, 42, 26, 0.06);
+      --shadow-md: 0 10px 28px rgba(60, 42, 26, 0.10);
+      --shadow-lg: 0 20px 48px rgba(42, 64, 52, 0.16);
+
+      --radius-xl: 22px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 9px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+      background-color: var(--bg-cream);
+      background-image: radial-gradient(circle at 15% 10%, #FAF6F0 0%, #F5EFE4 65%, #EDE3D3 100%);
+      color: var(--text-main);
+      min-height: 100dvh;
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    .gold-underline {
+      background: linear-gradient(transparent 62%, var(--gold-soft) 62%);
+      padding: 0 2px;
+    }
+
+    /* 공통 SVG 아이콘 정렬 */
+    .icon-svg {
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    /* =========================================================================
+       1. 스크롤 없는 컴팩트 브랜드 로그인 화면 (PC / 모바일 한 화면 핏)
+       ========================================================================= */
+    .login-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background-color: var(--bg-cream);
+      background-image: radial-gradient(circle at 20% 20%, #FAF6F0 0%, #F5EFE4 75%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .login-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 960px;
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-warm);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .login-visual {
+      position: relative;
+      background-color: var(--bg-cream);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .brand-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--forest-sub);
+      background: var(--forest-tint);
+      padding: 4px 10px;
+      border-radius: 999px;
+      width: fit-content;
+      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+    }
+
+    .visual-headline {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--forest-main);
+      line-height: 1.32;
+      letter-spacing: -0.4px;
+      margin-bottom: 10px;
+    }
+
+    .visual-photo-frame {
+      position: relative;
+      width: 100%;
+      height: 145px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-warm);
+      background: #E9DFCF;
+    }
+
+    .visual-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .visual-slide.active {
+      opacity: 1;
+    }
+
+    .visual-caption-bar {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      right: 8px;
+      background: rgba(42, 64, 52, 0.82);
+      backdrop-filter: blur(6px);
+      color: #FAF6F0;
+      padding: 6px 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .slide-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .slide-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.45);
+      border: none;
+      cursor: pointer;
+    }
+
+    .slide-dot.active {
+      width: 16px;
+      border-radius: 99px;
+      background: var(--gold-highlight);
+    }
+
+    .login-form-area {
+      padding: 18px 20px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #FFFDF9;
+    }
+
+    .login-header-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 12px;
+    }
+
+    .login-emblem {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--bg-cream);
+      border: 1px solid var(--border-warm);
+      color: var(--forest-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .login-title {
+      font-family: 'Gowun Batang', serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--forest-main);
+    }
+
+    .login-subtitle {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .pw-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-warm);
+      background: #FFFFFF;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-align: center;
+      color: var(--forest-main);
+      margin-bottom: 8px;
+    }
+
+    .pw-input::placeholder {
+      font-size: 13px;
+      letter-spacing: normal;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .pw-input:focus {
+      outline: none;
+      border-color: var(--wood-main);
+    }
+
+    .quick-pin-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .pin-chip {
+      padding: 8px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border-warm);
+      background: var(--bg-soft);
+      color: var(--wood-dark);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .remember-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .remember-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .login-submit-btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #C5A059 0%, #9A6B3E 100%);
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(154, 107, 62, 0.25);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .login-error {
+      display: none;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--danger);
+      text-align: center;
+    }
+
+    /* =========================================================================
+       2. 메인 앱 컨테이너 & 동선 단축 3-탭 네비게이션
+       ========================================================================= */
+    .app-shell {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 12px 12px 24px;
+    }
+
+    /* 컴팩트 상단 헤더 */
+    .top-header {
+      background: var(--card-bg);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      padding: 11px 14px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1.5px solid var(--gold-highlight);
+    }
+
+    .brand-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--forest-sub);
+      display: block;
+    }
+
+    .brand-title {
+      font-family: 'Gowun Batang', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--forest-main);
+      line-height: 1.2;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-pill-btn {
+      background: var(--bg-soft);
+      border: 1px solid var(--border-warm);
+      color: var(--wood-dark);
+      padding: 6px 10px;
+      border-radius: 9px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #D4A359;
+    }
+    .status-dot.connected {
+      background-color: #3E8E5A;
+    }
+
+    /* 3-탭 네비게이션 바 */
+    .tab-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: var(--bg-beige);
+      padding: 5px;
+      border-radius: 14px;
+      border: 1px solid var(--border-warm);
+      margin-bottom: 10px;
+    }
+
+    .tab-btn {
+      padding: 10px 6px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-sub);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--forest-main);
+      color: #FFFFFF;
+      box-shadow: 0 3px 10px rgba(42, 64, 52, 0.22);
+    }
+
+    .tab-badge {
+      font-size: 10.5px;
+      padding: 1px 6px;
+      border-radius: 99px;
+      background: rgba(200, 165, 96, 0.28);
+      color: var(--wood-dark);
+    }
+
+    .tab-btn.active .tab-badge {
+      background: var(--gold-highlight);
+      color: #fff;
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* =========================================================================
+       [탭 1] 음성·빠른입력
+       ========================================================================= */
+    .voice-compact-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg-cream) 100%);
+      border: 1.5px dashed var(--wood-light);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+
+    .voice-compact-row.listening {
+      background: #FDF5F2;
+      border-color: var(--danger);
+    }
+
+    .mic-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--forest-sub), var(--forest-main));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 6px 14px rgba(42, 64, 52, 0.25);
+      transition: transform 0.15s ease;
+    }
+
+    .mic-btn:active {
+      transform: scale(0.95);
+    }
+
+    .mic-btn.listening {
+      background: linear-gradient(135deg, #D96B52, #B8422A);
+    }
+
+    .mic-info {
+      text-align: left;
+    }
+
+    .mic-status {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--forest-main);
+    }
+
+    .mic-sub {
+      font-size: 11.5px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .speech-textarea {
+      width: 100%;
+      height: 62px;
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-sm);
+      background: #FFFDFB;
+      padding: 10px 12px;
+      font-size: 14px;
+      color: var(--text-main);
+      font-family: inherit;
+      resize: none;
+      margin-bottom: 8px;
+    }
+
+    .speech-textarea:focus {
+      outline: none;
+      border-color: var(--wood-main);
+    }
+
+    .sample-chips {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+    }
+
+    .sample-chip {
+      font-size: 11.5px;
+      background: var(--bg-soft);
+      color: var(--wood-dark);
+      border: 1px solid var(--border-warm);
+      padding: 5px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .instant-preview-card {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-warm);
+      border-left: 4px solid var(--gold-highlight);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+
+    .instant-preview-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .instant-preview-body {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--forest-main);
+      word-break: keep-all;
+    }
+
+    .tab1-action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 8px;
+    }
+
+    .secondary-action-btn {
+      padding: 13px 10px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--forest-main);
+      background: #FFFFFF;
+      color: var(--forest-main);
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .primary-action-btn {
+      padding: 13px 10px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: linear-gradient(135deg, #C5A059 0%, #8B5E3C 100%);
+      color: #FFFFFF;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(139, 94, 60, 0.24);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* =========================================================================
+       [탭 2] 확인·저장 (이모지 없이 깔끔한 타이포그래피 & 컴팩트 폼)
+       ========================================================================= */
+    .compact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .compact-row-2 {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 8px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--forest-main);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .field-label span.preview-val {
+      font-weight: 800;
+      color: var(--wood-main);
+      font-size: 12px;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-warm);
+      background: #FFFDFB;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      font-family: inherit;
+    }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #FFFDFB;
+      height: 36px;
+    }
+
+    .stepper button {
+      width: 34px;
+      height: 100%;
+      border: none;
+      background: var(--bg-cream);
+      color: var(--wood-dark);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .stepper input {
+      width: 100%;
+      border: none;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      background: transparent;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .choice-chip {
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-warm);
+      background: #FFFDFB;
+      color: var(--text-sub);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .choice-chip.active {
+      background: var(--forest-main);
+      color: #FFFFFF;
+      border-color: var(--forest-main);
+    }
+
+    .quick-amounts {
+      display: flex;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .quick-btn {
+      flex: 1;
+      padding: 5px 4px;
+      border-radius: 7px;
+      border: 1px solid var(--border-warm);
+      background: var(--bg-soft);
+      color: var(--wood-dark);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .summary-banner {
+      margin-top: 8px;
+      padding: 9px 11px;
+      background: var(--bg-cream);
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--gold-highlight);
+      font-size: 12.5px;
+      color: var(--wood-dark);
+      font-weight: 700;
+    }
+
+    .save-btn {
+      width: 100%;
+      margin-top: 8px;
+      padding: 13px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #C5A059 0%, #8B5E3C 100%);
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(139, 94, 60, 0.25);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    /* =========================================================================
+       [탭 3] 장부내역·통계
+       ========================================================================= */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .stat-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--border-warm);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-sub);
+      display: block;
+    }
+
+    .stat-value {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--forest-main);
+      margin-top: 2px;
+      display: block;
+    }
+
+    .recent-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      max-height: 310px;
+      overflow-y: auto;
+    }
+
+    .recent-item {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-soft);
+      border: 1px solid var(--border-warm);
+      font-size: 12.5px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .recent-top {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      color: var(--forest-main);
+    }
+
+    .recent-bottom {
+      color: var(--text-sub);
+      font-size: 11.5px;
+    }
+
+    .toast {
+      display: none;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .toast.success {
+      display: block;
+      background: #EBF3EC;
+      color: #2E5A36;
+      border: 1px solid #C5DEC8;
+    }
+    .toast.error {
+      display: block;
+      background: #FDECE9;
+      color: #A63623;
+      border: 1px solid #F5C2B8;
+    }
+
+    /* 설정 모달 */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(34, 24, 15, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 3000;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      max-width: 440px;
+      width: 100%;
+      padding: 20px 18px;
+      border: 1px solid var(--border-warm);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .guide-steps {
+      background: var(--bg-soft);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font-size: 12px;
+      color: var(--text-sub);
+      margin: 8px 0 12px;
+      line-height: 1.6;
+      border: 1px solid var(--border-light);
+    }
+
+    /* =========================================================================
+       PC 화면 최적화 (900px 이상)
+       ========================================================================= */
+    @media (min-width: 900px) {
+      .login-wrapper {
+        grid-template-columns: 1.15fr 0.85fr;
+        min-height: 520px;
+      }
+
+      .login-visual {
+        padding: 36px;
+        border-bottom: none;
+        border-right: 1px solid var(--border-light);
+      }
+
+      .visual-headline {
+        font-size: 28px;
+      }
+
+      .visual-photo-frame {
+        height: 280px;
+      }
+
+      .login-form-area {
+        padding: 36px;
+      }
+
+      .app-shell {
+        max-width: 760px;
+        padding: 24px 20px;
+      }
+
+      .top-header {
+        padding: 14px 20px;
+      }
+
+      .brand-title {
+        font-size: 20px;
+      }
+
+      .tab-btn {
+        font-size: 14.5px;
+        padding: 12px 10px;
+      }
+
+      .card {
+        padding: 22px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. 브랜드 시작 / 로그인 화면
+       ========================================================================= -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-wrapper">
+      <div class="login-visual">
+        <div>
+          <div class="brand-eyebrow">
+            <!-- 보태니컬 리프 SVG -->
+            <svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            </svg>
+            <span>GUMI NATURAL PERFUME ATELIER · 구미대 근처 전원주택</span>
+          </div>
+          <h1 class="visual-headline">
+            자연이 머무는 숲속 작은 집,<br />
+            <span class="gold-underline">오늘의 향기와 매출</span>을 기록해요
+          </h1>
+
+          <div class="visual-photo-frame">
+            <img src="images/brand-dropper.jpg" alt="천연 에센셜 오일 시향병" class="visual-slide active" data-idx="0" />
+            <img src="images/brand-bottles.jpg" alt="구미천연향수공방 향수 컬렉션" class="visual-slide" data-idx="1" />
+            <img src="images/brand-forest.jpg" alt="마음이 머문 숲속 풍경" class="visual-slide" data-idx="2" />
+
+            <div class="visual-caption-bar">
+              <span id="slideCaptionText">01 / 03 · 햇살이 머무는 창가, 100% 식물성 천연 조향</span>
+              <div class="slide-dots">
+                <button type="button" class="slide-dot active" data-slide="0" aria-label="1번 슬라이드"></button>
+                <button type="button" class="slide-dot" data-slide="1" aria-label="2번 슬라이드"></button>
+                <button type="button" class="slide-dot" data-slide="2" aria-label="3번 슬라이드"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-form-area">
+        <div class="login-header-row">
+          <!-- 향수병 심볼 SVG -->
+          <div class="login-emblem">
+            <svg class="icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 3h6v3H9z"/>
+              <path d="M10 6h4v2h-4z"/>
+              <rect x="6" y="8" width="12" height="13" rx="3"/>
+              <path d="M9 13h6"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="login-title">구미천연향수공방 사장님 비서</h2>
+            <p class="login-subtitle">기본 비밀번호는 <strong>1234</strong> 입니다.</p>
+          </div>
+        </div>
+
+        <form id="loginForm">
+          <input
+            type="password"
+            id="loginPwInput"
+            class="pw-input"
+            inputmode="numeric"
+            placeholder="비밀번호 입력 (기본: 1234)"
+            autocomplete="current-password"
+            required
+          />
+
+          <div class="quick-pin-grid">
+            <button type="button" class="pin-chip" data-pin="1">1</button>
+            <button type="button" class="pin-chip" data-pin="2">2</button>
+            <button type="button" class="pin-chip" data-pin="3">3</button>
+            <button type="button" class="pin-chip" data-pin="4">4</button>
+            <button type="button" class="pin-chip" data-pin="1234" style="grid-column: span 2; background: var(--bg-beige);">1234 자동입력</button>
+            <button type="button" class="pin-chip" data-pin="clear" style="grid-column: span 2; color: var(--text-sub);">지우기</button>
+          </div>
+
+          <div class="remember-row">
+            <label class="remember-label">
+              <input type="checkbox" id="rememberLoginChk" checked />
+              <span>이 기기에서 로그인 유지하기</span>
+            </label>
+          </div>
+
+          <button type="submit" class="login-submit-btn">
+            <span>공방 매출 비서 시작하기</span>
+            <svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+          <div class="login-error" id="loginErrorMsg">비밀번호가 일치하지 않습니다.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       2. 메인 비서 화면 (3-탭 구성)
+       ========================================================================= -->
+  <div class="app-shell">
+    <!-- 상단 헤더 -->
+    <header class="top-header">
+      <div class="header-left">
+        <img src="images/brand-dropper.jpg" alt="구미천연향수공방" class="header-thumb" />
+        <div>
+          <span class="brand-badge">구미천연향수공방 · 2026년 장부</span>
+          <h1 class="brand-title">사장님 AI 매출 비서</h1>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="action-pill-btn" id="openSettingsBtn">
+          <span class="status-dot" id="connDot"></span>
+          <span>시트설정</span>
+        </button>
+        <button type="button" class="action-pill-btn" id="lockScreenBtn" title="로그인 화면 보기">
+          <svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <span>잠금</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 3-탭 네비게이션 바 (세련된 라인 SVG 적용) -->
+    <nav class="tab-nav">
+      <button type="button" class="tab-btn active" data-tab="tab-voice">
+        <svg class="icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" x2="12" y1="19" y2="22"/>
+        </svg>
+        <span>1. 음성입력</span>
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-confirm">
+        <svg class="icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+        <span>2. 확인·저장</span>
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-history">
+        <svg class="icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" x2="8" y1="13" y2="13"/>
+          <line x1="16" x2="8" y1="17" y2="17"/>
+        </svg>
+        <span>3. 장부내역</span>
+        <span class="tab-badge" id="tabHistoryBadge">0</span>
+      </button>
+    </nav>
+
+    <!-- 공통 알림 토스트 -->
+    <div id="toastBox" class="toast" style="margin-bottom: 10px; margin-top: 0;"></div>
+
+    <!-- =======================================================================
+         [탭 1] 1. 음성입력
+         ======================================================================= -->
+    <section class="tab-pane active" id="tab-voice">
+      <div class="card">
+        <div class="voice-compact-row" id="voiceBox">
+          <button type="button" class="mic-btn" id="micBtn" title="음성 입력 시작">
+            <svg class="icon-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" x2="12" y1="19" y2="22"/>
+            </svg>
+          </button>
+          <div class="mic-info">
+            <div class="mic-status" id="micStatus">마이크를 누르고 말씀하세요</div>
+            <div class="mic-sub">예: "오늘 원데이 2명 7만원 카드, 인스타 보고 옴"</div>
+          </div>
+        </div>
+
+        <textarea
+          id="speechInput"
+          class="speech-textarea"
+          placeholder="여기에 말씀하신 내용이 적힙니다. 직접 입력하셔도 바로 아래에 자동 정리됩니다."
+        ></textarea>
+
+        <div class="sample-chips">
+          <button type="button" class="sample-chip" data-sample="오늘 원데이 클래스 2명 7만원 카드, 인스타 보고 옴, 우디향 선호">예시 1: 원데이 2명</button>
+          <button type="button" class="sample-chip" data-sample="완제품 구매 1명 4만5천원 계좌이체, 네이버 블로그 보고 방문">예시 2: 완제품 구매</button>
+          <button type="button" class="sample-chip" data-sample="어제 답례품 1건 25만원 카드, 지인 소개, 50ml 10개 포장">예시 3: 답례품</button>
+        </div>
+
+        <!-- 탭 1에서 즉시 보이는 AI 한 줄 정리 결과 -->
+        <div class="instant-preview-card">
+          <div class="instant-preview-title">
+            <span>실시간 AI 정리 결과</span>
+            <span style="color:var(--wood-main);">맞으면 바로 저장 가능</span>
+          </div>
+          <div class="instant-preview-body" id="tab1PreviewText">
+            말씀하시면 날짜·구분·인원·금액·결제·유입이 여기에 정리됩니다.
+          </div>
+        </div>
+
+        <!-- 동선 단축 버튼 2개 -->
+        <div class="tab1-action-grid">
+          <button type="button" class="secondary-action-btn" id="goToConfirmTabBtn">
+            <span>항목 확인·수정</span>
+            <svg class="icon-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+          <button type="button" class="primary-action-btn" id="quickSaveFromTab1Btn">
+            <svg class="icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6 9 17l-5-5"/>
+            </svg>
+            <span>이대로 시트에 바로 저장</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         [탭 2] 2. 확인·저장 (이모지 없이 깔끔한 라벨과 컴팩트 폼)
+         ======================================================================= -->
+    <section class="tab-pane" id="tab-confirm">
+      <div class="card">
+        <div class="compact-form">
+          <!-- 1줄: 날짜 + 인원 -->
+          <div class="compact-row-2">
+            <div class="field-group">
+              <label class="field-label" for="dateInput">날짜</label>
+              <input type="date" id="dateInput" class="input-box" />
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="countInput">인원(수량)</label>
+              <div class="stepper">
+                <button type="button" id="countMinusBtn">−</button>
+                <input type="number" id="countInput" value="1" min="1" />
+                <button type="button" id="countPlusBtn">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2줄: 구분 -->
+          <div class="field-group">
+            <label class="field-label">구분</label>
+            <div class="chip-group" id="categoryChips">
+              <button type="button" class="choice-chip active" data-val="원데이 클래스">원데이 클래스</button>
+              <button type="button" class="choice-chip" data-val="자격증반">자격증반</button>
+              <button type="button" class="choice-chip" data-val="완제품 구매">완제품 구매</button>
+              <button type="button" class="choice-chip" data-val="답례품">답례품</button>
+              <button type="button" class="choice-chip" data-val="기타">기타</button>
+            </div>
+          </div>
+
+          <!-- 3줄: 금액 + 빠른 버튼 -->
+          <div class="field-group">
+            <label class="field-label" for="amountInput">
+              <span>금액 (원)</span>
+              <span class="preview-val" id="amountKorPreview">0원</span>
+            </label>
+            <input
+              type="text"
+              inputmode="numeric"
+              id="amountInput"
+              class="input-box"
+              placeholder="예: 70,000"
+              value="0"
+            />
+            <div class="quick-amounts">
+              <button type="button" class="quick-btn" data-add="10000">+1만</button>
+              <button type="button" class="quick-btn" data-add="35000">+3.5만</button>
+              <button type="button" class="quick-btn" data-add="50000">+5만</button>
+              <button type="button" class="quick-btn" data-add="70000">+7만</button>
+              <button type="button" class="quick-btn" data-reset="true" style="color:var(--danger);">초기화</button>
+            </div>
+          </div>
+
+          <!-- 4줄: 결제수단 -->
+          <div class="field-group">
+            <label class="field-label">결제수단</label>
+            <div class="chip-group" id="paymentChips">
+              <button type="button" class="choice-chip active" data-val="카드">카드</button>
+              <button type="button" class="choice-chip" data-val="현금">현금</button>
+              <button type="button" class="choice-chip" data-val="계좌이체">계좌이체</button>
+              <button type="button" class="choice-chip" data-val="기타">기타</button>
+            </div>
+          </div>
+
+          <!-- 5줄: 유입경로 -->
+          <div class="field-group">
+            <label class="field-label">유입경로</label>
+            <div class="chip-group" id="channelChips">
+              <button type="button" class="choice-chip active" data-val="인스타그램">인스타그램</button>
+              <button type="button" class="choice-chip" data-val="네이버 검색/블로그">네이버/블로그</button>
+              <button type="button" class="choice-chip" data-val="지인 소개">지인 소개</button>
+              <button type="button" class="choice-chip" data-val="재방문">재방문</button>
+              <button type="button" class="choice-chip" data-val="워크인(지나가다 방문)">워크인</button>
+              <button type="button" class="choice-chip" data-val="기타">기타</button>
+            </div>
+          </div>
+
+          <!-- 6줄: 메모 -->
+          <div class="field-group">
+            <label class="field-label" for="memoInput">메모 (특이사항)</label>
+            <input
+              type="text"
+              id="memoInput"
+              class="input-box"
+              placeholder="예: 우디향 선호, 영수증 리뷰 작성 등"
+            />
+          </div>
+        </div>
+
+        <div class="summary-banner" id="summaryBanner">
+          미리보기: 항목을 확인해 주세요.
+        </div>
+
+        <button type="button" class="save-btn" id="saveBtn">
+          <svg class="icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6 9 17l-5-5"/>
+          </svg>
+          <span>확인 완료 · 「구미천연향수공방」 시트에 저장</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         [탭 3] 3. 장부내역
+         ======================================================================= -->
+    <section class="tab-pane" id="tab-history">
+      <div class="card">
+        <div class="stats-bar">
+          <div class="stat-card">
+            <span class="stat-label">오늘 날짜</span>
+            <span class="stat-value" id="statTodayText">-</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">최근 기록</span>
+            <span class="stat-value" id="statCountText">0건</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">최근 합계</span>
+            <span class="stat-value" id="statSumText">0원</span>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <span style="font-size:14px; font-weight:800; color:var(--forest-main);">최근 저장 내역 (2026년 탭)</span>
+          <button type="button" id="refreshRecentBtn" style="border:1px solid var(--border-warm); background:var(--bg-soft); padding:5px 10px; border-radius:8px; color:var(--wood-main); font-size:12px; font-weight:700; cursor:pointer;">새로고침</button>
+        </div>
+
+        <div class="recent-list" id="recentList">
+          <div class="recent-item" style="color:var(--text-muted); text-align:center;">
+            아직 표시할 최근 저장 내역이 없습니다.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 구글 시트 웹앱 URL & 비밀번호 설정 모달 -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-card">
+      <div style="font-size:16px; font-weight:800; color:var(--forest-main); margin-bottom:6px;">
+        구글 시트 연결 및 비밀번호 설정
+      </div>
+      <div class="guide-steps">
+        1. 구글 시트 이름을 <strong>구미천연향수공방</strong>으로 만듭니다.<br/>
+        2. <strong>[확장 프로그램] → [Apps Script]</strong>에 <strong>Code.gs</strong>를 붙여넣고 저장합니다.<br/>
+        3. <strong>[배포] → [새 배포]</strong> (유형: 웹 앱, 권한: <strong>모든 사용자</strong>) 후 나온 URL을 아래에 넣어주세요.
+      </div>
+      <div class="field-group" style="margin-bottom: 10px;">
+        <label class="field-label" for="scriptUrlInput">Apps Script 웹 앱 URL</label>
+        <input
+          type="url"
+          id="scriptUrlInput"
+          class="input-box"
+          placeholder="https://script.google.com/macros/s/.../exec"
+        />
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="customPinInput">사장님 로그인 비밀번호 (기본: 1234)</label>
+        <input
+          type="text"
+          id="customPinInput"
+          class="input-box"
+          placeholder="변경할 비밀번호 (비워두면 1234)"
+        />
+      </div>
+      <div style="display:flex; gap:8px; margin-top:14px;">
+        <button type="button" class="secondary-action-btn" id="closeSettingsBtn" style="flex:1;">닫기</button>
+        <button type="button" class="primary-action-btn" id="saveSettingsBtn" style="flex:1.5;">설정 저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_SCRIPT_URL = '';
+    const STORAGE_KEY_URL = 'GUMI_PERFUME_SCRIPT_URL';
+    const STORAGE_KEY_RECENT = 'GUMI_PERFUME_RECENT_LOGS';
+    const STORAGE_KEY_PIN = 'GUMI_PERFUME_ADMIN_PIN';
+    const STORAGE_KEY_AUTH = 'GUMI_PERFUME_AUTH_OK';
+
+    // 탭 전환
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    function switchTab(targetTabId) {
+      tabButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === targetTabId);
+      });
+      tabPanes.forEach(pane => {
+        pane.classList.toggle('active', pane.id === targetTabId);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchTab(btn.getAttribute('data-tab'));
+      });
+    });
+
+    // 로그인 화면 & 슬라이드 제어
+    const loginScreen = document.getElementById('loginScreen');
+    const loginForm = document.getElementById('loginForm');
+    const loginPwInput = document.getElementById('loginPwInput');
+    const loginErrorMsg = document.getElementById('loginErrorMsg');
+    const rememberLoginChk = document.getElementById('rememberLoginChk');
+
+    const slideCaptions = [
+      '01 / 03 · 햇살이 머무는 창가, 100% 식물성 천연 조향',
+      '02 / 03 · 나만의 향수, 좋아하는 계절과 기억에서 시작해요',
+      '03 / 03 · 마음이 머문 숲속 풍경을 향기로 담아냅니다'
+    ];
+    let currentSlideIdx = 0;
+    const visualSlides = document.querySelectorAll('.visual-slide');
+    const slideDots = document.querySelectorAll('.slide-dot');
+    const slideCaptionText = document.getElementById('slideCaptionText');
+
+    function showVisualSlide(idx) {
+      currentSlideIdx = idx;
+      visualSlides.forEach((img, i) => img.classList.toggle('active', i === idx));
+      slideDots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+      if (slideCaptionText) slideCaptionText.textContent = slideCaptions[idx];
+    }
+
+    slideDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        showVisualSlide(parseInt(dot.getAttribute('data-slide'), 10));
+      });
+    });
+
+    setInterval(() => {
+      if (!loginScreen.classList.contains('hidden')) {
+        showVisualSlide((currentSlideIdx + 1) % visualSlides.length);
+      }
+    }, 4200);
+
+    function getExpectedPin() {
+      return (localStorage.getItem(STORAGE_KEY_PIN) || '1234').trim() || '1234';
+    }
+
+    if (sessionStorage.getItem(STORAGE_KEY_AUTH) === 'true') {
+      loginScreen.classList.add('hidden');
+    }
+
+    document.querySelectorAll('.pin-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.getAttribute('data-pin');
+        loginErrorMsg.style.display = 'none';
+        if (val === 'clear') {
+          loginPwInput.value = '';
+        } else if (val === '1234') {
+          loginPwInput.value = '1234';
+        } else {
+          loginPwInput.value += val;
+        }
+        loginPwInput.focus();
+      });
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (loginPwInput.value.trim() === getExpectedPin()) {
+        loginErrorMsg.style.display = 'none';
+        loginScreen.classList.add('hidden');
+        if (rememberLoginChk.checked) {
+          sessionStorage.setItem(STORAGE_KEY_AUTH, 'true');
+        }
+      } else {
+        loginErrorMsg.style.display = 'block';
+        loginPwInput.select();
+      }
+    });
+
+    document.getElementById('lockScreenBtn').addEventListener('click', () => {
+      sessionStorage.removeItem(STORAGE_KEY_AUTH);
+      loginPwInput.value = '';
+      loginErrorMsg.style.display = 'none';
+      loginScreen.classList.remove('hidden');
+    });
+
+    // 메인 비서 로직
+    let selectedCategory = '원데이 클래스';
+    let selectedPayment = '카드';
+    let selectedChannel = '인스타그램';
+
+    const dateInput = document.getElementById('dateInput');
+    const countInput = document.getElementById('countInput');
+    const amountInput = document.getElementById('amountInput');
+    const amountKorPreview = document.getElementById('amountKorPreview');
+    const memoInput = document.getElementById('memoInput');
+    const speechInput = document.getElementById('speechInput');
+    const summaryBanner = document.getElementById('summaryBanner');
+    const tab1PreviewText = document.getElementById('tab1PreviewText');
+    const toastBox = document.getElementById('toastBox');
+    const connDot = document.getElementById('connDot');
+
+    function getFormattedDate(offsetDays = 0) {
+      const d = new Date();
+      d.setDate(d.getDate() + offsetDays);
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function getScriptUrl() {
+      return (localStorage.getItem(STORAGE_KEY_URL) || DEFAULT_SCRIPT_URL || '').trim();
+    }
+
+    function updateConnectionBadge() {
+      const url = getScriptUrl();
+      if (url && url.startsWith('https://script.google.com')) {
+        connDot.classList.add('connected');
+      } else {
+        connDot.classList.remove('connected');
+      }
+    }
+
+    function setupChipGroup(containerId, setterCallback) {
+      const container = document.getElementById(containerId);
+      const buttons = container.querySelectorAll('.choice-chip');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          setterCallback(btn.getAttribute('data-val'));
+          updateSummaryBanner();
+        });
+      });
+    }
+
+    function setChipValue(containerId, val) {
+      const container = document.getElementById(containerId);
+      const buttons = container.querySelectorAll('.choice-chip');
+      let matched = false;
+      buttons.forEach(btn => {
+        if (btn.getAttribute('data-val') === val) {
+          btn.classList.add('active');
+          matched = true;
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      if (!matched && buttons.length > 0) {
+        buttons[buttons.length - 1].classList.add('active');
+      }
+    }
+
+    function getNumericAmount() {
+      return parseInt(String(amountInput.value).replace(/[^0-9]/g, ''), 10) || 0;
+    }
+
+    function setNumericAmount(num) {
+      const clean = Math.max(0, Number(num) || 0);
+      amountInput.value = clean.toLocaleString('ko-KR');
+      amountKorPreview.textContent = clean.toLocaleString('ko-KR') + '원';
+      updateSummaryBanner();
+    }
+
+    function updateSummaryBanner() {
+      const dt = dateInput.value || getFormattedDate(0);
+      const cnt = parseInt(countInput.value, 10) || 1;
+      const amt = getNumericAmount().toLocaleString('ko-KR');
+      const memo = memoInput.value.trim();
+      const memoPart = memo ? ` · 메모: ${memo}` : '';
+      const line = `[${dt}] ${selectedCategory} · ${cnt}명 · ${amt}원 · ${selectedPayment} · ${selectedChannel}${memoPart}`;
+      summaryBanner.textContent = line;
+      tab1PreviewText.textContent = line;
+    }
+
+    function showToast(msg, type = 'success') {
+      toastBox.textContent = msg;
+      toastBox.className = 'toast ' + type;
+      setTimeout(() => {
+        toastBox.className = 'toast';
+      }, 4000);
+    }
+
+    function parseKoreanSpeechLocally(text) {
+      if (!text || !text.trim()) return;
+
+      let dateStr = getFormattedDate(0);
+      if (/그제|그저께/.test(text)) {
+        dateStr = getFormattedDate(-2);
+      } else if (/어제/.test(text)) {
+        dateStr = getFormattedDate(-1);
+      } else {
+        const mdMatch = text.match(/(\d{1,2})\s*월\s*(\d{1,2})\s*일/);
+        if (mdMatch) {
+          const year = new Date().getFullYear();
+          const mm = String(mdMatch[1]).padStart(2, '0');
+          const dd = String(mdMatch[2]).padStart(2, '0');
+          dateStr = `${year}-${mm}-${dd}`;
+        }
+      }
+
+      let category = '원데이 클래스';
+      if (/자격증|창업|전문가|강사/.test(text)) {
+        category = '자격증반';
+      } else if (/답례품|단체|기념품|선물세트/.test(text)) {
+        category = '답례품';
+      } else if (/완제품|구매|판매|제품|디퓨저|향수\s*구매/.test(text)) {
+        category = '완제품 구매';
+      } else if (/원데이|클래스|체험|커플|수업/.test(text)) {
+        category = '원데이 클래스';
+      }
+
+      let count = 1;
+      const countMatch = text.match(/(\d+)\s*(?:명|분|인|팀|건)/);
+      if (countMatch) {
+        count = parseInt(countMatch[1], 10);
+      } else {
+        const korMap = { '한': 1, '두': 2, '세': 3, '네': 4, '다섯': 5, '여섯': 6 };
+        const korMatch = text.match(/(한|두|세|네|다섯|여섯)\s*(?:명|분|팀)/);
+        if (korMatch && korMap[korMatch[1]]) count = korMap[korMatch[1]];
+      }
+
+      let amount = 0;
+      const manCheonMatch = text.match(/(\d+)\s*만\s*(\d+)\s*천\s*원?/);
+      const manHalfMatch = text.match(/(\d+)\s*만\s*오천\s*원?/);
+      const manMatch = text.match(/(\d+(?:\.\d+)?)\s*만\s*원?/);
+      const cheonMatch = text.match(/(\d+)\s*천\s*원?/);
+      const wonMatch = text.match(/(\d{1,3}(?:,\d{3})+|\d{4,})\s*원?/);
+
+      if (manCheonMatch) {
+        amount = parseInt(manCheonMatch[1], 10) * 10000 + parseInt(manCheonMatch[2], 10) * 1000;
+      } else if (manHalfMatch) {
+        amount = parseInt(manHalfMatch[1], 10) * 10000 + 5000;
+      } else if (manMatch) {
+        amount = Math.round(parseFloat(manMatch[1]) * 10000);
+      } else if (cheonMatch) {
+        amount = parseInt(cheonMatch[1], 10) * 1000;
+      } else if (wonMatch) {
+        amount = parseInt(wonMatch[1].replace(/,/g, ''), 10);
+      }
+
+      let payment = '카드';
+      if (/계좌\s*이체|이체|무통장|입금/.test(text)) {
+        payment = '계좌이체';
+      } else if (/현금|현찰/.test(text)) {
+        payment = '현금';
+      } else if (/카드|결제/.test(text)) {
+        payment = '카드';
+      }
+
+      let channel = '인스타그램';
+      if (/인스타|릴스|피드|DM|디엠/.test(text)) {
+        channel = '인스타그램';
+      } else if (/네이버|블로그|검색|플레이스|지도/.test(text)) {
+        channel = '네이버 검색/블로그';
+      } else if (/지인|소개|추천|친구/.test(text)) {
+        channel = '지인 소개';
+      } else if (/재방문|단골|또\s*오|다시\s*오/.test(text)) {
+        channel = '재방문';
+      } else if (/워크인|지나가다|길가다|간판|근처/.test(text)) {
+        channel = '워크인(지나가다 방문)';
+      }
+
+      const memo = text
+        .replace(/오늘|어제|그제|그저께|\d{1,2}\s*월\s*\d{1,2}\s*일/g, '')
+        .replace(/원데이\s*클래스|원데이|자격증반|자격증|완제품\s*구매|완제품|답례품|클래스|수업/g, '')
+        .replace(/(\d+|한|두|세|네|다섯|여섯)\s*(명|분|인|팀|건)/g, '')
+        .replace(/\d+\s*만\s*\d+\s*천\s*원?|\d+\s*만\s*오천\s*원?|\d+(?:\.\d+)?\s*만\s*원?|\d+\s*천\s*원?|(\d{1,3}(?:,\d{3})+|\d{4,})\s*원?/g, '')
+        .replace(/계좌\s*이체|이체|현금|카드\s*결제|카드/g, '')
+        .replace(/(인스타그램|인스타|네이버\s*검색|네이버\s*블로그|네이버|블로그|지인\s*소개|지인|재방문|워크인|지나가다\s*방문|지나가다)\s*(보고\s*옴|보고\s*오심|보고\s*왔음|방문|오심|옴|왔음|통해)?/g, '')
+        .replace(/^[\s,./·-]+|[\s,./·-]+$/g, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+
+      applyParsedData({ date: dateStr, category, count, amount, payment, channel, memo });
+    }
+
+    function applyParsedData(data) {
+      if (data.date) dateInput.value = data.date;
+      if (data.category) {
+        selectedCategory = data.category;
+        setChipValue('categoryChips', data.category);
+      }
+      if (data.count) countInput.value = data.count;
+      if (typeof data.amount === 'number') setNumericAmount(data.amount);
+      if (data.payment) {
+        selectedPayment = data.payment;
+        setChipValue('paymentChips', data.payment);
+      }
+      if (data.channel) {
+        selectedChannel = data.channel;
+        setChipValue('channelChips', data.channel);
+      }
+      if (typeof data.memo === 'string') {
+        memoInput.value = data.memo;
+      }
+      updateSummaryBanner();
+    }
+
+    // 음성 인식
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isListening = false;
+
+    const micBtn = document.getElementById('micBtn');
+    const voiceBox = document.getElementById('voiceBox');
+    const micStatus = document.getElementById('micStatus');
+
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = 'ko-KR';
+      recognition.interimResults = true;
+      recognition.continuous = false;
+
+      recognition.onstart = () => {
+        isListening = true;
+        micBtn.classList.add('listening');
+        voiceBox.classList.add('listening');
+        micStatus.textContent = '듣고 있습니다... 말씀해 주세요';
+      };
+
+      recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = 0; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        speechInput.value = transcript;
+        parseKoreanSpeechLocally(transcript);
+      };
+
+      recognition.onerror = () => {
+        stopListeningUI();
+        micStatus.textContent = '마이크 인식이 중단되었습니다. 다시 눌러주세요.';
+      };
+
+      recognition.onend = () => {
+        stopListeningUI();
+        if (speechInput.value.trim()) {
+          parseKoreanSpeechLocally(speechInput.value.trim());
+          micStatus.textContent = '정리 완료! 바로 저장하거나 수정해 보세요.';
+        }
+      };
+    }
+
+    function stopListeningUI() {
+      isListening = false;
+      micBtn.classList.remove('listening');
+      voiceBox.classList.remove('listening');
+      micStatus.textContent = '마이크를 누르고 말씀하세요';
+    }
+
+    micBtn.addEventListener('click', () => {
+      if (!recognition) {
+        speechInput.focus();
+        showToast('아래 입력칸을 눌러 키보드의 마이크 버튼을 사용해 주세요.', 'error');
+        return;
+      }
+      if (isListening) {
+        recognition.stop();
+      } else {
+        recognition.start();
+      }
+    });
+
+    speechInput.addEventListener('input', () => {
+      parseKoreanSpeechLocally(speechInput.value);
+    });
+
+    document.querySelectorAll('.sample-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sample = btn.getAttribute('data-sample');
+        speechInput.value = sample;
+        parseKoreanSpeechLocally(sample);
+      });
+    });
+
+    document.getElementById('goToConfirmTabBtn').addEventListener('click', () => {
+      if (speechInput.value.trim()) {
+        parseKoreanSpeechLocally(speechInput.value.trim());
+      }
+      switchTab('tab-confirm');
+    });
+
+    const checkSvgHtml = `<svg class="icon-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`;
+
+    async function saveRecordToSheet() {
+      const url = getScriptUrl();
+      if (!url) {
+        document.getElementById('settingsModal').classList.add('open');
+        showToast('먼저 우측 상단 [시트설정]에서 Apps Script 웹 앱 URL을 넣어주세요.', 'error');
+        return;
+      }
+
+      const payload = {
+        action: 'save',
+        data: {
+          date: dateInput.value || getFormattedDate(0),
+          category: selectedCategory,
+          count: parseInt(countInput.value, 10) || 1,
+          amount: getNumericAmount(),
+          payment: selectedPayment,
+          channel: selectedChannel,
+          memo: memoInput.value.trim(),
+          rawText: speechInput.value.trim()
+        }
+      };
+
+      const saveBtn = document.getElementById('saveBtn');
+      const quickBtn = document.getElementById('quickSaveFromTab1Btn');
+      saveBtn.disabled = true;
+      quickBtn.disabled = true;
+      saveBtn.textContent = '저장 중...';
+      quickBtn.textContent = '저장 중...';
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (result && result.ok) {
+          showToast('「구미천연향수공방」 [2026년] 시트에 한 줄 저장 완료되었습니다.');
+          saveLocalRecent(payload.data);
+          if (result.recent) {
+            renderRecentRows(result.recent);
+          } else {
+            renderLocalRecent();
+          }
+          speechInput.value = '';
+          memoInput.value = '';
+          updateSummaryBanner();
+          switchTab('tab-history');
+        } else {
+          showToast('저장 실패: ' + ((result && result.error) || '오류'), 'error');
+        }
+      } catch (err) {
+        showToast('시트 연결 오류. 웹 앱 URL과 배포 권한(모든 사용자)을 확인해 주세요.', 'error');
+      } finally {
+        saveBtn.disabled = false;
+        quickBtn.disabled = false;
+        saveBtn.innerHTML = `${checkSvgHtml}<span>확인 완료 · 「구미천연향수공방」 시트에 저장</span>`;
+        quickBtn.innerHTML = `${checkSvgHtml}<span>이대로 시트에 바로 저장</span>`;
+      }
+    }
+
+    document.getElementById('saveBtn').addEventListener('click', saveRecordToSheet);
+    document.getElementById('quickSaveFromTab1Btn').addEventListener('click', () => {
+      if (speechInput.value.trim()) {
+        parseKoreanSpeechLocally(speechInput.value.trim());
+      }
+      saveRecordToSheet();
+    });
+
+    function saveLocalRecent(item) {
+      const list = JSON.parse(localStorage.getItem(STORAGE_KEY_RECENT) || '[]');
+      list.unshift(item);
+      localStorage.setItem(STORAGE_KEY_RECENT, JSON.stringify(list.slice(0, 10)));
+    }
+
+    function renderLocalRecent() {
+      const list = JSON.parse(localStorage.getItem(STORAGE_KEY_RECENT) || '[]');
+      renderRecentRows(list);
+    }
+
+    function renderRecentRows(rows) {
+      const container = document.getElementById('recentList');
+      const statCountText = document.getElementById('statCountText');
+      const statSumText = document.getElementById('statSumText');
+      const tabHistoryBadge = document.getElementById('tabHistoryBadge');
+
+      if (!rows || rows.length === 0) {
+        container.innerHTML = `<div class="recent-item" style="color:var(--text-muted); text-align:center;">아직 표시할 최근 저장 내역이 없습니다.</div>`;
+        statCountText.textContent = '0건';
+        statSumText.textContent = '0원';
+        tabHistoryBadge.textContent = '0';
+        return;
+      }
+
+      let totalSum = 0;
+      container.innerHTML = rows.map(r => {
+        const numericAmt = parseInt(String(r.amount).replace(/[^0-9]/g, ''), 10) || 0;
+        totalSum += numericAmt;
+        const amt = numericAmt.toLocaleString('ko-KR') + '원';
+        const cnt = String(r.count).includes('명') ? r.count : `${r.count}명`;
+        const memoHtml = r.memo ? ` · ${r.memo}` : '';
+        return `
+          <div class="recent-item">
+            <div class="recent-top">
+              <span>${r.date} · ${r.category} (${cnt})</span>
+              <span>${amt}</span>
+            </div>
+            <div class="recent-bottom">
+              ${r.payment} · ${r.channel}${memoHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      statCountText.textContent = `${rows.length}건`;
+      statSumText.textContent = `${totalSum.toLocaleString('ko-KR')}원`;
+      tabHistoryBadge.textContent = String(rows.length);
+    }
+
+    async function fetchServerRecent() {
+      const url = getScriptUrl();
+      if (!url) {
+        renderLocalRecent();
+        return;
+      }
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'recent', limit: 10 })
+        });
+        const json = await res.json();
+        if (json && json.ok && json.rows) {
+          renderRecentRows(json.rows);
+        }
+      } catch (e) {
+        renderLocalRecent();
+      }
+    }
+
+    // 초기화
+    const todayFormatted = getFormattedDate(0);
+    dateInput.value = todayFormatted;
+    document.getElementById('statTodayText').textContent = todayFormatted.slice(5);
+
+    setupChipGroup('categoryChips', val => { selectedCategory = val; });
+    setupChipGroup('paymentChips', val => { selectedPayment = val; });
+    setupChipGroup('channelChips', val => { selectedChannel = val; });
+
+    document.getElementById('countMinusBtn').addEventListener('click', () => {
+      countInput.value = Math.max(1, (parseInt(countInput.value, 10) || 1) - 1);
+      updateSummaryBanner();
+    });
+    document.getElementById('countPlusBtn').addEventListener('click', () => {
+      countInput.value = (parseInt(countInput.value, 10) || 1) + 1;
+      updateSummaryBanner();
+    });
+    countInput.addEventListener('input', updateSummaryBanner);
+    dateInput.addEventListener('change', updateSummaryBanner);
+    memoInput.addEventListener('input', updateSummaryBanner);
+
+    amountInput.addEventListener('input', () => {
+      setNumericAmount(getNumericAmount());
+    });
+
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.getAttribute('data-reset')) {
+          setNumericAmount(0);
+        } else {
+          const addVal = parseInt(btn.getAttribute('data-add'), 10) || 0;
+          setNumericAmount(getNumericAmount() + addVal);
+        }
+      });
+    });
+
+    const settingsModal = document.getElementById('settingsModal');
+    const scriptUrlInput = document.getElementById('scriptUrlInput');
+    const customPinInput = document.getElementById('customPinInput');
+
+    document.getElementById('openSettingsBtn').addEventListener('click', () => {
+      scriptUrlInput.value = getScriptUrl();
+      customPinInput.value = getExpectedPin();
+      settingsModal.classList.add('open');
+    });
+
+    document.getElementById('closeSettingsBtn').addEventListener('click', () => {
+      settingsModal.classList.remove('open');
+    });
+
+    document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+      const val = scriptUrlInput.value.trim();
+      const newPin = customPinInput.value.trim() || '1234';
+      localStorage.setItem(STORAGE_KEY_URL, val);
+      localStorage.setItem(STORAGE_KEY_PIN, newPin);
+      updateConnectionBadge();
+      settingsModal.classList.remove('open');
+      showToast('설정이 저장되었습니다.');
+      fetchServerRecent();
+    });
+
+    document.getElementById('refreshRecentBtn').addEventListener('click', fetchServerRecent);
+
+    updateConnectionBadge();
+    updateSummaryBanner();
+    fetchServerRecent();
+  </script>
+</body>
+</html>

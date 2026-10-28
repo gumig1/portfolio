@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>구미 천연 향수 공방 | 자연이 머무는 숲속 작은 집, 힐링 조향 아틀리에</title>
+  <meta name="description" content="도심을 벗어나 자연 속에서 나만의 숨결을 조향하는 구미 전원주택 천연 향수 공방. 100% 식물성 천연 에센셜 오일 원데이 클래스 & 시그니처 퍼퓸 숍.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 상단 프로모션 배너 -->
+  <div class="top-banner">
+    🌿 [가을 정원 클래스 오픈] 2인 이상 동반 예약 시 천연 아로마 롤온(10ml) 증정 · 100% 식물성 에센셜 오일 블렌딩
+    <a href="class.html#booking-section">실시간 잔여석 확인하기 &rarr;</a>
+  </div>
+
+  <!-- 헤더 & 네비게이션 -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-logo-main">🌿 구미 천연향수공방</span>
+        <span class="brand-logo-sub">Gumi Natural Perfume Atelier</span>
+      </a>
+
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html" class="nav-link active">홈 (Home)</a>
+        <a href="about.html" class="nav-link">공방 소개</a>
+        <a href="class.html" class="nav-link">클래스 &amp; 예약</a>
+        <a href="shop.html" class="nav-link">온라인 숍</a>
+        <a href="reviews.html" class="nav-link">갤러리 &amp; 후기</a>
+        <a href="contact.html" class="nav-link">문의 &amp; 오시는 길</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="admin.html" class="cart-btn" style="border-style:dashed; font-size:0.82rem;" title="공방 관리자 센터 바로가기">
+          🔐 관리자
+        </a>
+        <button class="cart-btn" onclick="openCartModal()" aria-label="장바구니 열기">
+          🛍️ 장바구니 <span class="cart-badge">0</span>
+        </button>
+        <a href="class.html#booking-section" class="btn btn-primary btn-sm">클래스 예약</a>
+        <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="메뉴 열기">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 1. 히어로 슬라이더 섹션 (3장 사진 캐러셀) -->
+  <section class="hero-slider" id="hero-slider">
+    <!-- Slide 01: 전원주택 사계절 정원 배경 -->
+    <div class="hero-slide hero-slide-1 active" data-slide-index="0">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span>🌿 Slide 01 / 03 · Garden Atelier</span>
+            <span>|</span>
+            <span>금오산 자락 사계절 정원 공방</span>
+          </div>
+          <h1 class="hero-title">
+            <span>자연이 머무는 숲속 작은 집,</span><br>
+            <span>당신만의 향기를 만납니다.</span>
+          </h1>
+          <p class="hero-slogan">
+            “도심을 벗어나 자연 속에서 나만의 숨결을 조향하는 힐링 아틀리에”<br>
+            라벤더와 로즈마리가 자라는 전원주택 정원에서 허브티 한 잔의 여유와 함께 온전한 쉼을 경험해 보세요.
+          </p>
+          <div class="hero-cta-group">
+            <a href="class.html#booking-section" class="btn btn-primary">클래스 예약하기 &rarr;</a>
+            <a href="about.html" class="btn btn-outline-light">공방 둘러보기</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-num">100%</div>
+              <div class="hero-stat-label">식물성 천연 에센셜 오일 &amp; 발효 주정</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">Max 6인</div>
+              <div class="hero-stat-label">타임별 소규모 프라이빗 예약제 운영</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">4.98 / 5.0</div>
+              <div class="hero-stat-label">구미·대구·김천 수강생 실제 만족도</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 02: 천연 에센셜 오일 드롭 & 조향 오르간 -->
+    <div class="hero-slide hero-slide-2" data-slide-index="1">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span>💧 Slide 02 / 03 · 100% Pure Botanical</span>
+            <span>|</span>
+            <span>합성향 무첨가 테라피 등급 원료</span>
+          </div>
+          <h1 class="hero-title">
+            <span>머리 아픈 인공향 대신,</span><br>
+            <span>깊게 숨 쉴수록 맑아지는 자연의 결.</span>
+          </h1>
+          <p class="hero-slogan">
+            프랑스 프로방스 라벤더, 이탈리아 베르가못, 모로코 시더우드 등<br>
+            학명과 원산지가 투명하게 검증된 40여 종의 천연 에센셜 오일을 한 방울씩 정성껏 블렌딩합니다.
+          </p>
+          <div class="hero-cta-group">
+            <a href="shop.html" class="btn btn-primary">시그니처 천연 향수 숍 &rarr;</a>
+            <a href="about.html" class="btn btn-outline-light">천연 원료 스토리 보기</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-num">40+ Scents</div>
+              <div class="hero-stat-label">테라피 등급 천연 에센셜 오일 컬렉션</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">0% Chemical</div>
+              <div class="hero-stat-label">합성 향료 · 프탈레이트 · 방부제 무첨가</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">Eco Gift</div>
+              <div class="hero-stat-label">크라프트 &amp; 정원 드라이 플라워 포장</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 03: 햇살이 들어오는 창가 & 1:1 프라이빗 조향 -->
+    <div class="hero-slide hero-slide-3" data-slide-index="2">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span>✨ Slide 03 / 03 · Bespoke Perfumery</span>
+            <span>|</span>
+            <span>햇살 가득한 통창 앞 1:1 맞춤 조향</span>
+          </div>
+          <h1 class="hero-title">
+            <span>햇살이 머무는 창가에서 완성하는,</span><br>
+            <span>세상에 단 하나뿐인 시그니처 퍼퓸.</span>
+          </h1>
+          <p class="hero-slogan">
+            연인과의 특별한 데이트, 친구와의 근교 힐링 나들이, 기업·교직원 단체 워크숍까지<br>
+            수석 조향사의 1:1 가이드로 초보자도 나만의 인생 향수와 포뮬러 차트를 완성할 수 있습니다.
+          </p>
+          <div class="hero-cta-group">
+            <a href="class.html#booking-section" class="btn btn-primary">실시간 잔여석 캘린더 보기 &rarr;</a>
+            <a href="reviews.html" class="btn btn-outline-light">수강생 작업 스케치 &amp; 후기</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-num">Step 1~4</div>
+              <div class="hero-stat-label">시향 · 차트 설계 · 블렌딩 · 커스텀 라벨</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">Formula Keep</div>
+              <div class="hero-stat-label">나만의 향수 레시피 차트 영구 보관</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">Free Parking</div>
+              <div class="hero-stat-label">전원주택 앞마당 전용 주차장 완비</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 슬라이더 하단 컨트롤 바 (도트 & 이전/다음 화살표) -->
+    <div class="hero-slider-controls">
+      <div class="hero-slider-bar">
+        <div class="hero-dots" id="hero-dots">
+          <button type="button" class="hero-dot active" aria-label="1번 슬라이드: 전원주택 정원" onclick="window.__goToHeroSlide(0)"></button>
+          <button type="button" class="hero-dot" aria-label="2번 슬라이드: 천연 에센셜 오일" onclick="window.__goToHeroSlide(1)"></button>
+          <button type="button" class="hero-dot" aria-label="3번 슬라이드: 햇살 창가 프라이빗 조향" onclick="window.__goToHeroSlide(2)"></button>
+        </div>
+        <div class="hero-arrows">
+          <button type="button" class="hero-arrow-btn" id="hero-prev-btn" aria-label="이전 사진">&larr;</button>
+          <button type="button" class="hero-arrow-btn" id="hero-next-btn" aria-label="다음 사진">&rarr;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 핵심 가치 (USP 3가지 카드 섹션) -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Our Philosophy &amp; Value</span>
+        <h2 class="section-title">구미 천연향수공방만의 세 가지 약속</h2>
+        <p class="section-desc">
+          인공 향료에 두통이나 피로감을 느끼셨던 분들도 안심하고 깊은 호흡으로 즐길 수 있는 보태니컬 아틀리에입니다.
+        </p>
+      </div>
+
+      <div class="usp-grid">
+        <div class="usp-card">
+          <div class="usp-icon">🌱</div>
+          <div class="usp-en">01 · Pure Nature</div>
+          <h3 class="usp-title">100% 식물성 천연 처방</h3>
+          <p class="usp-desc">
+            합성 프래그런스 오일과 인공 보존제를 일절 배제하고, 학명과 원산지가 검증된 테라피 등급 천연 에센셜 오일과 유기농 곡물 발효 주정만을 고집합니다.
+          </p>
+        </div>
+
+        <div class="usp-card">
+          <div class="usp-icon">🏡</div>
+          <div class="usp-en">02 · Garden Atelier</div>
+          <h3 class="usp-title">사계절 전원주택 힐링 공간</h3>
+          <p class="usp-desc">
+            구미 금오산 자락의 햇살이 가득 들어오는 전원주택과 사계절 정원 포토존에서 허브티 한 잔의 여유와 함께 온전한 쉼을 누릴 수 있습니다.
+          </p>
+        </div>
+
+        <div class="usp-card">
+          <div class="usp-icon">🧪</div>
+          <div class="usp-en">03 · Bespoke Scent</div>
+          <h3 class="usp-title">1:1 프라이빗 맞춤 조향</h3>
+          <p class="usp-desc">
+            전문 조향사 및 아로마테라피스트와 함께 40여 종의 천연 향료를 시향하며, 오늘 나의 감정과 컨디션에 가장 편안하게 스며드는 시그니처 향을 완성합니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 인기 클래스 퀵뷰 (Class Preview) -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Popular One-day Classes</span>
+        <h2 class="section-title">가장 사랑받는 대표 조향 클래스</h2>
+        <p class="section-desc">
+          연인과의 이색 데이트, 친구와의 주말 근교 나들이, 혹은 나만을 위한 조용한 힐링 시간을 예약해 보세요.
+        </p>
+      </div>
+
+      <div class="class-grid-2">
+        <!-- 대표 클래스 1 -->
+        <article class="class-card">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1709666414115-47ecd5143293?auto=format&fit=crop&w=1000&q=80" alt="나만의 시그니처 향수 만들기 50ml">
+            <span class="class-badge">BEST · 원데이 클래스</span>
+          </div>
+          <div class="class-card-body">
+            <div class="class-meta">
+              <span>⏱ 소요시간: 약 90분</span>
+              <span>👥 정원: 타임당 1~6인 프라이빗</span>
+              <span>🍵 웰컴 허브티 제공</span>
+            </div>
+            <h3 class="class-card-title">나만의 시그니처 천연 향수 (50ml)</h3>
+            <p class="class-card-desc">
+              Top · Middle · Base 노트의 조향 원리를 배우고 40여 가지 천연 에센셜 오일 중 내 취향을 골라 세상에 단 하나뿐인 보태니컬 오드퍼퓸(50ml)과 커스텀 라벨을 완성합니다.
+            </p>
+            <div class="class-card-footer">
+              <div class="class-price">55,000원 <span>/ 1인 (50ml 본품 + 시향 노트 포함)</span></div>
+              <a href="class.html#booking-section" class="btn btn-primary btn-sm">예약하기</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 대표 클래스 2 -->
+        <article class="class-card">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=1000&q=80" alt="아로마 힐링 룸스프레이 100ml 클래스">
+            <span class="class-badge" style="background:var(--secondary-dark);">WELLNESS · 숙면 &amp; 공간케어</span>
+          </div>
+          <div class="class-card-body">
+            <div class="class-meta">
+              <span>⏱ 소요시간: 약 60~70분</span>
+              <span>👥 정원: 타임당 1~6인 / 단체 가능</span>
+              <span>🌿 아로마 효능 진단 포함</span>
+            </div>
+            <h3 class="class-card-title">아로마 힐링 룸스프레이 &amp; 필로우 미스트 (100ml)</h3>
+            <p class="class-card-desc">
+              불면 완화, 스트레스 릴랙싱, 실내 공기 정화 등 목적별 아로마테라피 효능을 중심으로 침구와 거실 공간을 향기롭게 채우는 천연 홈 프래그런스를 제작합니다.
+            </p>
+            <div class="class-card-footer">
+              <div class="class-price">42,000원 <span>/ 1인 (100ml + 휴대용 15ml 증정)</span></div>
+              <a href="class.html#booking-section" class="btn btn-primary btn-sm">예약하기</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div style="text-align:center; margin-top:36px;">
+        <a href="class.html" class="btn btn-outline">전문가 심화 과정 및 기업/단체 워크숍 전체 보기 &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 시그니처 제품 쇼케이스 (Signature Shop Showcase) -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Botanical Signature Shop</span>
+        <h2 class="section-title">공방의 사계절을 담은 시그니처 제품</h2>
+        <p class="section-desc">
+          클릭하시면 각 제품의 시각적 <strong>향 피라미드(Top·Middle·Base)</strong>와 천연 원료 학명, 친환경 선물 포장을 선택하실 수 있습니다.
+        </p>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card">
+          <div class="product-img-wrap" onclick="openProductModal('perfume-forest-dawn')" style="cursor:pointer;">
+            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=900&q=80" alt="포레스트 던 천연 오드퍼퓸">
+            <div class="product-tags">
+              <span class="mood-tag">#숲속산책</span>
+              <span class="mood-tag">#따뜻한우디</span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-cat">시그니처 퍼퓸</div>
+            <h3 class="product-title">포레스트 던 천연 오드퍼퓸 50ml</h3>
+            <p class="product-notes-summary">편백(히노끼), 베르가못, 프렌치 라벤더가 어우러진 새벽 숲 향기</p>
+            <div class="product-bottom">
+              <span class="product-price">68,000원</span>
+              <button class="btn btn-outline btn-sm" onclick="openProductModal('perfume-forest-dawn')">상세 · 구매</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-img-wrap" onclick="openProductModal('perfume-warm-garden')" style="cursor:pointer;">
+            <img src="https://images.unsplash.com/photo-1709662217659-c7966220219f?auto=format&fit=crop&w=900&q=80" alt="선릿 가든 천연 오드퍼퓸">
+            <div class="product-tags">
+              <span class="mood-tag">#릴랙스</span>
+              <span class="mood-tag">#상큼시트러스</span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-cat">시그니처 퍼퓸</div>
+            <h3 class="product-title">선릿 가든 천연 오드퍼퓸 50ml</h3>
+            <p class="product-notes-summary">따스한 햇살 아래 피어난 네롤리와 로즈 제라늄, 샌달우드</p>
+            <div class="product-bottom">
+              <span class="product-price">72,000원</span>
+              <button class="btn btn-outline btn-sm" onclick="openProductModal('perfume-warm-garden')">상세 · 구매</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-img-wrap" onclick="openProductModal('spray-deep-sleep')" style="cursor:pointer;">
+            <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=900&q=80" alt="문라이트 필로우 미스트">
+            <div class="product-tags">
+              <span class="mood-tag">#숙면</span>
+              <span class="mood-tag">#릴랙스</span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-cat">홈 프래그런스</div>
+            <h3 class="product-title">문라이트 필로우 &amp; 룸스프레이</h3>
+            <p class="product-notes-summary">로만 카모마일과 스위트 마조람이 선사하는 깊은 밤의 휴식</p>
+            <div class="product-bottom">
+              <span class="product-price">38,000원</span>
+              <button class="btn btn-outline btn-sm" onclick="openProductModal('spray-deep-sleep')">상세 · 구매</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-img-wrap" onclick="openProductModal('gift-signature-duo')" style="cursor:pointer;">
+            <img src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=900&q=80" alt="시그니처 듀오 기프트 세트">
+            <div class="product-tags">
+              <span class="mood-tag">#선물세트</span>
+              <span class="mood-tag">#친환경패키지</span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-cat">DIY 키트 &amp; 선물 세트</div>
+            <h3 class="product-title">시그니처 퍼퓸 + 룸스프레이 세트</h3>
+            <p class="product-notes-summary">드라이 플라워 택과 크라프트 박스로 정성껏 포장한 선물 세트</p>
+            <div class="product-bottom">
+              <span class="product-price">89,000원</span>
+              <button class="btn btn-outline btn-sm" onclick="openProductModal('gift-signature-duo')">상세 · 구매</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div style="text-align:center; margin-top:36px;">
+        <a href="shop.html" class="btn btn-primary">온라인 숍 전체 상품 &amp; 무드 필터 보러가기 &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 고객 생생 후기 (Customer Reviews) -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Real Stories &amp; Reviews</span>
+        <h2 class="section-title">다녀가신 분들의 향기로운 기록</h2>
+        <p class="section-desc">
+          구미는 물론 대구, 김천, 칠곡에서 찾아주신 수강생분들의 진심 어린 후기입니다.
+        </p>
+      </div>
+
+      <div class="review-grid">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">
+            “평소 백화점 인공 향수를 뿌리면 머리가 아파서 향수를 못 썼는데, 이곳에서 100% 천연 에센셜 오일로 만든 향수는 숲속을 걷는 것처럼 머리가 맑아져요. 전원주택 정원에서 마신 웰컴 티도 정말 행복했습니다!”
+          </p>
+          <div class="review-author">
+            <span><strong>김*현 님</strong> (대구 수성구 · 커플 원데이 클래스)</span>
+            <span>2026.10</span>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">
+            “선생님께서 향료 하나하나의 원산지와 아로마 효능을 차분하게 설명해 주셔서 초보자도 어렵지 않게 인생 향수를 만들었어요. 정원 포토존에서 찍은 사진도 너무 예쁘게 나와서 주말 구미 데이트 코스로 최고예요.”
+          </p>
+          <div class="review-author">
+            <span><strong>박*영 님</strong> (구미 송정동 · 시그니처 향수 50ml)</span>
+            <span>2026.10</span>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">
+            “교직원 힐링 연수로 12명이 방문했는데, 대관 분위기가 너무 평화롭고 선생님 진행이 매끄러워서 모든 선생님들이 대만족하셨습니다. 각자 만든 룸스프레이 덕분에 침실이 호텔처럼 바뀌었어요.”
+          </p>
+          <div class="review-author">
+            <span><strong>이*진 선생님</strong> (김천 00중학교 · 단체 워크숍)</span>
+            <span>2026.09</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:32px;">
+        <a href="reviews.html" class="btn btn-outline">수강생 작업 스케치 &amp; 포토 리뷰 더보기 &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 인스타그램 피드 & 오시는 길 요약 -->
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:48px; align-items:center;">
+        <!-- 인스타그램 감성 피드 프리뷰 -->
+        <div>
+          <span class="section-subtitle">Instagram @gumi_scent_atelier</span>
+          <h2 class="section-title" style="font-size:1.85rem; margin-bottom:12px;">공방의 오늘, 사계절의 정원</h2>
+          <p style="color:var(--text-muted); margin-bottom:24px;">
+            매일 아침 정원에서 피어나는 허브와 새로운 천연 향료 입고 소식, 당일 잔여 타임 안내를 인스타그램에서 가장 먼저 만나보세요.
+          </p>
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
+            <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=400&q=80" alt="정원 풍경" style="height:120px; width:100%; object-fit:cover; border-radius:8px;">
+            <img src="https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=400&q=80" alt="조향 오일" style="height:120px; width:100%; object-fit:cover; border-radius:8px;">
+            <img src="https://images.unsplash.com/photo-1709666414115-47ecd5143293?auto=format&fit=crop&w=400&q=80" alt="조향 테이블" style="height:120px; width:100%; object-fit:cover; border-radius:8px;">
+            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=400&q=80" alt="시그니처 향수" style="height:120px; width:100%; object-fit:cover; border-radius:8px;">
+            <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=400&q=80" alt="아로마 미스트" style="height:120px; width:100%; object-fit:cover; border-radius:8px;">
+            <img src="https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=400&q=80" alt="친환경 포장" style="height:120px; width:100%; object-fit:cover; border-radius:8px;">
+          </div>
+        </div>
+
+        <!-- 오시는 길 요약 카드 -->
+        <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius-lg); padding:36px;">
+          <span class="section-subtitle">Location &amp; Parking</span>
+          <h3 style="font-size:1.55rem; color:var(--primary-dark); margin-bottom:14px;">오시는 길 &amp; 전원주택 주차 안내</h3>
+          <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px;">
+            📍 <strong>주소:</strong> 경상북도 구미시 금오산로 전원길 (수점동 전원주택 단지 내)<br>
+            🚗 <strong>주차:</strong> 공방 마당 앞 전용 주차 공간 4대 + 도보 1분 공영주차장 무료 이용<br>
+            🕰 <strong>운영시간:</strong> 화~일 10:30 - 20:00 (매주 월요일 정기 휴무 · 100% 예약제)
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px;">
+            <a href="contact.html#map-guide" class="btn btn-primary btn-sm">🟢 네이버 지도 바로가기</a>
+            <a href="contact.html#map-guide" class="btn btn-secondary btn-sm">🧭 티맵(T-map) 길안내</a>
+            <a href="contact.html#map-guide" class="btn btn-outline btn-sm">🟡 카카오맵 보기</a>
+          </div>
+          <a href="contact.html#entry-photo-guide" style="font-size:0.9rem; color:var(--primary); font-weight:600; text-decoration:underline;">
+            📸 초행길 방문자를 위한 전원주택 진입로 사진 가이드 보기 &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 우측 하단 플로팅 상담 버튼 -->
+  <div class="floating-consult">
+    <a href="contact.html#consult-section" class="float-btn float-naver" title="네이버 톡톡 실시간 문의">
+      <span>N</span> 네이버 톡톡 문의
+    </a>
+    <a href="contact.html#consult-section" class="float-btn float-kakao" title="카카오톡 채널 1:1 상담">
+      <span>💬</span> 카톡 채널 상담
+    </a>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">🌿 구미 천연향수공방</div>
+          <p style="margin-bottom:14px;">
+            도심을 벗어나 자연 속에서 나만의 숨결을 조향하는 힐링 아틀리에.<br>
+            100% 식물성 천연 에센셜 오일만을 사용한 건강한 향기를 약속합니다.
+          </p>
+          <p style="font-size:0.82rem; color:rgba(253,251,247,0.6);">
+            경북 구미시 금오산로 전원길 | 대표 조향사: 김아로마 | 사업자등록번호: 512-19-00982
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">메뉴 바로가기</div>
+          <ul class="footer-links">
+            <li><a href="about.html">공방 소개 (Brand Story)</a></li>
+            <li><a href="class.html">클래스 안내 &amp; 실시간 예약</a></li>
+            <li><a href="shop.html">천연 향수 온라인 숍</a></li>
+            <li><a href="reviews.html">수강생 갤러리 &amp; 후기</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-title">고객 지원</div>
+          <ul class="footer-links">
+            <li><a href="contact.html#entry-photo-guide">전원주택 진입로 &amp; 주차 안내</a></li>
+            <li><a href="contact.html#faq-section">자주 묻는 질문 (FAQ)</a></li>
+            <li><a href="class.html#policy-section">예약 취소 및 환불 규정</a></li>
+            <li><a href="contact.html#consult-section">기업 출강 / 단체 대관 문의</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-title">예약 &amp; 상담 센터</div>
+          <p style="font-family:var(--font-serif); font-size:1.35rem; color:var(--secondary-light); font-weight:700; margin-bottom:6px;">
+            054-456-7890
+          </p>
+          <p style="font-size:0.84rem; margin-bottom:14px;">
+            화요일 – 일요일 10:30 ~ 20:00<br>
+            (클래스 진행 중에는 카톡/톡톡 남겨주시면 순차 답변드립니다)
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Gumi Natural Perfume Atelier. All rights reserved.</span>
+        <span>이용약관 | 개인정보처리방침 | 통신판매업신고: 제2026-경북구미-0412호</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

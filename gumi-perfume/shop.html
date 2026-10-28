@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>온라인 숍 (Botanical Shop) | 구미 천연 향수 공방</title>
+  <meta name="description" content="100% 식물성 천연 에센셜 오일로 조향한 시그니처 퍼퓸, 아로마 룸스프레이, 우드 디퓨저, DIY 키트 & 친환경 기프트 세트 온라인 숍.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="top-banner">
+    🎁 전 상품 친환경 크라프트 패키지 기본 제공 · 5만원 이상 구매 시 무료 배송
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-logo-main">🌿 구미 천연향수공방</span>
+        <span class="brand-logo-sub">Gumi Natural Perfume Atelier</span>
+      </a>
+
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html" class="nav-link">홈 (Home)</a>
+        <a href="about.html" class="nav-link">공방 소개</a>
+        <a href="class.html" class="nav-link">클래스 &amp; 예약</a>
+        <a href="shop.html" class="nav-link active">온라인 숍</a>
+        <a href="reviews.html" class="nav-link">갤러리 &amp; 후기</a>
+        <a href="contact.html" class="nav-link">문의 &amp; 오시는 길</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="admin.html" class="cart-btn" style="border-style:dashed; font-size:0.82rem;" title="공방 관리자 센터 바로가기">
+          🔐 관리자
+        </a>
+        <button class="cart-btn" onclick="openCartModal()">
+          🛍️ 장바구니 <span class="cart-badge">0</span>
+        </button>
+        <a href="class.html#booking-section" class="btn btn-primary btn-sm">클래스 예약</a>
+        <button class="mobile-menu-btn" id="mobile-menu-toggle">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-badge">100% Pure Botanical Fragrance Shop</span>
+      <h1>천연 향기 온라인 숍</h1>
+      <p>인공 합성향 없이 식물 본연의 생명력을 담은 시그니처 퍼퓸과 홈 프래그런스를 만나보세요.</p>
+    </div>
+  </section>
+
+  <!-- 1. 카테고리 & 무드 태그 필터 + 상품 그리드 -->
+  <section class="section">
+    <div class="container">
+      <div class="filter-bar">
+        <div>
+          <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">카테고리별 보기</div>
+          <div class="filter-tabs">
+            <button class="filter-btn active" data-cat-filter="all">전체 상품</button>
+            <button class="filter-btn" data-cat-filter="perfume">시그니처 퍼퓸</button>
+            <button class="filter-btn" data-cat-filter="home">홈 프래그런스 (미스트·디퓨저)</button>
+            <button class="filter-btn" data-cat-filter="kit">DIY 키트 &amp; 선물 세트</button>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">오늘의 무드 태그 필터</div>
+          <div class="mood-filter-group">
+            <button class="mood-btn active" data-mood-filter="all">#전체무드</button>
+            <button class="mood-btn" data-mood-filter="#릴랙스">#릴랙스</button>
+            <button class="mood-btn" data-mood-filter="#숙면">#숙면</button>
+            <button class="mood-btn" data-mood-filter="#숲속산책">#숲속산책</button>
+            <button class="mood-btn" data-mood-filter="#따뜻한우디">#따뜻한우디</button>
+            <button class="mood-btn" data-mood-filter="#상큼시트러스">#상큼시트러스</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- JS(initShopPage)에 의해 동적 렌더링 (클릭 시 향 피라미드 + 원료 학명 + 선물 포장 선택 모달 오픈) -->
+      <div class="product-grid" id="shop-product-grid" style="grid-template-columns: repeat(3, 1fr);"></div>
+    </div>
+  </section>
+
+  <!-- 2. 친환경 선물 포장 안내 섹션 -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Eco-Friendly Gift Packaging</span>
+        <h2 class="section-title">자연을 닮은 친환경 선물 포장 옵션</h2>
+        <p class="section-desc">
+          비닐 완충재 대신 크라프트 종이와 헴프(삼베) 끈, 공방 정원에서 직접 말린 드라이 플라워 택으로 따뜻한 마음을 전합니다.
+        </p>
+      </div>
+
+      <div class="usp-grid">
+        <div class="usp-card">
+          <div class="usp-en">Option 01 · Free Basic</div>
+          <h3 class="usp-title">기본 친환경 크라프트 상자 (+0원)</h3>
+          <p class="usp-desc">
+            FSC 인증 재생 크라프트 박스와 종이 허니컴 완충재, 천연 향수 시향 카드를 동봉하여 안전하고 단정하게 발송해 드립니다.
+          </p>
+        </div>
+
+        <div class="usp-card">
+          <div class="usp-en">Option 02 · Botanical Gift</div>
+          <h3 class="usp-title">헴프 끈 &amp; 드라이 플라워 택 (+3,500원)</h3>
+          <p class="usp-desc">
+            천연 삼베(Hemp) 리본 매듭에 공방 정원에서 수확해 말린 유칼립투스·라벤더 드라이 플라워 택과 감사 스탬프 태그를 장식합니다.
+          </p>
+        </div>
+
+        <div class="usp-card">
+          <div class="usp-en">Option 03 · Premium Wood</div>
+          <h3 class="usp-title">시그니처 원목 기프트 박스 (+7,000원)</h3>
+          <p class="usp-desc">
+            소장 가치가 높은 원목 슬라이딩 보관함과 원하는 문구를 직접 적어드리는 캘리그라피 메시지 카드, 전용 쇼핑백이 포함됩니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 천연 향수 구매 가이드 (특성 및 사용 팁) -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Natural Perfume Guide</span>
+        <h2 class="section-title">천연 향수 특성 및 올바른 사용 팁</h2>
+        <p class="section-desc">식물성 에센셜 오일 100% 향수를 더욱 깊고 오래 즐기실 수 있는 아틀리에 가이드입니다.</p>
+      </div>
+
+      <div class="class-grid-2">
+        <div style="background:var(--bg-alt); padding:32px; border-radius:var(--radius-md); border:1px solid var(--border);">
+          <h3 style="font-size:1.3rem; color:var(--primary-dark); margin-bottom:12px;">🌿 인공 합성 향수와의 차이점</h3>
+          <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:14px;">
+            인공 보류제(프탈레이트, 합성 머스크)를 넣지 않은 순수 천연 향수는 피부 위에서 <strong>약 3~5시간 동안 Top → Middle → Base 노트가 살아 숨 쉬듯 자연스럽게 변화</strong>합니다.
+          </p>
+          <p style="color:var(--text-muted); font-size:0.95rem;">
+            인위적으로 강하게 퍼지기보다 내 살결에 은은하게 스며들어, 가까이 다가온 사람에게 편안하고 고급스러운 잔향을 남깁니다.
+          </p>
+        </div>
+
+        <div style="background:var(--bg-alt); padding:32px; border-radius:var(--radius-md); border:1px solid var(--border);">
+          <h3 style="font-size:1.3rem; color:var(--primary-dark); margin-bottom:12px;">✨ 숙성(Maceration) 및 보관 팁</h3>
+          <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:14px;">
+            천연 에센셜 오일과 발효 주정이 완전히 어우러지도록 수령 후 <strong>직사광선이 없는 서늘한 곳(15~20℃)에 보관</strong>해 주세요. 시간이 지날수록 와인처럼 향이 더욱 부드럽고 깊어집니다.
+          </p>
+          <p style="color:var(--text-muted); font-size:0.95rem;">
+            손목에 뿌린 뒤 비비지 마시고 가볍게 톡톡 두드려 주시면 시트러스와 플로럴 탑노트의 섬세한 결을 오래 느끼실 수 있습니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 플로팅 상담 -->
+  <div class="floating-consult">
+    <a href="contact.html#consult-section" class="float-btn float-naver"><span>N</span> 네이버 톡톡 문의</a>
+    <a href="contact.html#consult-section" class="float-btn float-kakao"><span>💬</span> 카톡 채널 상담</a>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">🌿 구미 천연향수공방</div>
+          <p style="margin-bottom:14px;">도심을 벗어나 자연 속에서 나만의 숨결을 조향하는 힐링 아틀리에.</p>
+          <p style="font-size:0.82rem; color:rgba(253,251,247,0.6);">경북 구미시 금오산로 전원길 | 대표 조향사: 김아로마</p>
+        </div>
+        <div>
+          <div class="footer-title">메뉴 바로가기</div>
+          <ul class="footer-links">
+            <li><a href="about.html">공방 소개</a></li>
+            <li><a href="class.html">클래스 안내 &amp; 예약</a></li>
+            <li><a href="shop.html">온라인 숍</a></li>
+            <li><a href="reviews.html">갤러리 &amp; 후기</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">고객 지원</div>
+          <ul class="footer-links">
+            <li><a href="contact.html#entry-photo-guide">전원주택 진입로 안내</a></li>
+            <li><a href="contact.html#faq-section">자주 묻는 질문 (FAQ)</a></li>
+            <li><a href="class.html#policy-section">취소 및 환불 규정</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">예약 &amp; 상담 센터</div>
+          <p style="font-family:var(--font-serif); font-size:1.35rem; color:var(--secondary-light); font-weight:700;">054-456-7890</p>
+          <p style="font-size:0.84rem;">화~일 10:30 - 20:00 (월요일 휴무)</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Gumi Natural Perfume Atelier. All rights reserved.</span>
+        <span>이용약관 | 개인정보처리방침</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공방 소개 (About Us) | 구미 천연 향수 공방</title>
+  <meta name="description" content="구미 전원주택 천연 향수 공방의 브랜드 스토리, 수석 천연 조향사 소개, 사계절 정원과 조향실 공간 갤러리 안내.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="top-banner">
+    🌿 100% 식물성 천연 에센셜 오일과 유기농 발효 주정만을 사용하는 보태니컬 조향 아틀리에
+    <a href="class.html#booking-section">프라이빗 클래스 예약하기 &rarr;</a>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-logo-main">🌿 구미 천연향수공방</span>
+        <span class="brand-logo-sub">Gumi Natural Perfume Atelier</span>
+      </a>
+
+      <nav class="main-nav" id="main-nav">
+        <a href="index.html" class="nav-link">홈 (Home)</a>
+        <a href="about.html" class="nav-link active">공방 소개</a>
+        <a href="class.html" class="nav-link">클래스 &amp; 예약</a>
+        <a href="shop.html" class="nav-link">온라인 숍</a>
+        <a href="reviews.html" class="nav-link">갤러리 &amp; 후기</a>
+        <a href="contact.html" class="nav-link">문의 &amp; 오시는 길</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="admin.html" class="cart-btn" style="border-style:dashed; font-size:0.82rem;" title="공방 관리자 센터 바로가기">
+          🔐 관리자
+        </a>
+        <button class="cart-btn" onclick="openCartModal()">
+          🛍️ 장바구니 <span class="cart-badge">0</span>
+        </button>
+        <a href="class.html#booking-section" class="btn btn-primary btn-sm">클래스 예약</a>
+        <button class="mobile-menu-btn" id="mobile-menu-toggle">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 서브 페이지 히어로 -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-badge">About Our Atelier</span>
+      <h1>자연의 시간을 병에 담는 숲속 아틀리에</h1>
+      <p>도심의 소음에서 한 걸음 물러난 구미 금오산 자락 전원주택에서, 식물 본연의 생명력과 치유의 향기를 전합니다.</p>
+    </div>
+  </section>
+
+  <!-- 1. 브랜드 스토리 (철학과 지향점) -->
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:52px; align-items:center;">
+        <div>
+          <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1000&q=85" alt="구미 천연향수공방 정원과 조향 공간" style="border-radius:var(--radius-lg); box-shadow:var(--shadow-md); height:440px; width:100%; object-fit:cover;">
+        </div>
+        <div>
+          <span class="section-subtitle">Brand Story &amp; Philosophy</span>
+          <h2 class="section-title" style="font-size:2rem;">“머리 아픈 인공향 대신,<br>깊게 들이마실수록 편안해지는 자연의 숨결”</h2>
+          <p style="color:var(--text-muted); margin-bottom:18px;">
+            시중의 수많은 향수는 강한 지속력과 저렴한 원가를 위해 석유 화학 유래 합성 향료(Fragrance Oil)를 사용합니다. 하지만 후각이 예민하거나 클린 뷰티를 지향하는 분들에게 인공향은 종종 두통과 피로감을 유발하곤 합니다.
+          </p>
+          <p style="color:var(--text-muted); margin-bottom:24px;">
+            <strong>구미 천연향수공방</strong>은 꽃잎, 잎사귀, 뿌리, 나무껍질, 열매 껍질에서 수증기 증류법과 냉압착법으로 추출한 <strong>100% 순수 에센셜 오일(Essential Oil)</strong>만을 사용합니다. 자연이 품은 수백 가지 식물성 방향 성분이 후각 신경을 통해 마음의 긴장을 부드럽게 풀어줍니다.
+          </p>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; background:var(--bg-alt); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border);">
+            <div>
+              <h4 style="color:var(--primary-dark); font-size:0.98rem; margin-bottom:6px;">✔ 무첨가 4원칙</h4>
+              <p style="font-size:0.86rem; color:var(--text-muted);">합성 향료 · 프탈레이트 · 인공 색소 · 합성 방부제 ZERO</p>
+            </div>
+            <div>
+              <h4 style="color:var(--primary-dark); font-size:0.98rem; margin-bottom:6px;">✔ 학명 &amp; 원산지 투명 공개</h4>
+              <p style="font-size:0.86rem; color:var(--text-muted);">GC/MS 성분 분석을 거친 테라피 등급 원료만 엄선</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 조향사 소개 -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Master Perfumer &amp; Aromatherapist</span>
+        <h2 class="section-title">조향사 소개</h2>
+        <p class="section-desc">식물의 화학적 특성과 조향 미학을 함께 연구하며 당신만의 향기 노트를 안내합니다.</p>
+      </div>
+
+      <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-lg); padding:44px; max-width:960px; margin:0 auto; display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:40px; align-items:center; box-shadow:var(--shadow-sm);">
+        <div>
+          <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80" alt="수석 천연 조향사 프로필" style="width:100%; height:340px; object-fit:cover; border-radius:var(--radius-md);">
+        </div>
+        <div>
+          <span class="usp-en">Chief Botanical Perfumer</span>
+          <h3 style="font-size:1.65rem; color:var(--primary-dark); margin-bottom:12px;">김 아 로 마 <span style="font-size:0.95rem; font-weight:400; color:var(--text-muted);">수석 조향사 / 아로마테라피스트</span></h3>
+          <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px;">
+            “좋은 향수는 나를 과시하기보다, 내가 가장 편안하게 숨 쉴 수 있는 작은 숲을 선물하는 일이라고 믿습니다. 조향이 처음이신 분도 온전히 자신의 감각에 집중할 수 있도록 1:1로 세심하게 동행합니다.”
+          </p>
+          <ul style="font-size:0.9rem; color:var(--text); display:flex; flex-direction:column; gap:8px; border-top:1px solid var(--border-light); padding-top:16px;">
+            <li>🎓 영국 ICAA / 미국 NAHA 국제 아로마테라피스트 정회원 자격 취득</li>
+            <li>🌿 천연 보태니컬 조향 연구소 수석 연구원 및 조향 강사 역임</li>
+            <li>🏛 경상북도 교육청·구미시 주요 기업 및 공공기관 힐링 조향 워크숍 250회+ 출강</li>
+            <li>✨ 시그니처 로컬 향기 프로젝트 ‘금오산의 사계’ 조향 디렉팅</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 공간 갤러리 (전원주택, 정원, 조향실) -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Atelier Space Gallery</span>
+        <h2 class="section-title">전원주택과 정원, 햇살 조향실 미리보기</h2>
+        <p class="section-desc">사계절 꽃과 나무가 반겨주는 정원 포토존과 아늑한 원목 조향 테이블을 둘러보세요.</p>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:32px;">
+        <button class="filter-btn active" data-gallery-filter="all">전체 공간</button>
+        <button class="filter-btn" data-gallery-filter="garden">전원주택 &amp; 사계절 정원</button>
+        <button class="filter-btn" data-gallery-filter="studio">프라이빗 조향실</button>
+        <button class="filter-btn" data-gallery-filter="tearoom">웰컴 티룸 &amp; 포토존</button>
+      </div>
+
+      <div class="usp-grid">
+        <div class="class-card" data-gallery-cat="garden">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=900&q=80" alt="전원주택 사계절 정원">
+            <span class="class-badge">전원주택 정원</span>
+          </div>
+          <div class="class-card-body">
+            <h3 class="class-card-title" style="font-size:1.2rem;">햇살과 바람이 머무는 앞마당 정원</h3>
+            <p class="class-card-desc">로즈마리, 라벤더, 민트가 실제로 자라는 정원 산책로에서 조향 전 후각을 자연스럽게 깨웁니다.</p>
+          </div>
+        </div>
+
+        <div class="class-card" data-gallery-cat="studio">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=900&q=80" alt="프라이빗 조향 오일 오르간">
+            <span class="class-badge">조향 아틀리에</span>
+          </div>
+          <div class="class-card-body">
+            <h3 class="class-card-title" style="font-size:1.2rem;">40여 종 천연 에센셜 오일 오르간</h3>
+            <p class="class-card-desc">빛과 온도로부터 엄격히 보호되는 호박색 유리병에 담긴 최상급 천연 에센셜 오일 컬렉션입니다.</p>
+          </div>
+        </div>
+
+        <div class="class-card" data-gallery-cat="tearoom">
+          <div class="class-card-img">
+            <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=900&q=80" alt="웰컴 허브티 & 티룸">
+            <span class="class-badge">웰컴 티룸 &amp; 포토존</span>
+          </div>
+          <div class="class-card-body">
+            <h3 class="class-card-title" style="font-size:1.2rem;">통창 너머 정원이 보이는 우드 티룸</h3>
+            <p class="class-card-desc">완성한 나만의 향수를 원목 트레이 위에 놓고 감성적인 인증샷을 남길 수 있는 시그니처 포토존입니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:44px;">
+        <a href="class.html#booking-section" class="btn btn-primary">이 공간에서 나만의 향수 만들기 예약 &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 플로팅 상담 -->
+  <div class="floating-consult">
+    <a href="contact.html#consult-section" class="float-btn float-naver"><span>N</span> 네이버 톡톡 문의</a>
+    <a href="contact.html#consult-section" class="float-btn float-kakao"><span>💬</span> 카톡 채널 상담</a>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">🌿 구미 천연향수공방</div>
+          <p style="margin-bottom:14px;">도심을 벗어나 자연 속에서 나만의 숨결을 조향하는 힐링 아틀리에.</p>
+          <p style="font-size:0.82rem; color:rgba(253,251,247,0.6);">경북 구미시 금오산로 전원길 | 대표 조향사: 김아로마</p>
+        </div>
+        <div>
+          <div class="footer-title">메뉴 바로가기</div>
+          <ul class="footer-links">
+            <li><a href="about.html">공방 소개</a></li>
+            <li><a href="class.html">클래스 안내 &amp; 예약</a></li>
+            <li><a href="shop.html">온라인 숍</a></li>
+            <li><a href="reviews.html">갤러리 &amp; 후기</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">고객 지원</div>
+          <ul class="footer-links">
+            <li><a href="contact.html#entry-photo-guide">전원주택 진입로 안내</a></li>
+            <li><a href="contact.html#faq-section">자주 묻는 질문 (FAQ)</a></li>
+            <li><a href="class.html#policy-section">취소 및 환불 규정</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-title">예약 &amp; 상담 센터</div>
+          <p style="font-family:var(--font-serif); font-size:1.35rem; color:var(--secondary-light); font-weight:700;">054-456-7890</p>
+          <p style="font-size:0.84rem;">화~일 10:30 - 20:00 (월요일 휴무)</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Gumi Natural Perfume Atelier. All rights reserved.</span>
+        <span>이용약관 | 개인정보처리방침</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
